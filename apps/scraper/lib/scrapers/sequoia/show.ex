@@ -1,6 +1,6 @@
-defmodule Customer.Services.Scrapers.Sequoia.Show do
-  alias Customer.Services.Scrapers.Helpers.TechKeywordsFinder
-  alias Customer.Services.SourceCreator
+defmodule Scrapers.Sequoia.Show do
+  alias Scrapers.Helpers.TechKeywordsFinder
+  alias Customer.Services.JobSourceCreator
 
   @defaultTimeout 10000
 
@@ -18,7 +18,7 @@ defmodule Customer.Services.Scrapers.Sequoia.Show do
     upsert(params(xml, url))
   end
 
-  defp upsert(params), do: SourceCreator.perform(params)
+  defp upsert(params), do: JobSourceCreator.perform(params)
 
   defp params(xml, url) do
     detail = build_detail(xml)

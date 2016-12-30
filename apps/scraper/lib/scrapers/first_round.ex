@@ -1,4 +1,4 @@
-defmodule Customer.Services.Scrapers.FirstRound do
+defmodule Scrapers.FirstRound do
   use Hound.Helpers
 
   @html """

@@ -41,8 +41,6 @@ defmodule Customer.Mixfile do
       :ex_machina,
       :hackney,
       :poison,
-      :httpoison,
-      :hound,
       :tirexs,
       :bamboo,
       :quantum
@@ -66,7 +64,6 @@ defmodule Customer.Mixfile do
      {:gettext, "~> 0.11"},
      {:honeybadger, "~> 0.6"}, # exception and uptime monitoring
      {:good_times, "~> 1.1"}, # extended wrapper for time
-     {:httpoison, "~> 0.10.0"},
      {:cowboy, "~> 1.0"},
      {:dialyxir, "~> 0.3", only: :dev},
      {:envy, "~> 0.0.1"}, # env settings
@@ -83,8 +80,6 @@ defmodule Customer.Mixfile do
      {:secure_random, "~> 0.1"},
      {:scrivener_ecto, git: "https://github.com/drewolson/scrivener_ecto"},
      {:wallaby, "~> 0.5", only: :test},
-     {:floki, "~> 0.11.0"}, # parser
-     {:hound, "~> 1.0"}, #
      {:tirexs, "~> 0.8"}, # for elastic search
      {:bamboo, github: "thoughtbot/bamboo"},  # for mailer
      {:quantum, git: "https://github.com/c-rack/quantum-elixir" },  # for cron job,

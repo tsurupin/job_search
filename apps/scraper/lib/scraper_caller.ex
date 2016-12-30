@@ -1,4 +1,4 @@
-defmodule Customer.Services.ScraperCaller do
+defmodule ScraperCaller do
 
   def perform(urls) do
     scrape(urls)
@@ -14,23 +14,23 @@ defmodule Customer.Services.ScraperCaller do
   end
 
   defp scrape("A16z") do
-    Customer.Services.Scrapers.A16z.Index.perform()
+    Scrapers.A16z.Index.perform()
   end
 
   defp scrape("Accel") do
-    Customer.Services.Scrapers.Accel.Index.perform()
+    Scrapers.Accel.Index.perform()
   end
 
   defp scrape("FirstRound") do
-    Customer.Services.Scrapers.FirstRound.perform()
+    Scrapers.FirstRound.perform()
   end
 
   defp scrape("YCombinator") do
-    Customer.Services.Scrapers.YCombinator.Index.perform()
+    Scrapers.YCombinator.Index.perform()
   end
 
   defp scrape("Sequoia") do
-    Customer.Services.Scrapers.Sequoia.Index.perform()
+    Scrapers.Sequoia.Index.perform()
   end
 
 end
