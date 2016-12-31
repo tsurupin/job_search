@@ -1,7 +1,8 @@
 defmodule Customer.Company do
   use Customer.Web, :model
+  use Customer.Es
   alias Customer.Repo
-  alias Customer.{Job, JobSource, Company}
+  alias Customer.{Job, JobSource, Company, Repo}
 
   schema "companies" do
     field :name, :string
@@ -31,5 +32,21 @@ defmodule Customer.Company do
       company ->
         company
     end
+  end
+
+  # for elastic search
+
+  def search_data(record) do
+    [
+      id: record.id,
+      name: record.name
+    ]
+  end
+
+  def es_reindex, do: Es.Index.reindex __MODULE__, Repo.all(__MODULE__)
+
+  def create_es_index(name \\ nil) do
+    index = [type: estype, index: esindex(name)]
+    Es.Schema.Company.completion(index)
   end
 end

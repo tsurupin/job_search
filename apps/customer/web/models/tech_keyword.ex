@@ -1,6 +1,7 @@
 defmodule Customer.TechKeyword do
   use Customer.Web, :model
-  alias Customer.{TechKeyword, JobTechKeyword, JobSourceTechKeyword}
+  use Customer.Es
+  alias Customer.{TechKeyword, JobTechKeyword, JobSourceTechKeyword, Repo}
 
   schema "tech_keywords" do
     has_many :job_source_tech_keywords, JobSourceTechKeyword
@@ -26,4 +27,19 @@ defmodule Customer.TechKeyword do
     where: k.name in ^names
   end
 
+  # for elastic search
+
+  def search_data(record) do
+    [
+      id: record.id,
+      name: record.name
+    ]
+  end
+
+  def es_reindex, do: Es.Index.reindex __MODULE__, Repo.all(__MODULE__)
+
+  def create_es_index(name \\ nil) do
+    index = [type: estype, index: esindex(name)]
+    Es.Schema.TechKeyword.completion(index)
+  end
 end

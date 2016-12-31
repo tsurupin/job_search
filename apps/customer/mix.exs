@@ -43,7 +43,9 @@ defmodule Customer.Mixfile do
       :poison,
       :tirexs,
       :bamboo,
-      :quantum
+      :quantum,
+      :timex,
+      :timex_ecto
     ]
   end
 
@@ -80,6 +82,8 @@ defmodule Customer.Mixfile do
      {:secure_random, "~> 0.1"},
      {:scrivener_ecto, git: "https://github.com/drewolson/scrivener_ecto"},
      {:wallaby, "~> 0.5", only: :test},
+     {:timex, "~> 3.0"},
+     {:timex_ecto, "~> 3.0"},
      {:tirexs, "~> 0.8"}, # for elastic search
      {:bamboo, github: "thoughtbot/bamboo"},  # for mailer
      {:quantum, git: "https://github.com/c-rack/quantum-elixir" },  # for cron job,
