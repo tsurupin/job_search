@@ -1,7 +1,8 @@
 defmodule ScraperCaller do
 
-  def perform(urls) do
-    scrape(urls)
+  @sites ~w(A16z Accel Sequoia)
+  def perform do
+    call(@sites)
   end
 
   defp call([]) do
