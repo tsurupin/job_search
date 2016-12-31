@@ -19,6 +19,19 @@ config :customer, Customer.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :exsentry,
+  otp_app: :customer,
+  dsn: ""
+
+config :quantum,
+  cron: [
+    es_reindex: [
+      schedule: "0 1 * * *",
+      task: "Customer.Builders.EsReindex.perform",
+      args: []
+    ],
+  "0 0 * * 0": {Customer.Builder, :perform}
+]
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
