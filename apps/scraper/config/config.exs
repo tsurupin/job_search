@@ -30,4 +30,7 @@ use Mix.Config
 config :quantum, cron: [
   "0 0 * * 0": {Scraper.Caller, :perform}
 ]
+
+config :hound, browser: "chrome"
+
 import_config "#{Mix.env}.exs"
