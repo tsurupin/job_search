@@ -25,10 +25,11 @@ defmodule Customer.Es.Schema.Job do
       use Tirexs.Mapping
 
       mappings do
-        indexes "company_name", type: "string", analyzer: "ngram_analyzer"
-        indexes "area_name", type: "string", analyzer: "ngram_analyzer"
-        indexes "job_title", type: "string", analyzer: "ngram_analyzer"
-        indexes "techs", type: "string", analyzer: "ngram_analyzer"
+        indexes "area_name", type: "string", index: "not_analyzed"
+        indexes "job_title", type: "string", index: "not_analyzed"
+        indexes "techs", type: "string", index: "not_analyzed"
+        indexes "details", type: "text", analyzer: "ngram_analyzer"
+        indexes "updated_at", type: "date", format: "yyyy-MM-dd"
       end
 
       Es.Logger.ppdebug(index)

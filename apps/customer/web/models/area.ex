@@ -1,6 +1,5 @@
 defmodule Customer.Area do
   use Customer.Web, :model
-  use Customer.Es
   alias Customer.Repo
   alias Customer.{Job, JobSource, State, Area, Repo}
 
@@ -39,22 +38,6 @@ defmodule Customer.Area do
     place
     |> String.split(",")
     |> Enum.map(&(String.trim(&1)))
-  end
-
-  # for elastic search
-
-  def es_search_data(record) do
-    [
-      id: record.id,
-      name: record.name
-    ]
-  end
-
-  def es_reindex, do: Es.Index.reindex __MODULE__, Repo.all(__MODULE__)
-
-  def es_create_index(name \\ nil) do
-    index = [type: estype, index: esindex(name)]
-    Es.Schema.Area.completion(index)
   end
 
 end

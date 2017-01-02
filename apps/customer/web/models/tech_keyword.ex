@@ -49,4 +49,36 @@ defmodule Customer.TechKeyword do
     index = [type: estype, index: esindex(name)]
     Es.Schema.TechKeyword.completion(index)
   end
+
+  def es_search(word) when is_nil(word), do: nil
+  def es_search(word) do
+    result =
+      Tirexs.DSL.define fn ->
+        import Tirexs.Search
+        import Tirexs.Query
+        require Tirexs.Query.Filter
+        search [index: esindex, fields: []] do
+          query do
+            filtered do
+              query do
+                match_all([])
+              end
+              filter do
+                bool do
+                  must do
+                    terms "name", [word]
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+
+    case result do
+      {_, _, map} -> map
+      r -> r
+    end
+  end
+
 end

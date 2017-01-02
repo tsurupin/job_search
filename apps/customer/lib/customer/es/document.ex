@@ -64,14 +64,14 @@ defmodule Customer.Es.Document do
     |> Stream.filter(fn item -> !Blank.blank?(item) end)
     |> Stream.chunk(50_000, 50_000, [])
     |> Stream.each(fn data ->
-      bulk do
-        case type do
-          :index -> index index_and_type_name(model, name), data
-          :delete -> delete index_and_type_name(model, name), data
+      payload =
+        bulk do
+          case type do
+            :index -> index index_and_type_name(model, name), data
+            :delete -> delete index_and_type_name(model, name), data
+          end
         end
-      end
-      |>
-      Tirexs.bump!._bulk({[refresh: true]})
+      Tirexs.bump!(payload)._bulk({[refresh: true]})
     end)
     |> Stream.run
   end

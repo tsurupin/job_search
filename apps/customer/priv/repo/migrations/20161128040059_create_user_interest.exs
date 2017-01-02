@@ -4,7 +4,7 @@ defmodule Customer.Repo.Migrations.CreateUserInterest do
   def change do
     create table(:user_interests) do
       add :user_id, references(:users, on_delete: :delete_all)
-      add :company_id, references(:companies, on_delete: :delete_all)
+      add :job_id, references(:jobs, on_delete: :delete_all)
       add :degree, :integer, null: false
 
       timestamps()
@@ -12,7 +12,7 @@ defmodule Customer.Repo.Migrations.CreateUserInterest do
 
     create index(
       :user_interests,
-      [:user_id, :company_id],
+      [:user_id, :job_id],
       unique: true
     )
 

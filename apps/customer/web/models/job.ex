@@ -1,11 +1,13 @@
 defmodule Customer.Job do
   use Customer.Web, :model
   use Customer.Es
-  alias Customer.{TechKeyword, Company, Area, JobTechKeyword, Repo}
+  alias Customer.Repo
+  alias Customer.{TechKeyword, Company, Area, JobTechKeyword, UserInterest}
 
   schema "jobs" do
     many_to_many :tech_keywords, TechKeyword, join_through: JobTechKeyword
     has_many :job_tech_keywords, JobTechKeyword
+    has_one :user_interest, UserInterest
     belongs_to :company, Company
     belongs_to :area, Area
     field :title
@@ -34,25 +36,94 @@ defmodule Customer.Job do
     end)
   end
 
+  def get_with_associations!(id) do
+    Repo.get!(__MODULE__, id, preload: [:area, :company, :tech_keywords])
+  end
+
+
   # for elastic search
 
-  def search_data(model) do
-    model = Repo.get!(__MODULE__, model.id, preload: [:area, :company, :tech_keywords])
+  def es_search_data(model) do
+    model = get_with_associations!(model.id)
     [
       id: model.id,
       job_title: model.job_title,
+      detail: model.detail,
       company_name: model.company.name,
       area_name: model.area.name,
-      techs: Enum.map(model.tech_keywords, &(&1.name))
+      techs: Enum.map(model.tech_keywords, &(&1.name)),
+      updated_at: model.updated_at
     ]
   end
 
   def es_reindex, do: Es.Index.reindex __MODULE__, Repo.all(__MODULE__)
 
-  def create_es_index(name \\ nil) do
+  def es_create_index(name \\ nil) do
     index = [type: estype, index: esindex(name)]
     Es.Schema.Job.completion(index)
   end
 
+  def es_search, do: es_search(nil, [])
+  def es_search(word), do: es_search(word, [])
+  def es_search("", options), do: es_search(nil, options)
+
+  def es_search(word, options) do
+    result =
+      Tirexs.DSL.define fn ->
+        opt = Es.Params.pager_option(options)
+        offset = opt[:offset]
+        per_page = opt[:per_page]
+
+        build_default_query(offset, per_page)
+        |> add_filter_query(opt[:filter])
+        |> add_sort_query(opt[:sort])
+        |> es_logging
+      end
+
+    case result do
+      {_, _, map} -> map
+      r -> r
+    end
+  end
+
+  defp build_default_query(offset, per_page) do
+    import Tirexs.Search
+    import Tirexs.Query
+    require Tirexs.Query.Filter
+    search [index: esindex, fields: [], from: offset, size: per_page] do
+      query do
+        filtered do
+          query do
+            match_all([])
+          end
+          filter do
+            bool do
+              must do
+                terms "job_title", [true, false]
+                terms "area_name",   [true, false]
+                terms "techs",    [true, false]
+                terms "detail", [true, false]
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  defp add_filter_query(query, params) when is_nil(params), do: query
+  defp add_filter_query(query, params) do
+     put_in query, [:search, :query, :filtered, :filter], Es.Filter.Job.perform(params)
+  end
+
+  defp add_sort_query(query, sort) when is_nil(sort), do: query
+  defp add_sort_query(query, sort) do
+     put_in query, [:search, :sort], Es.Sort.perform(%{updated_at: :desc})
+  end
+
+  defp es_logging(query) do
+    Es.Logger.ppdebug(query)
+    query
+  end
 
 end

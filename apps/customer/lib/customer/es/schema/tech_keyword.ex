@@ -7,14 +7,11 @@ defmodule Customer.Es.Schema.TechKeyword do
 
       settings do
         analysis do
-          tokenizer "ngram_tokenizer",
-            type: "nGram",  min_gram: "2", max_gram: "3",
-              token_chars: ["letter", "digit"]
-
-          analyzer "default",
-            type: "custom", tokenizer: "ngram_tokenizer"
-          analyzer "ngram_analyzer",
-            tokenizer: "ngram_tokenizer"
+          analyzer "autocomplete_analyzer",
+          [
+            filter: ["lowercase", "asciifolding", "edge_ngram"],
+            tokenizer: "whitespace"
+          ]
         end
       end
 
@@ -25,7 +22,7 @@ defmodule Customer.Es.Schema.TechKeyword do
       use Tirexs.Mapping
 
       mappings do
-        indexes "name", type: "string", analyzer: "ngram_analyzer"
+        indexes "name", type: "string", index: "autocomplete_analyzer"
       end
 
       Es.Logger.ppdebug(index)

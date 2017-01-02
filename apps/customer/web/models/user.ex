@@ -1,7 +1,9 @@
 defmodule Customer.User do
   use Customer.Web, :model
+  alias Customer.{UserInterest}
 
   schema "users" do
+    has_many :user_interessts, UserInterest
     field :first_name, :string
     field :last_name, :string
     field :email, :string
