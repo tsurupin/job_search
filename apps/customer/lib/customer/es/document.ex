@@ -60,18 +60,18 @@ defmodule Customer.Es.Document do
 
   defp change_document(type, records, name, model) do
     records
-    |> Stream.map(&model.search_data(&1))
+    |> Stream.map(&model.es_search_data(&1))
     |> Stream.filter(fn item -> !Blank.blank?(item) end)
     |> Stream.chunk(50_000, 50_000, [])
     |> Stream.each(fn data ->
-      payload =
-        bulk do
-          case type do
-            :index -> index index_and_type_name(model, name), data
-            :delete -> delete index_and_type_name(model, name), data
-          end
+      bulk do
+        case type do
+          :index -> index index_and_type_name(model, name), data
+          :delete -> delete index_and_type_name(model, name), data
         end
-      Tirexs.bump!(payload)._bulk({[refresh: true]})
+      end
+      |>
+      Tirexs.bump!._bulk({[refresh: true]})
     end)
     |> Stream.run
   end

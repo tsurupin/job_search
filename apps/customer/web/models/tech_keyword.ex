@@ -22,6 +22,13 @@ defmodule Customer.TechKeyword do
     |> unique_constraint(:name)
   end
 
+  def delete!(model) do
+    Repo.transaction(fn ->
+      Repo.delete! model
+      Es.Document.delete_document model
+    end)
+  end
+
   def by_names(names) do
     from k in TechKeyword,
     where: k.name in ^names
@@ -29,7 +36,7 @@ defmodule Customer.TechKeyword do
 
   # for elastic search
 
-  def search_data(record) do
+  def es_search_data(record) do
     [
       id: record.id,
       name: record.name
@@ -38,7 +45,7 @@ defmodule Customer.TechKeyword do
 
   def es_reindex, do: Es.Index.reindex __MODULE__, Repo.all(__MODULE__)
 
-  def create_es_index(name \\ nil) do
+  def es_create_index(name \\ nil) do
     index = [type: estype, index: esindex(name)]
     Es.Schema.TechKeyword.completion(index)
   end

@@ -15,26 +15,35 @@ defmodule Customer.Job do
 
     timestamps
   end
+  @required_fields ~w(company_id area_id title url)
+  @optional_fields ~w(job_title detail)
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(struct \\ %__MODULE__{}, params \\ %{}) do
     struct
-    |> cast(params, [])
-    |> validate_required([])
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+  end
+
+  def delete!(model) do
+    Repo.transaction(fn ->
+      Repo.delete! model
+      Es.Document.delete_document model
+    end)
   end
 
   # for elastic search
 
-  def search_data(record) do
-    record = Repo.get!(__MODULE__, record.id, preload: [:area, :company, :tech_keywords])
+  def search_data(model) do
+    model = Repo.get!(__MODULE__, model.id, preload: [:area, :company, :tech_keywords])
     [
-      id: record.id,
-      job_title: record.job_title,
-      company_name: record.company.name,
-      area_name: record.area.name,
-      techs: Enum.map(record.tech_keywords, &(&1.name))
+      id: model.id,
+      job_title: model.job_title,
+      company_name: model.company.name,
+      area_name: model.area.name,
+      techs: Enum.map(model.tech_keywords, &(&1.name))
     ]
   end
 
@@ -44,4 +53,6 @@ defmodule Customer.Job do
     index = [type: estype, index: esindex(name)]
     Es.Schema.Job.completion(index)
   end
+
+
 end

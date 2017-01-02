@@ -36,40 +36,31 @@ defmodule Customer.Es.Index do
     new_index = name_reindex(index)
     case get_aliases(index) do
       nil ->
-        create_index(model, index, new_index, data)
+        upsert_index(model, index, data, new_index)
       old_index ->
-        update_index(model, index, new_index, old_index, data)
+        upsert_index(model, index, data, new_index, old_index)
         HTTP.delete("#{old_index}")
     end
 
     :ok
   end
 
-  defp update_index(model, index, new_index, old_index, data) do
-    model.create_es_index(new_index)
+  defp upsert_index(model, index, data, new_index, old_index \\ nil) do
+    model.es_create_index(new_index)
     unless Blank.blank?(data), do: Es.Document.put_document(data, new_index)
-
-    alias_query =
-      (aliases do
-        remove index: old_index, alias: index
-        add index: new_index, alias: index
-      end)
-    Es.Logger.ppdebug alias_query
-    Resources.bump(alias_query)._aliases
-
-    HTTP.delete("#{old_index}")
+    upsert_aliases(aliase_query(index, new_index, old_index))
   end
 
-  defp create_index(model, index, new_index, data) do
-    model.create_es_index(new_index)
-    unless Blank.blank?(data), do: Es.Document.put_document(data, new_index)
-
-    alias_query =
-      (aliases do
-        add index: new_index, alias: index
-      end)
+  defp upsert_aliases(alias_query) do
     Es.Logger.ppdebug alias_query
     Resources.bump(alias_query)._aliases
+  end
+
+  defp aliase_query(index, new_index, old_index) do
+    aliases do
+      add index: new_index, alias: index
+      if old_index, do: remove index: old_index, alias: index
+    end
   end
 
   defp get_aliases(index) do

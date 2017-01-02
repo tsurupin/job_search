@@ -22,6 +22,13 @@ defmodule Customer.Area do
     |> validate_required([])
   end
 
+  def delete!(model) do
+    Repo.transaction(fn ->
+      Repo.delete! model
+      Es.Document.delete_document model
+    end)
+  end
+
   def find_from!(place) do
     [area_name, state_abbreviation, _country] = area_and_state(place)
     state = Repo.get_by!(State, %{abbreviation: state_abbreviation})
@@ -36,7 +43,7 @@ defmodule Customer.Area do
 
   # for elastic search
 
-  def search_data(record) do
+  def es_search_data(record) do
     [
       id: record.id,
       name: record.name
@@ -45,7 +52,7 @@ defmodule Customer.Area do
 
   def es_reindex, do: Es.Index.reindex __MODULE__, Repo.all(__MODULE__)
 
-  def create_es_index(name \\ nil) do
+  def es_create_index(name \\ nil) do
     index = [type: estype, index: esindex(name)]
     Es.Schema.Area.completion(index)
   end

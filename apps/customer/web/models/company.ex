@@ -23,6 +23,13 @@ defmodule Customer.Company do
     |> validate_required([:name, :url])
   end
 
+  def delete!(model) do
+    Repo.transaction(fn ->
+      Repo.delete! model
+      Es.Document.delete_document model
+    end)
+  end
+
   def find_or_create!(name, url) do
     case Repo.get_by(Company, name: name) do
       nil ->
@@ -36,7 +43,7 @@ defmodule Customer.Company do
 
   # for elastic search
 
-  def search_data(record) do
+  def es_search_data(record) do
     [
       id: record.id,
       name: record.name
@@ -45,7 +52,7 @@ defmodule Customer.Company do
 
   def es_reindex, do: Es.Index.reindex __MODULE__, Repo.all(__MODULE__)
 
-  def create_es_index(name \\ nil) do
+  def es_create_index(name \\ nil) do
     index = [type: estype, index: esindex(name)]
     Es.Schema.Company.completion(index)
   end
