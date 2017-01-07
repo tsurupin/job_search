@@ -9,7 +9,7 @@ defmodule Customer.Services.JobSourceCreator do
       company = Company.find_or_create!(params.name, params.url)
       area = Area.find_from!(params.place)
       job_source =
-        JobSource.find_or_initialize(params.url, params.title, params.source, area.id)
+        JobSource.find_or_initialize(params.url, params.job_title, params.source, area.id)
         |> JobSource.changeset(job_source_params(params, company, area))
         |> Repo.insert_or_update!
 

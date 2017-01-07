@@ -10,15 +10,15 @@ defmodule Customer.Job do
     has_one :user_interest, UserInterest
     belongs_to :company, Company
     belongs_to :area, Area
-    field :title
-    field :job_title
-    field :url
-    field :detail
+    field :title, :string
+    field :job_title, :string
+    field :url, :string
+    field :detail, :string
 
     timestamps
   end
-  @required_fields ~w(company_id area_id title url)
-  @optional_fields ~w(job_title detail)
+  @required_fields [:company_id, :area_id, :title, :url]
+  @optional_fields [:job_title, :detail]
 
   @doc """
   Builds a changeset based on the `struct` and `params`.

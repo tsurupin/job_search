@@ -5,7 +5,7 @@ defmodule Customer.Es.Filter.Job do
 
   def perform(params) do
     techs = params[:techs] || [true, false]
-    detail =
+
     Tirexs.Query.Filter.filter do
       bool do
         must do

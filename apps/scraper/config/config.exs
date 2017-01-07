@@ -27,9 +27,9 @@ use Mix.Config
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-config :quantum, cron: [
-  "0 0 * * 0": {Scraper.Caller, :perform}
-]
+# config :quantum, cron: [
+#   "0 0 * * 0": {Scraper.Caller, :perform}
+# ]
 
 config :hound, browser: "chrome"
 

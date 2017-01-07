@@ -4,8 +4,8 @@ defmodule Customer.State do
 
   schema "states" do
     has_many :areas, Area, on_delete: :delete_all
-    field :name
-    field :abbreviation
+    field :name, :string
+    field :abbreviation, :string
     timestamps
   end
 
@@ -13,8 +13,9 @@ defmodule Customer.State do
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(struct  \\ %__MODULE__{}, params \\ %{}) do
+    IO.inspect params
     struct
-    |> cast(params, ~w(name))
-    |> validate_required(~w(name))
+    |> cast(params, [:name, :abbreviation])
+    |> validate_required([:name])
   end
 end

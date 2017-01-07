@@ -8,21 +8,34 @@ defmodule Scrapers.Accel.Show do
 
   @defaultTimeout 10000
 
-  def perform(url, title, place) do
-    #html = HTTPoison.get!(url, %{}, hackney: [recv_timeout: @defaultTimeout, timeout: @defaultTimeout])
-    #%HTTPoison.Response{body:  body} = html
-    body = @body
-    upsert(params(url, title, body, place))
+  def perform(url, company_name, job_title, place) do
+    body(url)
+    |> params(url, company_name, job_title, place)
+    |> upsert
   end
 
-  defp params(url, title, xml, place) do
+  def perform(url, company_name, job_title, place, :test) do
+    @body
+    |> params(url, company_name, job_title, place)
+    |> upsert
+  end
+
+  defp body(url) do
+    %HTTPoison.Response{body: body} = HTTPoison.get!(url, %{}, hackney: [recv_timeout: @defaultTimeout, timeout: @defaultTimeout])
+    body
+  end
+
+  defp params(xml, url, company_name, job_title, place) do
     detail = build_detail(xml)
     keywords = TechKeywordsFinder.perform(detail)
     %{
       url: url,
-      title: title,
+      name: company_name,
+      title: job_title,
+      job_title: job_title,
       detail: detail,
       place: place,
+      source: "Accel",
       keywords: keywords
     }
   end

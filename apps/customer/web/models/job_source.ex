@@ -10,11 +10,11 @@ defmodule Customer.JobSource do
     belongs_to :area, Area
     field :name, :string, virtual: true
     field :place, :string, virtual: true
-    field :title
-    field :job_title
-    field :url
-    field :detail
-    field :source
+    field :title, :string
+    field :job_title, :string
+    field :url, :string
+    field :detail, :string
+    field :source, :string
     field :priority, :integer, default: 0
 
     timestamps
@@ -34,7 +34,7 @@ defmodule Customer.JobSource do
 
   def changeset(model \\ %__MODULE__{}, params \\ %{}) do
     model
-    |> cast(params, ~w(title url detail source job_title area_id company_id))
+    |> cast(params, [:title, :url, :detail, :source, :job_title, :area_id, :company_id])
     |> validate_required([:source, :title, :url, :area_id, :company_id])
     |> unique_constraint(:url)
     |> generate_priority

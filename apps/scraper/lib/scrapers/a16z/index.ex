@@ -25,9 +25,9 @@ defmodule Scrapers.A16z.Index do
   end
 
   defp parse_each({_tag, _css, [link, company, place]}) do
-    with {_, [{_, link_url}], [title]} <- parsed_link(link),
+    with {_, [{_, link_url}], [job_title]} <- parsed_link(link),
       {_, [{_, company_url}], [company_name]} <- parsed_link(company),
-      do: Task.start_link(fn -> Show.perform(detail_url(link_url), title, Floki.text(place)) end)
+      do: Task.start_link(fn -> Show.perform(detail_url(link_url), company_name, job_title, Floki.text(place)) end)
   end
 
   defp parsed_link(link) do

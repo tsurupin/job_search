@@ -10,7 +10,9 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias Customer.{TechKeyword, Repo}
+alias Customer.{TechKeyword, Area, State}
+alias Customer.Repo
+
 infra = ~w(Docker Ansible Chef AWS Amazonwebservice Pupet)
 datastore = ~w(MySQL PostgreSQL Redis Memcache MongoDB Cassandra Elasticsearch elastic-search spark hadoop)
 frontend = ~w(HTML CSS ES6 ES7 Javascript React Angular Backbone Ember Elm Redux)
@@ -25,9 +27,28 @@ tech_keywords = [
   %{type: "mobile", names: mobile}
 ]
 
+states = [
+  %{name: "California", abbreviation: "CA", areas: ["San Francisco", "Mountai View", "San Jose"]},
+  %{name: "New York", abbreviation: "NY", areas: ["Manhattan"]}
+]
+
+Enum.each(states, fn(temp_state) ->
+  state =
+    State.changeset(%State{}, %{name: temp_state.name, abbreviation: temp_state.abbreviation})
+    |> Repo.insert!
+  Enum.each(temp_state.areas, fn(area) ->
+    Area.changeset(%Area{}, %{name: area, state_id: state.id})
+    |> Repo.insert!
+  end)
+end)
+
 Enum.each(tech_keywords, fn(keyword) ->
   Enum.each(keyword.names, fn(name) ->
     TechKeyword.changeset(%TechKeyword{}, %{type: keyword.type, name: name})
     |> Repo.insert!
   end)
 end)
+
+Scrapers.Accel.Show.perform("http://google/com", "Sample", "Software engineer", "San Francisco, CA, US", :test)
+Scrapers.A16z.Show.perform("http://google/com", "Sample", "Software engineer", "San Francisco, CA, US", :test)
+Scrapers.Sequoia.Show.perform("http://google/com", :test)

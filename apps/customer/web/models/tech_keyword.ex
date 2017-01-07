@@ -6,8 +6,8 @@ defmodule Customer.TechKeyword do
   schema "tech_keywords" do
     has_many :job_source_tech_keywords, JobSourceTechKeyword
     has_many :job_tech_keywords, JobTechKeyword
-    field :type
-    field :name
+    field :type, :string
+    field :name, :string
 
     timestamps
   end

@@ -21,22 +21,22 @@ defmodule Scrapers.YCombinator.Show do
 
   defp upsert(params) do
     changeset = build_changeset(params)
-    case Repo.insert_or_update(changeset) do
-      {:ok, _} ->
-        IO.inspect "success"
-      {:error, changeset} ->
-        IO.inspect "error, #{changeset}"
-    end
+    # case Repo.insert_or_update(changeset) do
+    #   {:ok, _} ->
+    #     IO.inspect "success"
+    #   {:error, changeset} ->
+    #     IO.inspect "error, #{changeset}"
+    # end
   end
 
   defp build_changeset(params) do
-     source = Repo.get_by(Source, url: params.url, title: params.title)
-     if source do
-        changeset = Source.create_changeset(params)
-      else
-        changeset = Source.update_changeset(params)
-     end
-     changeset
+    #  source = Repo.get_by(Source, url: params.url, title: params.title)
+    #  if source do
+    #     changeset = Source.create_changeset(params)
+    #   else
+    #     changeset = Source.update_changeset(params)
+    #  end
+    #  changeset
   end
 
   defp build_detail(xml) do

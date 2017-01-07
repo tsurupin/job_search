@@ -14,7 +14,7 @@ defmodule Customer.JobSourceTechKeyword do
   """
   def changeset(struct \\ %__MODULE__{}, params \\ %{}) do
     struct
-    |> cast(params, ~w(tech_keyword_id job_source_id))
+    |> cast(params, [:tech_keyword_id, :job_source_id])
     |> validate_required([:tech_keyword_id, :job_source_id])
     |> unique_constraint(:tech_keyword_id, name: :job_source_tech_keywords_tech_keyword_id_job_source_id_index)
   end

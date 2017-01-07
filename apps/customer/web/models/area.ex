@@ -2,6 +2,7 @@ defmodule Customer.Area do
   use Customer.Web, :model
   alias Customer.Repo
   alias Customer.{Job, JobSource, State, Area, Repo}
+  alias Customer.Es
 
   schema "areas" do
     has_many :jobs, Job
@@ -17,8 +18,8 @@ defmodule Customer.Area do
   """
   def changeset(struct  \\ %__MODULE__{}, params \\ %{}) do
     struct
-    |> cast(params, [])
-    |> validate_required([])
+    |> cast(params, [:name, :state_id])
+    |> validate_required([:name, :state_id])
   end
 
   def delete!(model) do

@@ -2,6 +2,7 @@ defmodule Customer.Company do
   use Customer.Web, :model
   alias Customer.Repo
   alias Customer.{Job, JobSource, Company, Repo}
+  alias Customer.Es
 
   schema "companies" do
     field :name, :string

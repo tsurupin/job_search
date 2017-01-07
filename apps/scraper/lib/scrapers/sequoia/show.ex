@@ -9,32 +9,49 @@ defmodule Scrapers.Sequoia.Show do
   '''
 
   def perform(url) do
-    #html = HTTPoison.get!(url, %{}, hackney: [recv_timeout: @defaultTimeout , timeout: @defaultTimeout])
-    #%HTTPoison.Response{body: body} = html
-    body = @body
-    xml =
-      body
-      |> Floki.parse
-    upsert(params(xml, url))
+    body(url)
+    |> Floki.parse
+    |> params(url)
+    |> upsert
+    # body = @body
+    # xml =
+    #   body
+    #   |> Floki.parse
+    # upsert(params(xml, url))
+  end
+
+  def perform(url, :test) do
+    @body
+    |> Floki.parse
+    |> params(url)
+    |> upsert
+  end
+
+  defp body(url) do
+    %HTTPoison.Response{body: body} = HTTPoison.get!(url, %{}, hackney: [recv_timeout: @defaultTimeout, timeout: @defaultTimeout])
+    body
   end
 
   defp upsert(params), do: JobSourceCreator.perform(params)
 
   defp params(xml, url) do
     detail = build_detail(xml)
+    job_title = job_title(xml)
     keywords = TechKeywordsFinder.perform(detail)
      %{
        url: url,
-       title: title(xml),
-       job_title: job_title(xml),
+       name: company_name(xml),
+       title: job_title,
+       job_title: job_title,
        intro: intro(xml),
        place: place(xml),
        detail: detail,
+       source: "Sequoia",
        keywords: keywords
      }
   end
 
-  def title(xml) do
+  def company_name(xml) do
     xml
     |> Floki.find("._large-title")
     |> Floki.text
