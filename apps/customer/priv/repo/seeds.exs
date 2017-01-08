@@ -9,7 +9,8 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-
+Application.load(:tzdata)
+:ok = Application.ensure_started(:tzdata)
 alias Customer.{TechKeyword, Area, State}
 alias Customer.Repo
 
@@ -49,6 +50,7 @@ Enum.each(tech_keywords, fn(keyword) ->
   end)
 end)
 
-Scrapers.Accel.Show.perform("http://google/com", "Sample", "Software engineer", "San Francisco, CA, US", :test)
-Scrapers.A16z.Show.perform("http://google/com", "Sample", "Software engineer", "San Francisco, CA, US", :test)
-Scrapers.Sequoia.Show.perform("http://google/com", :test)
+# Circular dependencies.
+# Scrapers.Accel.Show.perform("http://google/com", "Sample", "Software engineer", "San Francisco, CA, US", :test)
+# Scrapers.A16z.Show.perform("http://google/com", "Sample", "Software engineer", "San Francisco, CA, US", :test)
+# Scrapers.Sequoia.Show.perform("http://google/com", :test)

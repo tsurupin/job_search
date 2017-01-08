@@ -44,6 +44,7 @@ defmodule Customer.Mixfile do
       :tirexs,
       :bamboo,
       :quantum,
+      :tzdata,
       :timex,
       :exsentry,
       :timex_ecto

@@ -2,6 +2,7 @@ defmodule Customer.Es.Document do
   import Tirexs.Bulk
   alias Customer.Es
   alias Customer.Blank
+  require IEx
 
   def put_document([]), do: :error
   def put_document(records) when is_list(records) do
@@ -17,7 +18,7 @@ defmodule Customer.Es.Document do
   end
 
   def put_document(records, name) when is_list(records) do
-    put_document records, name, index_name(List.first(records))
+    put_document records, name, List.first(records).__struct__
   end
 
   def put_document([], _name), do: :error
@@ -45,7 +46,7 @@ defmodule Customer.Es.Document do
   end
 
   def delete_document(records, name) when is_list(records) do
-    delete_document records, name, index_name(List.first(records))
+    delete_document records, name, List.first(records).__struct__
   end
 
   def delete_document([], _name), do: :error
@@ -59,6 +60,10 @@ defmodule Customer.Es.Document do
   end
 
   defp change_document(type, records, name, model) do
+    IO.inspect records
+    IO.inspect name
+    IO.inspect model
+    #IEx.pry
     records
     |> Stream.map(&model.es_search_data(&1))
     |> Stream.filter(fn item -> !Blank.blank?(item) end)
@@ -77,7 +82,7 @@ defmodule Customer.Es.Document do
   end
 
   defp index_and_type_name(model, name) do
-    [type: model.es_type, index: model.es_index(name)]
+    [type: model.estype, index: model.esindex(name)]
   end
 
   defp index_name(records) when is_list(records) do

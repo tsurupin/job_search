@@ -12,6 +12,7 @@ defmodule Customer.Es.Schema.TechKeyword do
             filter: ["lowercase", "asciifolding", "edge_ngram"],
             tokenizer: "whitespace"
           ]
+          filter "edge_ngram", [type: "edgeNGram", min_gram: 1, max_gram: 15]
         end
       end
 
@@ -22,7 +23,7 @@ defmodule Customer.Es.Schema.TechKeyword do
       use Tirexs.Mapping
 
       mappings do
-        indexes "name", type: "string", index: "autocomplete_analyzer"
+        indexes "name", type: "string", analyzer: "autocomplete_analyzer"
       end
 
       Es.Logger.ppdebug(index)

@@ -25,7 +25,7 @@ defmodule Customer.Es.Index do
   def name_reindex(index) do
     suffix =
       Timex.now
-      |> Timex.format!("%Y%%m%d%H%M%S%f", :strftime)
+      |> Timex.format!("%Y%m%d%H%M%S%f", :strftime)
 
     "#{index}_#{suffix}"
   end
