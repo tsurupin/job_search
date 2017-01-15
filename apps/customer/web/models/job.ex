@@ -2,7 +2,7 @@ defmodule Customer.Job do
   use Customer.Web, :model
   use Customer.Es
   alias Customer.Repo
-  alias Customer.{TechKeyword, Company, Area, JobTechKeyword, UserInterest}
+  alias Customer.{TechKeyword, Company, Area, Job, JobTechKeyword, UserInterest}
 
   schema "jobs" do
     many_to_many :tech_keywords, TechKeyword, join_through: JobTechKeyword
@@ -27,6 +27,13 @@ defmodule Customer.Job do
     struct
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+  end
+
+  def find_or_initialize(company_id, job_title) do
+    case Repo.get_by(Job, company_id: company_id, job_title: job_title) do
+      nil -> %Job{}
+      job -> job
+    end
   end
 
   def delete!(model) do
@@ -64,10 +71,10 @@ defmodule Customer.Job do
   end
 
   def es_search, do: es_search(nil, [])
-  def es_search(word), do: es_search(word, [])
+  def es_search(params), do: es_search(params, [])
   def es_search("", options), do: es_search(nil, options)
 
-  def es_search(word, options) do
+  def es_search(params, options) do
     result =
       Tirexs.DSL.define fn ->
         opt = Es.Params.pager_option(options)
@@ -75,7 +82,7 @@ defmodule Customer.Job do
         per_page = opt[:per_page]
 
         build_default_query(offset, per_page)
-        |> add_filter_query(opt[:filter])
+        |> add_filter_query(params)
         |> add_sort_query(opt[:sort])
         |> es_logging
       end
@@ -95,16 +102,6 @@ defmodule Customer.Job do
         filtered do
           query do
             match_all([])
-          end
-          filter do
-            bool do
-              must do
-                terms "job_title", [true, false]
-                terms "area_name",   [true, false]
-                terms "techs",    [true, false]
-                terms "detail", [true, false]
-              end
-            end
           end
         end
       end

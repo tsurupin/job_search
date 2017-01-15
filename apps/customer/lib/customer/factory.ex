@@ -8,6 +8,16 @@ defmodule Customer.Factory do
     }
   end
 
+  def job_factory do
+    %Customer.Job{
+      company: build(:company),
+      area: build(:area),
+      title: "title",
+      job_title: "job_title",
+      url: "http://google.com"
+    }
+  end
+
   def state_factory do
     %Customer.State{
       name: sequence(:name, &"name#{&1}"),
