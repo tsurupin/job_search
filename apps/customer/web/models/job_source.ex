@@ -10,8 +10,8 @@ defmodule Customer.JobSource do
     belongs_to :area, Area
     field :name, :string, virtual: true
     field :place, :string, virtual: true
-    field :title, :string
     field :job_title, :string
+    field :title, :string
     field :url, :string
     field :detail, :string
     field :source, :string
@@ -37,11 +37,13 @@ defmodule Customer.JobSource do
     |> cast(params, [:title, :url, :detail, :source, :job_title, :area_id, :company_id])
     |> validate_required([:source, :title, :url, :area_id, :company_id])
     |> unique_constraint(:url)
+    |> foreign_key_constraint(:area_id)
+    |> foreign_key_constraint(:company_id)
     |> generate_priority
   end
 
-  def find_or_initialize(url, title, source, area_id) do
-    case Repo.get_by(JobSource, url: url, title: title, source: source, area_id: area_id) do
+  def find_or_initialize_by(url, job_title, source, area_id) do
+    case Repo.get_by(JobSource, url: url, job_title: job_title, source: source, area_id: area_id) do
       nil -> %JobSource{}
       source -> source
     end

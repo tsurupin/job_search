@@ -29,7 +29,7 @@ defmodule Customer.Area do
     end)
   end
 
-  def find_from!(place) do
+  def find_by!(place) do
     [area_name, state_abbreviation, _country] = area_and_state(place)
     state = Repo.get_by!(State, %{abbreviation: state_abbreviation})
     Repo.get_by!(Area, %{state_id: state.id, name: area_name})

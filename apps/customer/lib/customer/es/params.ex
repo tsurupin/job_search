@@ -12,7 +12,6 @@ defmodule Customer.Es.Params do
       page: page,
       per_page: per_page,
       offset: offset(options[:offset], page, per_page),
-      filter: options[:filter],
       sort: options[:sort],
     }
   end

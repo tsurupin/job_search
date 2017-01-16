@@ -1,47 +1,74 @@
 defmodule Customer.Services.JobSourceCreator do
   alias Customer.Repo
-  alias Customer.{JobSource, JobSourceTechKeyword, TechKeyword, Company, Area, Company}
-
+  alias Customer.{JobSource, JobSourceTechKeyword, TechKeyword, JobTechKeyword, Company, Area, Job, Company}
   @job_source_attributes [:company_id, :area_id, :title, :url, :job_title, :detail, :source]
 
   def perform(params) do
     Repo.transaction fn ->
-      company = Company.find_or_create!(params.name, params.url)
-      area = Area.find_from!(params.place)
-      job_source =
-        JobSource.find_or_initialize(params.url, params.job_title, params.source, area.id)
-        |> JobSource.changeset(job_source_params(params, company, area))
-        |> Repo.insert_or_update!
+      company = Company.find_or_create_by!(params.name, params.url)
+      area = Area.find_by!(params.place)
 
-      upsert_job_source_tech_keywords!(params.keywords, job_source.id)
+      job_source = upsert_job_source!(params, company.id, area.id)
+      bulk_upsert_job_source_tech_keywords!(params.keywords, job_source.id)
+
+      upsert_job!(job_source)
+      |> bulk_upsert_job_tech_keywords_if_needed!
     end
   end
 
-  defp job_source_params(params, company, area) do
-    params
-    |> Map.take(@job_source_attributes)
-    |> Map.put_new(:company_id, company.id)
-    |> Map.put_new(:area_id, area.id)
-  end
-
-  defp upsert_job_source_tech_keywords!(keyword_names, job_source_id) do
-    tech_keywords = TechKeyword.by_names(keyword_names) |> Repo.all
-    delete_job_source_tech_keywords_if_needed!(tech_keywords, job_source_id)
-    Enum.each(tech_keywords, &(upsert_job_source_tech_keyword!(&1, job_source_id)))
-  end
-
-  defp upsert_job_source_tech_keyword!(keyword, job_source_id) do
-    JobSourceTechKeyword.changeset(%JobSourceTechKeyword{}, %{tech_keyword_id: keyword.id, job_source_id: job_source_id})
+  defp upsert_job_source!(params, company_id, area_id) do
+    JobSource.find_or_initialize_by(params.url, params.job_title, params.source, area_id)
+    |> JobSource.changeset(job_source_attributes(params, company_id, area_id))
     |> Repo.insert_or_update!
   end
 
-  defp delete_job_source_tech_keywords_if_needed!(tech_keywords, job_source_id) do
-    JobSourceTechKeyword.by_keyword_ids_and_source_id(tech_keyword_ids(tech_keywords), job_source_id)
-    |> Repo.delete_all
+  defp upsert_job!(%JobSource{company_id: company_id, job_title: job_title, area_id: area_id} = job_source) do
+    job = Job.find_or_initialize_by(company_id, area_id, job_title)
+    Job.changeset(job, update_attributes(job, job_source))
+    |> Repo.insert_or_update!
   end
 
-  defp tech_keyword_ids(keywords) do
-    Enum.map(keywords, &(&1.id))
+  defp bulk_upsert_job_source_tech_keywords!(keyword_names, job_source_id) when is_nil(keyword_names), do: nil
+  defp bulk_upsert_job_source_tech_keywords!(keyword_names, job_source_id) do
+    TechKeyword.by_names(keyword_names)
+    |> TechKeyword.pluck(:id)
+    |> JobSourceTechKeyword.bulk_upsert!(job_source_id)
+  end
+
+  defp bulk_upsert_job_tech_keywords_if_needed!(%Job{detail: detail}) when is_nil(detail), do: nil
+  defp bulk_upsert_job_tech_keywords_if_needed!(%Job{id: id, detail: detail}) do
+    JobSourceTechKeyword.tech_keyword_ids_by(detail["job_source_id"])
+    |> JobTechKeyword.bulk_upsert!(id)
+  end
+
+  defp update_attributes(%Job{url: url, title: title, detail: detail}, job_source) do
+    %{}
+    |> update_map_attribute(url, :url, job_source)
+    |> update_map_attribute(title, :title, job_source)
+    |> update_map_attribute(detail, :detail, job_source)
+  end
+
+  defp update_map_attribute(attributes, attribute, column_name, job_source) do
+    if attribute == nil || Map.get(attribute, "priority") <= job_source.priority do
+      Map.put_new(
+        attributes,
+        column_name,
+        %{
+          "value" => Map.get(job_source, column_name),
+          "priority" => job_source.priority,
+          "job_source_id" => job_source.id
+        }
+      )
+    else
+      attributes
+    end
+  end
+
+  defp job_source_attributes(params, company_id, area_id) do
+    params
+    |> Map.take(@job_source_attributes)
+    |> Map.put_new(:company_id, company_id)
+    |> Map.put_new(:area_id, area_id)
   end
 
 end

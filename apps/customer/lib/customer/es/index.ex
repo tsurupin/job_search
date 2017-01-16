@@ -7,33 +7,25 @@ defmodule Customer.Es.Index do
   alias Customer.Blank
   alias Customer.Es
 
-  def name_index(model) do
-    index =
-      model
-      |> to_string
-      |> String.downcase
-
-    "es_#{index}"
-  end
-
   def name_type(model) do
     model
     |> to_string
     |> String.downcase
   end
 
-  def name_reindex(index) do
-    suffix =
-      Timex.now
-      |> Timex.format!("%Y%m%d%H%M%S%f", :strftime)
+  def name_index(model) do
+    "es_#{name_type(model)}"
+  end
 
-    "#{index}_#{suffix}"
+  def name_reindex(index) do
+    "#{index}_#{time_suffix}"
   end
 
   def reindex(model), do: reindex(model, nil)
   def reindex(model, data) do
     index = name_index(model)
     new_index = name_reindex(index)
+
     case get_aliases(index) do
       nil ->
         upsert_index(model, index, data, new_index)
@@ -41,8 +33,11 @@ defmodule Customer.Es.Index do
         upsert_index(model, index, data, new_index, old_index)
         HTTP.delete("#{old_index}")
     end
-
     :ok
+  end
+
+  defp time_suffix do
+    Timex.now |> Timex.format!("%Y%m%d%H%M%S%f", :strftime)
   end
 
   defp upsert_index(model, index, data, new_index, old_index \\ nil) do

@@ -4,14 +4,14 @@ defmodule Customer.JobTest do
   alias Customer.Job
 
   test "find a persisted record" do
-    company = insert(:company)
-    insert(:job, company_id: company.id, job_title: "test")
-    job = Job.find_or_initialize(company.id, "test")
+    job = insert(:job, job_title: "test")
+    job = Job.find_or_initialize_by(job.company_id, "test")
     assert job.id !== nil
   end
 
   test "initialize a new record" do
-    job = Job.find_or_initialize(company.id, "test")
+    company = insert(:company)
+    job = Job.find_or_initialize_by(company.id, "test")
     assert job.id == nil
   end
 

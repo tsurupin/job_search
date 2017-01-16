@@ -30,7 +30,7 @@ defmodule Customer.Company do
     end)
   end
 
-  def find_or_create!(name, url) do
+  def find_or_create_by!(name, url) do
     case Repo.get_by(Company, name: name) do
       nil ->
         changeset = Company.changeset(%Company{}, %{name: name, url: url})

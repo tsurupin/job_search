@@ -10,14 +10,14 @@ defmodule Customer.Job do
     has_one :user_interest, UserInterest
     belongs_to :company, Company
     belongs_to :area, Area
-    field :title, :string
     field :job_title, :string
-    field :url, :string
-    field :detail, :string
-
+    field :url, :map
+    field :title, :map
+    field :detail, :map
+    field :priority, :integer, virtual: true
     timestamps
   end
-  @required_fields [:company_id, :area_id, :title, :url]
+  @required_fields [:company_id, :area_id, :job_title, :title, :url]
   @optional_fields [:job_title, :detail]
 
   @doc """
@@ -27,11 +27,13 @@ defmodule Customer.Job do
     struct
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> foreign_key_constraint(:area_id)
+    |> foreign_key_constraint(:company_id)
   end
 
-  def find_or_initialize(company_id, job_title) do
-    case Repo.get_by(Job, company_id: company_id, job_title: job_title) do
-      nil -> %Job{}
+  def find_or_initialize_by(company_id, area_id, job_title) do
+    case Repo.get_by(Job, company_id: company_id, area_id: area_id, job_title: job_title) do
+      nil -> %Job{company_id: company_id, area_id: area_id, job_title: job_title}
       job -> job
     end
   end
@@ -55,7 +57,7 @@ defmodule Customer.Job do
     [
       id: model.id,
       job_title: model.job_title,
-      detail: model.detail,
+      detail: model.detail.value,
       company_name: model.company.name,
       area_name: model.area.name,
       techs: Enum.map(model.tech_keywords, &(&1.name)),

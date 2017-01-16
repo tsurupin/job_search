@@ -1,7 +1,8 @@
 defmodule Customer.TechKeyword do
   use Customer.Web, :model
   use Customer.Es
-  alias Customer.{TechKeyword, JobTechKeyword, JobSourceTechKeyword, Repo}
+  alias Customer.Repo
+  alias Customer.{TechKeyword, JobTechKeyword, JobSourceTechKeyword}
 
   schema "tech_keywords" do
     has_many :job_source_tech_keywords, JobSourceTechKeyword
@@ -30,8 +31,14 @@ defmodule Customer.TechKeyword do
   end
 
   def by_names(names) do
-    from k in TechKeyword,
-    where: k.name in ^names
+    from t in __MODULE__,
+    where: t.name in ^names
+  end
+
+  def pluck(query \\ __MODULE__, column) do
+    from(t in query, select: map(t, [column]))
+    |> Repo.all
+    |> Enum.map(&(&1[column]))
   end
 
   # for elastic search
@@ -52,23 +59,20 @@ defmodule Customer.TechKeyword do
 
   def es_search(word) when is_nil(word), do: nil
   def es_search(word) do
+    word = String.downcase(word)
     result =
       Tirexs.DSL.define fn ->
         import Tirexs.Search
         import Tirexs.Query
         require Tirexs.Query.Filter
-        search [index: esindex, fields: []] do
+        search [index: esindex] do
           query do
             filtered do
               query do
                 match_all([])
               end
               filter do
-                bool do
-                  must do
-                    terms "name", [word]
-                  end
-                end
+                term "name", word
               end
             end
           end

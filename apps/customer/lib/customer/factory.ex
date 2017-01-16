@@ -12,9 +12,9 @@ defmodule Customer.Factory do
     %Customer.Job{
       company: build(:company),
       area: build(:area),
-      title: "title",
       job_title: "job_title",
-      url: "http://google.com"
+      title: %{"value" => "title"},
+      url: %{"value": "http://google.com"}
     }
   end
 
@@ -45,6 +45,13 @@ defmodule Customer.Factory do
      %Customer.TechKeyword{
        name: sequence(:name, &"keyword#{&1}"),
        type: "hoge"
+     }
+  end
+
+  def job_tech_keyword_factory do
+     %Customer.JobTechKeyword{
+       job: build(:job),
+       tech_keyword: build(:tech_keyword)
      }
   end
 

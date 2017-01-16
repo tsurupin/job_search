@@ -5,11 +5,10 @@ defmodule Customer.Repo.Migrations.CreateJob do
     create table(:jobs) do
       add :company_id, references(:companies, on_delete: :delete_all), null: false
       add :area_id, references(:areas, on_delete: :nilify_all), null: false
-      add :title, :string, null: false
-      add :job_title, :string
-      add :url, :string, null: false
-
-      add :detail, :text
+      add :job_title, :string, null: false
+      add :url, :map, null: false
+      add :title, :map, null: false
+      add :detail, :map
 
       timestamps()
     end
