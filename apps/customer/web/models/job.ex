@@ -17,7 +17,7 @@ defmodule Customer.Job do
     field :priority, :integer, virtual: true
     timestamps
   end
-  
+
   @required_fields [:company_id, :area_id, :job_title, :title, :url]
   @optional_fields [:job_title, :detail]
 
@@ -61,7 +61,7 @@ defmodule Customer.Job do
       company_name: model.company.name,
       area_name: model.area.name,
       techs: Enum.map(model.tech_keywords, &(&1.name)),
-      updated_at: Timex.format!(model.updated_at, "%Y%m%d%H%M%S%f", :strftime)
+      updated_time: Timex.format!(model.updated_at, "%Y%m%d%H%M%S%f", :strftime)
     ]
   end
 
@@ -95,10 +95,12 @@ defmodule Customer.Job do
     end
   end
 
+
+
   defp build_default_query(offset, per_page) do
     import Tirexs.Search
     require Tirexs.Query.Filter
-    search [index: esindex, fields: [], from: offset, size: per_page] do
+    search [index: esindex] do
       query do
         filtered do
           query do
@@ -109,14 +111,16 @@ defmodule Customer.Job do
     end
   end
 
-  defp add_filter_query(query, params) when is_nil(params), do: query
+
+  defp add_filter_query(query, %{}), do: query
   defp add_filter_query(query, params) do
      put_in query, [:search, :query, :filtered, :filter], Es.Filter.Job.perform(params)
   end
 
+
   defp add_sort_query(query, sort) when is_nil(sort), do: query
   defp add_sort_query(query, sort) do
-     put_in query, [:search, :sort], Es.Sort.perform(%{updated_at: :desc})
+     put_in query, [:search, :sort], Es.Sort.perform(sort)
   end
 
   defp es_logging(query) do

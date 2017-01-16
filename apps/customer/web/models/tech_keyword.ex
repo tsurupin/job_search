@@ -71,9 +71,9 @@ defmodule Customer.TechKeyword do
               query do
                 match_all([])
               end
-              filter do
-                term "name", word
-              end
+              # filter do
+              #   term "name", word
+              # end
             end
           end
         end

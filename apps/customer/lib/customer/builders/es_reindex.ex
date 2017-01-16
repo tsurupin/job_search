@@ -2,9 +2,7 @@ defmodule Customer.Builders.EsReindex do
 
   @models [:tech_keyword, :job]
   def perform do
-    #
-      Enum.each(@models, &(reindex(&1)))
-    #end
+    Enum.each(@models, &(reindex(&1)))
   end
 
   def reindex(:tech_keyword), do: reindex Customer.TechKeyword
