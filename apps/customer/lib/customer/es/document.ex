@@ -2,7 +2,6 @@ defmodule Customer.Es.Document do
   import Tirexs.Bulk
   alias Customer.Es
   alias Customer.Blank
-  require IEx
 
   def put_document([]), do: :error
   def put_document(records) when is_list(records) do
@@ -60,10 +59,6 @@ defmodule Customer.Es.Document do
   end
 
   defp change_document(type, records, name, model) do
-    IO.inspect records
-    IO.inspect name
-    IO.inspect model
-    #IEx.pry
     records
     |> Stream.map(&model.es_search_data(&1))
     |> Stream.filter(fn item -> !Blank.blank?(item) end)
@@ -72,10 +67,14 @@ defmodule Customer.Es.Document do
       payload =
         bulk do
           case type do
-            :index -> index index_and_type_name(model, name), data
-            :delete -> delete index_and_type_name(model, name), data
+            :index ->
+              IO.inspect "------------------------"
+              IO.inspect data
+              index(index_and_type_name(model, name), data)
+            :delete -> delete(index_and_type_name(model, name), data)
           end
         end
+        IO.inspect payload
       Tirexs.bump!(payload)._bulk({[refresh: true]})
     end)
     |> Stream.run

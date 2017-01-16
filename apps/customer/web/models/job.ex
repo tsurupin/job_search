@@ -17,6 +17,7 @@ defmodule Customer.Job do
     field :priority, :integer, virtual: true
     timestamps
   end
+  
   @required_fields [:company_id, :area_id, :job_title, :title, :url]
   @optional_fields [:job_title, :detail]
 
@@ -32,8 +33,8 @@ defmodule Customer.Job do
   end
 
   def find_or_initialize_by(company_id, area_id, job_title) do
-    case Repo.get_by(Job, company_id: company_id, area_id: area_id, job_title: job_title) do
-      nil -> %Job{company_id: company_id, area_id: area_id, job_title: job_title}
+    case Repo.get_by(__MODULE__, company_id: company_id, area_id: area_id, job_title: job_title) do
+      nil -> %__MODULE__{company_id: company_id, area_id: area_id, job_title: job_title}
       job -> job
     end
   end
@@ -46,9 +47,8 @@ defmodule Customer.Job do
   end
 
   def get_with_associations!(id) do
-    Repo.get!(__MODULE__, id, preload: [:area, :company, :tech_keywords])
+    Repo.one!(from(j in __MODULE__, where: j.id == ^id, preload: [:area, :company, :tech_keywords]))
   end
-
 
   # for elastic search
 
@@ -57,11 +57,11 @@ defmodule Customer.Job do
     [
       id: model.id,
       job_title: model.job_title,
-      detail: model.detail.value,
+      detail: Map.get(model.detail, "value"),
       company_name: model.company.name,
       area_name: model.area.name,
       techs: Enum.map(model.tech_keywords, &(&1.name)),
-      updated_at: model.updated_at
+      updated_at: Timex.format!(model.updated_at, "%Y%m%d%H%M%S%f", :strftime)
     ]
   end
 
@@ -97,7 +97,6 @@ defmodule Customer.Job do
 
   defp build_default_query(offset, per_page) do
     import Tirexs.Search
-    import Tirexs.Query
     require Tirexs.Query.Filter
     search [index: esindex, fields: [], from: offset, size: per_page] do
       query do

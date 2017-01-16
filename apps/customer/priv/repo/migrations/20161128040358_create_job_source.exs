@@ -8,7 +8,7 @@ defmodule Customer.Repo.Migrations.CreateJobSource do
       add :job_title, :string
       add :title, :string, null: false
       add :url, :string, null: false
-      add :detail, :string
+      add :detail, :text
       add :source, :string
       add :priority, :integer, default: 0
       timestamps()
