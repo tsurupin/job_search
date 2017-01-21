@@ -2,7 +2,7 @@ defmodule Customer.Job do
   use Customer.Web, :model
   use Customer.Es
   alias Customer.Repo
-  alias Customer.{TechKeyword, Company, Area, Job, JobTechKeyword, UserInterest}
+  alias Customer.{TechKeyword, Company, Area, JobTechKeyword, UserInterest}
 
   schema "jobs" do
     many_to_many :tech_keywords, TechKeyword, join_through: JobTechKeyword
@@ -56,11 +56,12 @@ defmodule Customer.Job do
     model = get_with_associations!(model.id)
     [
       id: model.id,
-      job_title: model.job_title,
-      detail: Map.get(model.detail, "value"),
-      company_name: model.company.name,
-      area_name: model.area.name,
-      techs: Enum.map(model.tech_keywords, &(&1.name)),
+      title: String.downcase(model.title),
+      job_title: String.downcase(model.job_title),
+      detail: String.downcase(Map.get(model.detail, "value")),
+      company_name: String.downcase(model.company.name),
+      area_name: String.downcase(model.area.name),
+      techs: Enum.map(model.tech_keywords, &(String.downcase(&1.name))),
       updated_time: Timex.format!(model.updated_at, "%Y%m%d%H%M%S%f", :strftime)
     ]
   end
@@ -95,8 +96,6 @@ defmodule Customer.Job do
     end
   end
 
-
-
   defp build_default_query(offset, per_page) do
     import Tirexs.Search
     require Tirexs.Query.Filter
@@ -112,19 +111,19 @@ defmodule Customer.Job do
   end
 
 
-  defp add_filter_query(query, %{}), do: query
+  defp add_filter_query(query, nil), do: query
   defp add_filter_query(query, params) do
      put_in query, [:search, :query, :filtered, :filter], Es.Filter.Job.perform(params)
   end
 
-
-  defp add_sort_query(query, sort) when is_nil(sort), do: query
+  defp add_sort_query(query, nil), do: query
   defp add_sort_query(query, sort) do
      put_in query, [:search, :sort], Es.Sort.perform(sort)
   end
 
   defp es_logging(query) do
     Es.Logger.ppdebug(query)
+    IO.inspect query
     query
   end
 

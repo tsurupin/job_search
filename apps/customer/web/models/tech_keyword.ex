@@ -2,7 +2,7 @@ defmodule Customer.TechKeyword do
   use Customer.Web, :model
   use Customer.Es
   alias Customer.Repo
-  alias Customer.{TechKeyword, JobTechKeyword, JobSourceTechKeyword}
+  alias Customer.{JobTechKeyword, JobSourceTechKeyword}
 
   schema "tech_keywords" do
     has_many :job_source_tech_keywords, JobSourceTechKeyword
@@ -57,13 +57,12 @@ defmodule Customer.TechKeyword do
     Es.Schema.TechKeyword.completion(index)
   end
 
-  def es_search(word) when is_nil(word), do: nil
+  def es_search(nil), do: nil
   def es_search(word) do
     word = String.downcase(word)
     result =
       Tirexs.DSL.define fn ->
         import Tirexs.Search
-        import Tirexs.Query
         require Tirexs.Query.Filter
         search [index: esindex] do
           query do
@@ -71,9 +70,9 @@ defmodule Customer.TechKeyword do
               query do
                 match_all([])
               end
-              # filter do
-              #   term "name", word
-              # end
+              filter do
+                term "name", word
+              end
             end
           end
         end

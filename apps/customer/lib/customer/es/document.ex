@@ -67,14 +67,10 @@ defmodule Customer.Es.Document do
       payload =
         bulk do
           case type do
-            :index ->
-              IO.inspect "------------------------"
-              IO.inspect data
-              index(index_and_type_name(model, name), data)
+            :index -> index(index_and_type_name(model, name), data)
             :delete -> delete(index_and_type_name(model, name), data)
           end
         end
-        IO.inspect payload
       Tirexs.bump!(payload)._bulk({[refresh: true]})
     end)
     |> Stream.run
