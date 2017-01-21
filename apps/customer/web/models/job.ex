@@ -74,7 +74,7 @@ defmodule Customer.Job do
   end
 
   def es_search, do: es_search(nil, [])
-  def es_search(params), do: es_search(params, [])
+  def es_search(params), do: es_search(params, %[])
   def es_search("", options), do: es_search(nil, options)
 
   def es_search(params, options) do
@@ -123,7 +123,6 @@ defmodule Customer.Job do
 
   defp es_logging(query) do
     Es.Logger.ppdebug(query)
-    IO.inspect query
     query
   end
 
