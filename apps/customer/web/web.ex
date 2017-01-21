@@ -35,7 +35,7 @@ defmodule Customer.Web do
       import Ecto
       import Ecto.Query
 
-      import Customer.Router.Helpers
+      # import Customer.Router.Helpers
       import Customer.Gettext
     end
   end

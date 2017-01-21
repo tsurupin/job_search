@@ -20,4 +20,12 @@ defmodule Customer.User do
     |> cast(params, [:first_name, :last_name, :email, :passowrd_hash])
     |> validate_required([:first_name, :last_name, :email, :passowrd_hash])
   end
+
+  # def find_and_confirm_password(%{"email" => email, "password" => password }) do
+  #   if Repo.find_by(__MODULE__, email: email, password: password) do
+  #   else
+  #
+  #   end
+  # end
+
 end

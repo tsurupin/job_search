@@ -14,7 +14,7 @@ defmodule Customer.Auth.Plug.LoginRequried do
 
   defp current_user(conn, _opts) do
     case GuardianPlug.current_resource(conn) do
-      %User{} = user -> user
+      user -> user
       _ -> false
     end
   end

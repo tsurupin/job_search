@@ -14,6 +14,11 @@ defmodule Customer.Router do
 
   end
 
+  # pipeline :api_auth do
+  #   plug Guardian.Plug.VerifyHelper, realm: "Bearer"
+  #   plug Guardian.Plug.LoadResource
+  # end
+
   scope "/", Customer do
     pipe_through :browser # Use the default browser stack
 
@@ -22,6 +27,7 @@ defmodule Customer.Router do
 
   scope "/api/", Customer do
     pipe_through :api
+
 
     # get "/:provider", AuthController, :request
     # get "/:provider/callback", AuthController, :callback

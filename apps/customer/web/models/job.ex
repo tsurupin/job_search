@@ -74,7 +74,7 @@ defmodule Customer.Job do
   end
 
   def es_search, do: es_search(nil, [])
-  def es_search(params), do: es_search(params, %[])
+  def es_search(params), do: es_search(params, [])
   def es_search("", options), do: es_search(nil, options)
 
   def es_search(params, options) do

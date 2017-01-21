@@ -1,5 +1,4 @@
-
-defmodule Customer.Authp.Plug.AssignUser do
+defmodule Customer.Auth.Plug.AssignUser do
    import Plug.Conn
    alias Customer.User
 
