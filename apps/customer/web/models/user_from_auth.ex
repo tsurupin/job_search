@@ -2,51 +2,56 @@ defmodule UserFromAuth do
   @moduledoc """
   Retrieve the user information from a auth request
   """
-
+  alias Customer.Repo
+  alias Customer.{User, Authorization}
   alias Ueberauth.Auth
 
-  def find_or_Create(%Auth{provider: :identity} = auth) do
-    case validate_pass(auth.credentials) do
-      :ok ->
-        {:ok, basic_info(auth)}
+  def get_or_create(auth, current_user) do
+    case validate_auth(auth) do
+      {:error, :not_found} -> register_user_from_auth(current_user, auth)
+      {:error, reason} -> {:error, reason}
+      authorization ->
+        if Authorization.expired?(authorization) do
+          replace_authorization(authorization, auth, current_user)
+        else
+          Authorization.get_user_by(authorization, current_user)
+        end
+    end
+  end
+
+  defp register_user_from_auth(current_user, auth) do
+    case Repo.transaction(fn ->
+      user = current_user || User.get_or_create_by!(auth)
+      Authorization.create_by!(user, auth)
+      {:ok. user}
+    end) do
+      {:ok, user} -> {:ok. user}
       {:error, reason} -> {:error, reason}
     end
   end
 
-  def find_or_create(%Auth{} = auth) do
-    {:ok, basic_info(auth)}
-  end
-
-  defp basic_info(auth) do
-    %{id: auth.uid, name: name_from_auth(auth)}
-  end
-
-  defp name_from_auth(auth) do
-    if auth.info.name do
-      auth.info.name
-    else
-      name = [auth.info.first_name, auth.info.last_name]
-      |> Enum.filter(&(&1 != nil && &1 != ""))
-
-      if Enum.empty?(name) do
-        auth.info.nickname
-      else
-        Enum.join(name, " ")
-      end
+  defp replace_authorization(authorization, auth, current_user) do
+    case Authorization.get_user_by(authorization, current_user) do
+      {:error, reason} -> {:error, reason}
+      {:ok, user} ->
+        case Authorization.reset_authorization(authorization, user, auth) do
+          {:ok, _authorization} -> {:ok, user}
+          {:error, reason} -> {:error, reason}
+        end
     end
   end
 
-  defp validate_pass(%{other: %{password: ""}}) do
-    {:error, "Password required"}
+  defp validate_auth(%{provider: provider, uid: auth_uid} = auth) when provider in [:google] do
+    case Repo.get_by(Authorization, uid: auth_uid, provider: to_string(provider)) do
+      {:ok, authorization} ->
+        if authorization.uid == auth_uid do
+          authorization
+        else
+          {:error, :uid_mismatch}
+        end
+      _ ->
+        {:error, :not_found}
+    end
   end
 
-  defp validate_pass(%{other: %{password: pw, password_confirmation: pw}}) do
-    :ok
-  end
-
-  defp validate_pass(%{other: %{password: _}}) do
-    {:error, "Password do not match"}
-  end
-
-  defp validate_pass(_), do: {:error, "Password required"}
 end

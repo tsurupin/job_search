@@ -22,15 +22,44 @@ defmodule Customer.User do
   """
   def changeset(model \\ %__MODULE__{}, params \\ %{}) do
     model
-    |> cast(params, @reuiqred_fields ++ @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
   end
 
-  # def find_and_confirm_password(%{"email" => email, "password" => password }) do
-  #   if Repo.find_by(__MODULE__, email: email, password: password) do
-  #   else
-  #
-  #   end
-  # end
+  def registration_changeset(model \\ %__MODULE__{}, params \\ %{}) do
+    model
+    |> cast(params, @required_fields)
+    |> validate_required(@required_fields)
+  end
+
+  def get_or_create_by!(auth) do
+    case Repo.get_by(User, email: auth.info.email) do
+      nil -> create_by!(auth)
+      user -> user
+    end
+  end
+
+  def create_by!(auth) do
+    name = name_from_auth(auth)
+    user =
+      registration_changeset(%__MODULE__{}, %{email: auth.info.email, name: name})
+      |> Repo.insert!
+    {:ok, user}
+  end
+
+  defp name_from_auth(auth) do
+    if auth.info.name do
+      auth.info.name
+    else
+      name = [auth.info.first_name, auth.info.last_name]
+      |> Enum.filter(&(&1 != nil && &1 != ""))
+
+      if Enum.empty?(name) do
+        auth.info.nickname
+      else
+        Enum.join(name, " ")
+      end
+    end
+  end
 
 end
