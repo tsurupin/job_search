@@ -20,12 +20,17 @@ defmodule Customer.Mixfile do
   # Configuration for the OTP application.
   #
   # Type `mix help compile.app` for more information.
+
   def application do
     [mod: {Customer, []},
-     applications: app_list]
+     applications: applications(Mix.env)]
   end
 
-  defp app_list do
+  defp applications(env) when env in [:test] do
+    applications(:default) ++ [:ex_machina]
+  end
+
+  defp applications(_) do
     [
       :phoenix,
       :phoenix_pubsub,
@@ -38,7 +43,6 @@ defmodule Customer.Mixfile do
       :postgrex,
       :ueberauth_google,
       :ex_aws,
-      :ex_machina,
       :hackney,
       :poison,
       :tirexs,
@@ -48,7 +52,7 @@ defmodule Customer.Mixfile do
       :timex,
       :exsentry,
       :timex_ecto,
-      :comonin
+      :comeonin
     ]
   end
 
@@ -74,7 +78,7 @@ defmodule Customer.Mixfile do
      {:dialyxir, "~> 0.3", only: :dev},
      {:envy, "~> 0.0.1"}, # env settings
      {:pact, "0.1.0"},
-     {:ex_machina, "~> 1.0"}, # factory for elixir
+     {:ex_machina, "~> 1.0", only: :test}, # factory for elixir
      {:exgravatar, "~> 0.2", only: :dev}, # dummy image url
      {:csv, "~> 1.4.2"},
      {:ueberauth_google, "~> 0.4"},
@@ -88,6 +92,8 @@ defmodule Customer.Mixfile do
      {:wallaby, "~> 0.5", only: :test},
      {:timex, "~> 3.0"},
      {:timex_ecto, "~> 3.0"},
+     {:guardian, "~> 0.14"},
+     {:guardian_db, "~> 0.7"},
      {:tirexs, "~> 0.8"}, # for elastic search,
      {:exsentry, "~> 0.7"}, # error report,
      {:bamboo, github: "thoughtbot/bamboo"},  # for mailer

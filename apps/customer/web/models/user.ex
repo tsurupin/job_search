@@ -1,24 +1,29 @@
 defmodule Customer.User do
   use Customer.Web, :model
-  alias Customer.{UserInterest}
+  alias Customer.{UserInterest, Authorization}
 
   schema "users" do
     has_many :user_interessts, UserInterest
-    field :first_name, :string
-    field :last_name, :string
+    has_many :authorizations,  Authorization
+    field :name, :string
     field :email, :string
-    field :passowrd_hash, :string
+    field :is_admin, :boolean
+
+
 
     timestamps
   end
 
+  @required_fields ~w(email name)a
+  @optional_fields ~w(is_admin)a
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
-  def changeset(struct  \\ %__MODULE__{}, params \\ %{}) do
-    struct
-    |> cast(params, [:first_name, :last_name, :email, :passowrd_hash])
-    |> validate_required([:first_name, :last_name, :email, :passowrd_hash])
+  def changeset(model \\ %__MODULE__{}, params \\ %{}) do
+    model
+    |> cast(params, @reuiqred_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
   # def find_and_confirm_password(%{"email" => email, "password" => password }) do

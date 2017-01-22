@@ -1,12 +1,6 @@
 defmodule Customer.Auth.User do
   alias Customer.Repo
-  alias Customer.USer
-
-  alias Comonin.Obkf
-end
-defmodule Exantenna.Auth.User do
-  alias Exantenna.Repo
-  alias Exantenna.User
+  alias Customer.User
 
   alias Comeonin.Pbkdf2
 
@@ -38,7 +32,7 @@ defmodule Exantenna.Auth.User do
   end
 
   def auths(nil), do: []
-  def auths(%Exantenna.User{} = user) do
+  def auths(user) do
     Ecto.Model.assoc(user, :authorizations)
       |> Repo.all
       |> Enum.map(&(&1.provider))
