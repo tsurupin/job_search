@@ -24,17 +24,16 @@ defmodule Customer.Router do
     get "/", PageController, :index
   end
 
-  scope "/api/auth", Customer do
-    pipe_through [:api]
+  scope "/auth", Customer do
+    pipe_through [:browser]
 
     get "/:provider", AuthController, :login
     get "/:provider/callback", AuthController, :callback
+    delete "/", AuthController, :delete, as: :logout
   end
 
   scope "/api/", Customer do
     pipe_through [:api, :api_auth]
-    get "/login", SessionController, :new, as: :login
-    get "/logout", SessionController, :delete, as: :logout
 
     resources "/companies", CompanyController
   end

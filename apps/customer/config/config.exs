@@ -31,6 +31,7 @@ config :ueberauth, Ueberauth.Strategy.Google.OAuth,
   client_id: System.get_env("GOOGLE_CLIENT_ID"),
   client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
 
+
 config :guardian, Guardian,
 issuer: "Customer.#{Mix.env}",
 ttl: {30, :days },

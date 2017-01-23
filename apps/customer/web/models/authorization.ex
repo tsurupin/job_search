@@ -27,6 +27,10 @@ defmodule Customer.Authorization do
     |> unique_constraint(:provider_uid)
   end
 
+  def current_auth(user_id) do
+     Repo.one(last(from a in __MODULE__, where: a.user_id = ^user_id))
+  end
+
   def expired?(authorization) do
      authorization.expired_at && authorization.expired_at < Guardian.Utils.timestamp
   end
