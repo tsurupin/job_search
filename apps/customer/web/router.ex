@@ -14,7 +14,8 @@ defmodule Customer.Router do
   end
 
   pipeline :api_auth do
-    plug Guardian.Plug.VerifyHelper, realm: "Bearer"
+    #plug Guardian.Plug.VerifyHelper, realm: "Bearer"
+    plug Guardian.Plug.VerifyHeader
     plug Guardian.Plug.LoadResource
   end
 
@@ -24,18 +25,22 @@ defmodule Customer.Router do
     get "/", PageController, :index
   end
 
-  scope "/auth", Customer do
-    pipe_through [:browser]
 
-    get "/:provider", AuthController, :login
-    get "/:provider/callback", AuthController, :callback
-    delete "/", AuthController, :delete, as: :logout
-  end
 
-  scope "/api/", Customer do
+  scope "/api", Customer do
     pipe_through [:api, :api_auth]
 
-    resources "/companies", CompanyController
+    scope "/v1", Customer do
+      scope "/auth", Customer do
+
+        get "/:provider", AuthController, :login
+        get "/:provider/callback", AuthController, :callback
+        delete "/", AuthController, :delete, as: :logout
+      end
+
+      resources "/companies", CompanyController
+    end
+
   end
 
   # Other scopes may use custom stacks.

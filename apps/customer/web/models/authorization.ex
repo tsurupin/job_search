@@ -28,7 +28,7 @@ defmodule Customer.Authorization do
   end
 
   def current_auth(user_id) do
-     Repo.one(last(from a in __MODULE__, where: a.user_id = ^user_id))
+     Repo.one(last(from a in __MODULE__, where: a.user_id == ^user_id))
   end
 
   def expired?(authorization) do

@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+//const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const stopUglifyJSWarnings = new webpack.optimize.UglifyJsPlugin({
@@ -11,15 +11,15 @@ const stopUglifyJSWarnings = new webpack.optimize.UglifyJsPlugin({
 
 const ROOT_PATH = path.resolve(__dirname);
 
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: __dirname + '/src/index.html',
-  filename: 'index.html',
-  inject: 'body'
-});
+// const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+//   template: __dirname + '/web/static/index.html',
+//   filename: 'index.html',
+//   inject: 'body'
+// });
 
 const PATHS = {
-  app: path.join(__dirname, 'src'),
-  build:path.join(__dirname, 'priv/static/js')
+  app: path.join(__dirname, 'web/static/js/index.js'),
+  build:path.join(__dirname, 'web/static/js')
 };
 
 const LAUNCH_COMMAND = process.env.npm_lifecycle_event;
@@ -35,12 +35,12 @@ const productionPlugin = new webpack.DefinePlugin({
 });
 
 const copyWebpackPlugin = new CopyWebpackPlugin([
-  { from: 'src/images', to: 'priv/static/images' }
+  { from: 'web/static/images', to: 'priv/static/images' }
 ], {
   copyUnmodified: true
 });
 
-const config = {
+const base = {
   entry: [
     PATHS.app
   ],
@@ -61,12 +61,12 @@ const config = {
       modulesDirectories: ['node_modules'],
       extensions: ['', '.js', 'css'],
       alias: {
-        components: path.resolve(ROOT_PATH, 'src/components'),
-        containers: path.resolve(ROOT_PATH, 'src/containers'),
-        pages: path.resolve(ROOT_PATH, 'src/pages'),
-        constants: path.resolve(ROOT_PATH, 'src/constants'),
-        utils: path.resolve(ROOT_PATH, 'src/utils'),
-        indexDatabases: path.resolve(ROOT_PATH, 'src/indexDatabases')
+        components: path.resolve(ROOT_PATH, 'web/static/components'),
+        containers: path.resolve(ROOT_PATH, 'web/static/containers'),
+        pages: path.resolve(ROOT_PATH, 'web/static/pages'),
+        constants: path.resolve(ROOT_PATH, 'web/static/constants'),
+        utils: path.resolve(ROOT_PATH, 'web/static/utils'),
+        indexDatabases: path.resolve(ROOT_PATH, 'web/static/indexDatabases')
       }
     },
     devServer: {
@@ -76,12 +76,12 @@ const config = {
 
   const developmentConfig = {
     evtool: 'cheap-module-inline-source-map',
-    plugins: [HtmlWebpackPluginConfig, copyWebpackPlugin]
+    plugins: [copyWebpackPlugin]
   };
 
   const productionConfig = {
     devtool: 'cheap-module-source-map',
-    plugins: [HtmlWebpackPluginConfig, productionPlugin, copyWebpackPlugin, stopUglifyJSWarnings]
+    plugins: [productionPlugin, copyWebpackPlugin, stopUglifyJSWarnings]
   };
 
   module.exports = Object.assign({}, base, isProduction ? productionConfig : developmentConfig );

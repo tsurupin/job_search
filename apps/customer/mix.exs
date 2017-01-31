@@ -26,10 +26,6 @@ defmodule Customer.Mixfile do
      applications: applications(Mix.env)]
   end
 
-  defp applications(env) when env in [:test] do
-    applications(:default) ++ [:ex_machina]
-  end
-
   defp applications(_) do
     [
       :phoenix,
@@ -52,7 +48,8 @@ defmodule Customer.Mixfile do
       :timex,
       :exsentry,
       :timex_ecto,
-      :comeonin
+      :comeonin,
+      :ex_machina
     ]
   end
 
@@ -78,7 +75,7 @@ defmodule Customer.Mixfile do
      {:dialyxir, "~> 0.3", only: :dev},
      {:envy, "~> 0.0.1"}, # env settings
      {:pact, "0.1.0"},
-     {:ex_machina, "~> 1.0", only: :test}, # factory for elixir
+     {:ex_machina, "~> 1.0"}, # factory for elixir
      {:exgravatar, "~> 0.2", only: :dev}, # dummy image url
      {:csv, "~> 1.4.2"},
      {:ueberauth_google, "~> 0.4"},

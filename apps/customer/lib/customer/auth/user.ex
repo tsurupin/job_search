@@ -17,25 +17,24 @@ defmodule Customer.Auth.User do
     end
   rescue
     _e in MatchError ->
-      {:error, :not_found}
+    {:error, :not_found}
     _e in ArgumentError ->
-      {:error, :not_found}
+    {:error, :not_found}
   end
 
-  def enabled_password?(password, encrypted_password) do
-    Pbkdf2.checkpw(password, encrypted_password)
+  def enabled_password?(password, encrypted_passowrd) do
+    Pbkdf2.checkpw(password, encrypted_passowrd)
   rescue
     _e in MatchError ->
-      false
+    false
     _e in ArgumentError ->
-      false
+    false
   end
 
   def auths(nil), do: []
-  def auths(user) do
+  def auths(%User{} = user) do
     Ecto.Model.assoc(user, :authorizations)
-      |> Repo.all
-      |> Enum.map(&(&1.provider))
+    |> Repo.all
+    |> Enum.map(&(&1.provider))
   end
-
 end
