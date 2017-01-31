@@ -30,12 +30,15 @@ defmodule Customer.Web do
   def controller do
     quote do
       use Phoenix.Controller
+      use Guardian.Phoenix.Controller
+      alias Guardian.Plug.EnsureAuthenticated
+      alias Guardian.Plug.EnsurePermissions
 
       alias Customer.Repo
       import Ecto
       import Ecto.Query
 
-      import Customer.Router.Helpers
+      # import Customer.Router.Helpers
       import Customer.Gettext
     end
   end

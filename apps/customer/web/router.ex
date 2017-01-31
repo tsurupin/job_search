@@ -11,7 +11,12 @@ defmodule Customer.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
 
+  pipeline :api_auth do
+    #plug Guardian.Plug.VerifyHelper, realm: "Bearer"
+    plug Guardian.Plug.VerifyHeader
+    plug Guardian.Plug.LoadResource
   end
 
   scope "/", Customer do
@@ -20,13 +25,21 @@ defmodule Customer.Router do
     get "/", PageController, :index
   end
 
-  scope "/api/", Customer do
-    pipe_through :api
 
-    # get "/:provider", AuthController, :request
-    # get "/:provider/callback", AuthController, :callback
 
-    resources "/companies", CompanyController
+  scope "/api", Customer do
+    pipe_through [:api, :api_auth]
+
+    scope "/v1", Customer do
+      scope "/auth", Customer do
+
+        get "/:provider", AuthController, :login
+        get "/:provider/callback", AuthController, :callback
+        delete "/", AuthController, :delete, as: :logout
+      end
+
+      resources "/companies", CompanyController
+    end
 
   end
 

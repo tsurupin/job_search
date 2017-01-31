@@ -31,6 +31,27 @@ config :ueberauth, Ueberauth.Strategy.Google.OAuth,
   client_id: System.get_env("GOOGLE_CLIENT_ID"),
   client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
 
+
+config :guardian, Guardian,
+issuer: "Customer.#{Mix.env}",
+ttl: {30, :days },
+verify_issuer: true,
+serializer: Customer.Auth.GuardianSerializer,
+secret_key: to_string(Mix.env),
+hooks: GuardianDb,
+permissions: %{
+  default: [
+    :read_profile,
+    :write_profile,
+    :read_token,
+    :revoke_token
+  ],
+}
+
+config :guardian_db, GuardianDb,
+repo: Customer.Repo,
+sweep_interval: 60
+
 config :arc,
   storage: Arc.Storage.S3,
   bucket: {:system, "AWS_S3_BUCKET"}

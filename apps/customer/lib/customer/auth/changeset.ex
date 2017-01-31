@@ -5,7 +5,7 @@ defmodule Customer.Auth.Changeset do
     password = Changeset.get_filed(changeset, String.to_atom("#{field}"))
     encrypted_password = Changeset.get_field(changeset, String.to_atom("encrypted_#{field}"))
 
-    if Custoemr.Auth.User.enabled_apswword?(password, encrypted_password) do
+    if Customer.Auth.User.enabled_apswword?(password, encrypted_password) do
       changeset
     else
       Changeset.add_error(changeset, field, "wrongs")

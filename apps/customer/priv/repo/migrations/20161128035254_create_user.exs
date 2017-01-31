@@ -3,14 +3,12 @@ defmodule Customer.Repo.Migrations.CreateUser do
 
   def change do
     create table(:users) do
-      add :first_name, :string, null: false
-      add :last_name, :string
+      add :name, :string, null: false
       add :email, :string, null: false
-      add :password_hash, :string, null: false
+      add :is_admin, :boolean, default: false
 
       timestamps()
     end
-    create index(:users, [:email, :password_hash], unique: true)
 
   end
 end

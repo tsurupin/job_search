@@ -44,18 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	(function webpackMissingModule() { throw new Error("Cannot find module \"/Users/tomoakitsuruta/job_search/apps/customer/web/static/index.js\""); }());
 
-
-/***/ },
-/* 1 */
-/***/ function(module, exports) {
-
-	import React from 'react';
-	import { render } from 'react-dom';
-	//import routes from './routes';
-
-	render(routes, document.getElementById('app'));
 
 /***/ }
 /******/ ]);
