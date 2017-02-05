@@ -18,8 +18,8 @@ const ROOT_PATH = path.resolve(__dirname);
 // });
 
 const PATHS = {
-  app: path.join(__dirname, 'web/static/js/index.js'),
-  build:path.join(__dirname, 'web/static/js')
+  app: path.join(__dirname, './web/static/js/index.js'),
+  build:path.join(__dirname, './priv/static/js')
 };
 
 const LAUNCH_COMMAND = process.env.npm_lifecycle_event;
@@ -57,16 +57,15 @@ const base = {
       ]
     },
     resolve: {
-      root: path.resolve(__dirname, 'src'),
+      root: path.resolve(__dirname, '/web/static/js'),
       modulesDirectories: ['node_modules'],
       extensions: ['', '.js', 'css'],
       alias: {
-        components: path.resolve(ROOT_PATH, 'web/static/components'),
-        containers: path.resolve(ROOT_PATH, 'web/static/containers'),
-        pages: path.resolve(ROOT_PATH, 'web/static/pages'),
-        constants: path.resolve(ROOT_PATH, 'web/static/constants'),
-        utils: path.resolve(ROOT_PATH, 'web/static/utils'),
-        indexDatabases: path.resolve(ROOT_PATH, 'web/static/indexDatabases')
+        components: path.resolve(ROOT_PATH, 'web/static/js/components'),
+        containers: path.resolve(ROOT_PATH, 'web/static/js/containers'),
+        pages: path.resolve(ROOT_PATH, 'web/static/js/pages'),
+        constants: path.resolve(ROOT_PATH, 'web/static/js/constants'),
+        utils: path.resolve(ROOT_PATH, 'web/static/js/utils')
       }
     },
     devServer: {
