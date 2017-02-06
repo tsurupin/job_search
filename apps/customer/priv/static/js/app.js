@@ -28664,7 +28664,7 @@
 	var LOGOUT = exports.LOGOUT = (0, _constants.createRequestTypes)('LOGOUT');
 
 	var ROOT_PATH = '/api/v1/auth';
-	var LOGIN_PATH = exports.LOGIN_PATH = ROOT_PATH + '/google';
+	var LOGIN_PATH = exports.LOGIN_PATH = ROOT_PATH + '/google/callback';
 	var LOGOUT_PATH = exports.LOGOUT_PATH = ROOT_PATH;
 
 /***/ },
@@ -29305,6 +29305,10 @@
 	    return _this;
 	  }
 
+	  // componentWillMount() {
+	  //   this.props.actions.fetch_url();
+	  // }
+
 	  _createClass(HeaderContainer, [{
 	    key: 'handleLogin',
 	    value: function handleLogin(event) {
@@ -29371,10 +29375,21 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//
+	// export function fetch_url() {
+	//   const request = axios.get(REQUEST_PATH);
+	//   return dispatch => {
+	//     return request.then(response => {
+	//       console.log(response)
+	//     })
+	//   }
+	// }
+
 	function login() {
-	  var request = _axios2.default.get(_constants.LOGIN_PATH);
+	  var request = _axios2.default.post(_constants.LOGIN_PATH);
 	  return function (dispatch) {
 	    return request.then(function (response) {
+	      console.log(response);
 	      dispatch(loginSuccess(response.data));
 	    }).catch(function (error) {
 	      dispatch(loginFailure(error.data));

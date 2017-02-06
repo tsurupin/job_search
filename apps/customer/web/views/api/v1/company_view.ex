@@ -1,4 +1,4 @@
-defmodule Customer.Api.CompanyView do
+defmodule Customer.Api.V1.CompanyView do
   use Customer.Web, :view
 
   def index("index.json", %{companies: companies}) do

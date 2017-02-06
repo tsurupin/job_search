@@ -7,12 +7,22 @@ import {
 } from './constants';
 
 import axios from 'axios';
+//
+// export function fetch_url() {
+//   const request = axios.get(REQUEST_PATH);
+//   return dispatch => {
+//     return request.then(response => {
+//       console.log(response)
+//     })
+//   }
+// }
 
 export function login() {
-  const request = axios.get(LOGIN_PATH);
+  const request = axios.post(LOGIN_PATH);
   return dispatch => {
     return request
     .then(response => {
+      console.log(response)
         dispatch(loginSuccess(response.data))
     })
     .catch(error => {

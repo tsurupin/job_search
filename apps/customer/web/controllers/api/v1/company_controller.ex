@@ -1,4 +1,4 @@
-defmodule Customer.Api.CompanyController do
+defmodule Customer.Api.V1.CompanyController do
   use Customer.Web, :controller
   alias Customer.Conditions
 

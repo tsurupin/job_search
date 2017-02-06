@@ -1,14 +1,12 @@
-defmodule Customer.Api.AuthController do
+defmodule Customer.Api.V1.AuthController do
   @moduledoc """
   Auth controller responsible for handling Ueberauth response
   """
   use Customer.Web, :controller
   plug Ueberauth
-  plug Guardian.Plug.EnsureAuthenticated, %{ on_failure: { Customer.Api.SessionController, :new } } when not action in [:new, :callback]
+  #plug Guardian.Plug.EnsureAuthenticated when action in [:delete]
 
-  def new(conn, _params, current_user, _claims) do
-
-  end
+  alias Ueberauth.Strategy.Helpers
 
   def delete(conn, _params, current_user, _claims) do
     if current_user do
@@ -28,6 +26,9 @@ defmodule Customer.Api.AuthController do
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params, _current_user, _claims) do
+
+    IO.inspect auth
+
     case UserFromAuth.get_or_create(auth) do
       {:ok, user} ->
         { :ok, jwt, _full_claims } = Guardian.encode_and_sign(user, :api)

@@ -39,6 +39,10 @@ class HeaderContainer extends Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
+  // componentWillMount() {
+  //   this.props.actions.fetch_url();
+  // }
+
   handleLogin(event) {
     event.preventDefault();
     this.props.actions.login();

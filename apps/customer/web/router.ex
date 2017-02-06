@@ -1,5 +1,6 @@
 defmodule Customer.Router do
   use Customer.Web, :router
+  require Ueberauth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -15,8 +16,8 @@ defmodule Customer.Router do
 
   pipeline :api_auth do
     #plug Guardian.Plug.VerifyHelper, realm: "Bearer"
-    plug Guardian.Plug.VerifyHeader
-    plug Guardian.Plug.LoadResource
+    #plug Guardian.Plug.VerifyHeader
+    #plug Guardian.Plug.LoadResource
   end
 
   scope "/", Customer do
@@ -27,14 +28,15 @@ defmodule Customer.Router do
 
 
 
-  scope "/api", Customer do
+  scope "/api", Customer.Api do
     pipe_through [:api, :api_auth]
 
-    scope "/v1", Customer do
-      scope "/auth", Customer do
+    scope "/v1", V1 do
+      scope "/auth" do
 
-        get "/:provider", AuthController, :login
+        get "/:provider", AuthController, :request
         get "/:provider/callback", AuthController, :callback
+        post "/:provider/callback", AuthController, :callback
         delete "/", AuthController, :delete, as: :logout
       end
 
