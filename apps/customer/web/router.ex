@@ -1,6 +1,5 @@
 defmodule Customer.Router do
   use Customer.Web, :router
-  require Ueberauth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -24,6 +23,12 @@ defmodule Customer.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+
+    scope "/auth" do
+      get "/:provider", AuthController, :request
+      get "/:provider/callback", AuthController, :callback
+    end
+
   end
 
 
@@ -34,9 +39,6 @@ defmodule Customer.Router do
     scope "/v1", V1 do
       scope "/auth" do
 
-        get "/:provider", AuthController, :request
-        get "/:provider/callback", AuthController, :callback
-        post "/:provider/callback", AuthController, :callback
         delete "/", AuthController, :delete, as: :logout
       end
 

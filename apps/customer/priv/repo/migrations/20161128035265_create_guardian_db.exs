@@ -7,8 +7,8 @@ defmodule Customer.Repo.Migrations.CreateGuardianDb do
       add :aud, :string
       add :iss, :string
       add :sub, :string
-      add :exp, :string
-      add :jwt, :bigint
+      add :exp, :bigint
+      add :jwt, :text
       add :claims, :map
       add :typ, :string
 

@@ -3,10 +3,7 @@ defmodule Customer.Api.V1.AuthController do
   Auth controller responsible for handling Ueberauth response
   """
   use Customer.Web, :controller
-  plug Ueberauth
-  #plug Guardian.Plug.EnsureAuthenticated when action in [:delete]
-
-  alias Ueberauth.Strategy.Helpers
+  plug Guardian.Plug.EnsureAuthenticated
 
   def delete(conn, _params, current_user, _claims) do
     if current_user do
@@ -20,26 +17,4 @@ defmodule Customer.Api.V1.AuthController do
     end
   end
 
-  def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params, _current_user, _claims) do
-    conn
-    |> render("callback.json", %{error: "Failed to authenticate."})
-  end
-
-  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params, _current_user, _claims) do
-
-    IO.inspect auth
-
-    case UserFromAuth.get_or_create(auth) do
-      {:ok, user} ->
-        { :ok, jwt, _full_claims } = Guardian.encode_and_sign(user, :api)
-        conn
-        |> render("callback.json", %{message: "Successfully authenticated.", token: jwt})
-        #|> Guardian.Plug.sign_in(user)
-        #|> render("callback.json", %{message: "Successfully authenticated.", token: Authorization.current_auth(user.id)})
-
-      {:error, reason} ->
-        conn
-        |> render("callback.json", %{error: reason})
-    end
-  end
 end

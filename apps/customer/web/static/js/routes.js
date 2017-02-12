@@ -23,6 +23,7 @@ export default(
     >
     <Route path="/" component={ App } >
       <IndexRoute component={ Pages.IndexPage} />
+      <Route path="/auth/:provider/callback" component={Pages.AuthCallbackPage} />
     </Route>
     </Router>
   </Provider>

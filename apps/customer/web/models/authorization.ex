@@ -55,7 +55,7 @@ defmodule Customer.Authorization do
   end
 
   def create_by!(user, auth) do
-    Ecto.build_assoc(user, :authorizations)
+    build_assoc(user, :authorizations)
     |> changeset(build_attributes(auth))
     |> Repo.insert!
   end
@@ -66,7 +66,7 @@ defmodule Customer.Authorization do
       uid: auth.uid,
       token: auth.credentials.token,
       refresh_token: auth.credentials.refresh_token,
-      expired_at: auth.credentials.expired_at
+      expired_at: auth.credentials.expires_at
     }
   end
 
