@@ -21599,7 +21599,8 @@
 	    _react2.default.createElement(
 	      _reactRouter.Route,
 	      { path: '/', component: _App2.default },
-	      _react2.default.createElement(_reactRouter.IndexRoute, { component: Pages.IndexPage })
+	      _react2.default.createElement(_reactRouter.IndexRoute, { component: Pages.IndexPage }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/auth/:provider/callback', component: Pages.AuthCallbackPage })
 	    )
 	  )
 	);
@@ -28620,14 +28621,6 @@
 	  var action = arguments[1];
 
 	  switch (action.type) {
-	    case _constants.LOGIN.REQUEST:
-	      return _extends({}, state, { submitting: true });
-
-	    case _constants.LOGIN.SUCCESS:
-	      return _extends({}, state, { submitting: false });
-
-	    case _constants.LOGIN.FAILURE:
-	      return _extends({}, state, { submitting: false, errorMessage: action.payload.errorMessage });
 
 	    case _constants.LOGOUT.SUCCESS:
 	      return _extends({}, state);
@@ -28656,15 +28649,13 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.LOGOUT_PATH = exports.LOGIN_PATH = exports.LOGOUT = exports.LOGIN = undefined;
+	exports.LOGOUT_PATH = exports.LOGOUT = undefined;
 
 	var _constants = __webpack_require__(267);
 
-	var LOGIN = exports.LOGIN = (0, _constants.createRequestTypes)('LOGIN');
 	var LOGOUT = exports.LOGOUT = (0, _constants.createRequestTypes)('LOGOUT');
 
 	var ROOT_PATH = '/api/v1/auth';
-	var LOGIN_PATH = exports.LOGIN_PATH = ROOT_PATH + '/google';
 	var LOGOUT_PATH = exports.LOGOUT_PATH = ROOT_PATH;
 
 /***/ },
@@ -29106,15 +29097,20 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.IndexPage = undefined;
+	exports.AuthCallbackPage = exports.IndexPage = undefined;
 
 	var _IndexPage2 = __webpack_require__(274);
 
 	var _IndexPage3 = _interopRequireDefault(_IndexPage2);
 
+	var _AuthCallbackPage2 = __webpack_require__(309);
+
+	var _AuthCallbackPage3 = _interopRequireDefault(_AuthCallbackPage2);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.IndexPage = _IndexPage3.default;
+	exports.AuthCallbackPage = _AuthCallbackPage3.default;
 	// export ShowPage from './ShowPage';
 	// export FavoritePage from './FavoritePage';
 
@@ -29222,15 +29218,20 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.HeaderContainer = undefined;
+	exports.AuthCallbackContainer = exports.HeaderContainer = undefined;
 
 	var _HeaderContainer2 = __webpack_require__(278);
 
 	var _HeaderContainer3 = _interopRequireDefault(_HeaderContainer2);
 
+	var _AuthCallbackContainer2 = __webpack_require__(307);
+
+	var _AuthCallbackContainer3 = _interopRequireDefault(_AuthCallbackContainer2);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.HeaderContainer = _HeaderContainer3.default;
+	exports.AuthCallbackContainer = _AuthCallbackContainer3.default;
 
 /***/ },
 /* 278 */
@@ -29300,47 +29301,30 @@
 	      canSubmit: false
 	    };
 
-	    _this.handleLogin = _this.handleLogin.bind(_this);
-	    _this.handleLogout = _this.handleLogout.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(HeaderContainer, [{
-	    key: 'handleLogin',
-	    value: function handleLogin(event) {
-	      event.preventDefault();
-	      this.props.actions.login();
-	    }
-	  }, {
 	    key: 'handleLogout',
-	    value: function handleLogout(event) {
-	      event.preventDefault();
+	    value: function handleLogout() {
 	      this.props.actions.logout();
 	    }
-	  }, {
-	    key: 'renderButton',
-	    value: function renderButton() {
-	      if (localStorage.getItem('accesssToken')) {
-	        return _react2.default.createElement(
-	          'button',
-	          { type: 'submit', onClick: this.handleLogout },
-	          'Logout'
-	        );
-	      } else {
-	        return _react2.default.createElement(
-	          'button',
-	          { type: 'submit', onClick: this.handleLogin },
-	          'Login'
-	        );
-	      }
-	    }
+
+	    // renderButton() {
+	    //   if (localStorage.getItem('accesssToken')) {
+	    //     return <a href='/api/v1/auth/google'>LogIn</button>
+	    //   } else {
+	    //     return <button type='submit' onClick={this.handleLogin}>Login</button>
+	    //   }
+	    // }
+
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        'nav',
-	        null,
-	        this.renderButton()
+	        'a',
+	        { href: '/auth/google?scope=email' },
+	        'LogIn'
 	      );
 	    }
 	  }]);
@@ -29360,7 +29344,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.login = login;
 	exports.logout = logout;
 
 	var _constants = __webpack_require__(266);
@@ -29370,31 +29353,6 @@
 	var _axios2 = _interopRequireDefault(_axios);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function login() {
-	  var request = _axios2.default.get(_constants.LOGIN_PATH);
-	  return function (dispatch) {
-	    return request.then(function (response) {
-	      dispatch(loginSuccess(response.data));
-	    }).catch(function (error) {
-	      dispatch(loginFailure(error.data));
-	    });
-	  };
-	}
-
-	function loginSuccess(accessToken) {
-	  localStorage.setItem('accessToken', accessToken);
-	  return {
-	    type: _constants.LOGIN.SUCCESS
-	  };
-	}
-
-	function loginFailure(errorMessage) {
-	  return {
-	    type: _constants.LOGIN.FAILURE,
-	    payload: { errorMessage: errorMessage }
-	  };
-	}
 
 	function logout() {
 	  var request = _axios2.default.delete(_constants.LOGOUT_PATH);
@@ -30885,6 +30843,144 @@
 
 	// exports
 
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(235);
+
+	var _redux = __webpack_require__(242);
+
+	var _action = __webpack_require__(308);
+
+	var AuthCallbackActionCreators = _interopRequireWildcard(_action);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function mapDispatchToProps(dispatch) {
+	  return {
+	    actions: (0, _redux.bindActionCreators)(AuthCallbackActionCreators, dispatch)
+	  };
+	};
+
+	var AuthCallbackContainer = function (_Component) {
+	  _inherits(AuthCallbackContainer, _Component);
+
+	  function AuthCallbackContainer(props) {
+	    _classCallCheck(this, AuthCallbackContainer);
+
+	    return _possibleConstructorReturn(this, (AuthCallbackContainer.__proto__ || Object.getPrototypeOf(AuthCallbackContainer)).call(this, props));
+	  }
+
+	  _createClass(AuthCallbackContainer, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.actions.fetchToken(this.getCode());
+	    }
+	  }, {
+	    key: 'getCode',
+	    value: function getCode() {
+	      var searchPath = window.location.search;
+	      return searchPath.substr(6, searchPath.length);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement('div', null);
+	    }
+	  }]);
+
+	  return AuthCallbackContainer;
+	}(_react.Component);
+
+	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(AuthCallbackContainer);
+
+/***/ },
+/* 308 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.fetchToken = fetchToken;
+
+	var _reactRouter = __webpack_require__(180);
+
+	function fetchToken(token) {
+	  localStorage.setItem('token', token);
+	  _reactRouter.browserHistory.push('/');
+	  return {};
+	}
+
+/***/ },
+/* 309 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _containers = __webpack_require__(277);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var AuthCallbackPage = function (_Component) {
+	  _inherits(AuthCallbackPage, _Component);
+
+	  function AuthCallbackPage() {
+	    _classCallCheck(this, AuthCallbackPage);
+
+	    return _possibleConstructorReturn(this, (AuthCallbackPage.__proto__ || Object.getPrototypeOf(AuthCallbackPage)).apply(this, arguments));
+	  }
+
+	  _createClass(AuthCallbackPage, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_containers.AuthCallbackContainer, null);
+	    }
+	  }]);
+
+	  return AuthCallbackPage;
+	}(_react.Component);
+
+	exports.default = AuthCallbackPage;
 
 /***/ }
 /******/ ]);

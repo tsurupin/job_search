@@ -1,6 +1,7 @@
 defmodule Customer.User do
   use Customer.Web, :model
   alias Customer.{UserInterest, Authorization}
+  alias Customer.Repo
 
   schema "users" do
     has_many :user_interessts, UserInterest
@@ -8,8 +9,6 @@ defmodule Customer.User do
     field :name, :string
     field :email, :string
     field :is_admin, :boolean
-
-
 
     timestamps
   end
@@ -33,8 +32,12 @@ defmodule Customer.User do
   end
 
   def get_or_create_by!(auth) do
-    case Repo.get_by(User, email: auth.info.email) do
-      nil -> create_by!(auth)
+    case Repo.get_by(__MODULE__, email: auth.info.email) do
+      nil ->
+        case create_by!(auth) do
+          {:ok, user} -> user
+          {:error, error} -> error
+        end
       user -> user
     end
   end

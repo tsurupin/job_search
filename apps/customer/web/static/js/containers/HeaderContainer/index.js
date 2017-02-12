@@ -8,7 +8,6 @@ const propTypes = {
 
 }
 
-
 function mapStateToProps(response) {
   const { submitting, errorMessage } = response;
   return {
@@ -35,33 +34,23 @@ class HeaderContainer extends Component {
       canSubmit: false
     }
 
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleLogin(event) {
-    event.preventDefault();
-    this.props.actions.login();
-  }
-
-  handleLogout(event) {
-    event.preventDefault();
+  handleLogout() {
     this.props.actions.logout();
   }
 
-  renderButton() {
-    if (localStorage.getItem('accesssToken')) {
-      return <button type='submit' onClick={this.handleLogout}>Logout</button>
-    } else {
-      return <button type='submit' onClick={this.handleLogin}>Login</button>
-    }
-  }
+  // renderButton() {
+  //   if (localStorage.getItem('accesssToken')) {
+  //     return <a href='/api/v1/auth/google'>LogIn</button>
+  //   } else {
+  //     return <button type='submit' onClick={this.handleLogin}>Login</button>
+  //   }
+  // }
 
   render() {
     return (
-      <nav>
-        {this.renderButton()}
-      </nav>
+       <a href='/auth/google?scope=email'>LogIn</a>
     )
   }
 }

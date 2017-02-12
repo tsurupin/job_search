@@ -1,4 +1,4 @@
-defmodule UserFromAuth do
+defmodule Customer.Auth.Authorizer do
   @moduledoc """
   Retrieve the user information from a auth request
   """
@@ -6,7 +6,7 @@ defmodule UserFromAuth do
   alias Customer.{User, Authorization}
   alias Ueberauth.Auth
 
-  def get_or_create(auth, current_user) do
+  def get_or_create(auth, current_user \\ nil) do
     case validate_auth(auth) do
       {:error, :not_found} -> register_user_from_auth(current_user, auth)
       {:error, reason} -> {:error, reason}
@@ -23,9 +23,9 @@ defmodule UserFromAuth do
     case Repo.transaction(fn ->
       user = current_user || User.get_or_create_by!(auth)
       Authorization.create_by!(user, auth)
-      {:ok. user}
+      user
     end) do
-      {:ok, user} -> {:ok. user}
+      {:ok, user} -> {:ok, user}
       {:error, reason} -> {:error, reason}
     end
   end

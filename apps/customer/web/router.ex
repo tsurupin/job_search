@@ -15,26 +15,30 @@ defmodule Customer.Router do
 
   pipeline :api_auth do
     #plug Guardian.Plug.VerifyHelper, realm: "Bearer"
-    plug Guardian.Plug.VerifyHeader
-    plug Guardian.Plug.LoadResource
+    #plug Guardian.Plug.VerifyHeader
+    #plug Guardian.Plug.LoadResource
   end
 
   scope "/", Customer do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+
+    scope "/auth" do
+      get "/:provider", AuthController, :request
+      get "/:provider/callback", AuthController, :callback
+    end
+
   end
 
 
 
-  scope "/api", Customer do
+  scope "/api", Customer.Api do
     pipe_through [:api, :api_auth]
 
-    scope "/v1", Customer do
-      scope "/auth", Customer do
+    scope "/v1", V1 do
+      scope "/auth" do
 
-        get "/:provider", AuthController, :login
-        get "/:provider/callback", AuthController, :callback
         delete "/", AuthController, :delete, as: :logout
       end
 
