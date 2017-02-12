@@ -11,6 +11,7 @@ import reducers from './reducers';
 const store = createStore(reducers,applyMiddleware(thunk));
 import App from './components/App';
 import * as Pages from 'pages';
+import { AuthenticationContainer } from 'containers';
 
 export default(
   <Provider store={store}>
@@ -22,8 +23,8 @@ export default(
       history={browserHistory}
     >
     <Route path="/" component={ App } >
-      <IndexRoute component={ Pages.IndexPage} />
-      <Route path="/auth/:provider/callback" component={Pages.AuthCallbackPage} />
+      <IndexRoute component={ Pages.IndexPage } />
+      <Route path="/auth/:provider/callback" component={ AuthenticationContainer(Pages.AuthCallbackPage) } />
     </Route>
     </Router>
   </Provider>

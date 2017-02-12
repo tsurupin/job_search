@@ -1,17 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as HeaderActionCreators from './action';
+import * as AuthenticationActionCreators from '../AuthenticationContainer/action';
 import styles from './styles.css';
 
 const propTypes = {
 
 }
 
-function mapStateToProps(response) {
-  const { submitting, errorMessage } = response;
+const AUTH_GOOGLE_PATH = '/auth/google?scope=email';
+
+function mapStateToProps({authentication}) {
+  console.log(authentication);
+  const { authenticated, errorMessage } = authentication;
   return {
-    submitting,
+    authenticated,
     errorMessage
   }
 };
@@ -19,7 +22,7 @@ function mapStateToProps(response) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
-      HeaderActionCreators,
+      AuthenticationActionCreators,
       dispatch
     )
   }
@@ -29,29 +32,20 @@ function mapDispatchToProps(dispatch) {
 class HeaderContainer extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      canSubmit: false
-    }
-
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   handleLogout() {
     this.props.actions.logout();
   }
 
-  // renderButton() {
-  //   if (localStorage.getItem('accesssToken')) {
-  //     return <a href='/api/v1/auth/google'>LogIn</button>
-  //   } else {
-  //     return <button type='submit' onClick={this.handleLogin}>Login</button>
-  //   }
-  // }
+  renderButton() {
+    if (this.props.authenticated) return <button type='submit' onClick={this.handleLogout}>Logout</button>
+    return <a href={AUTH_GOOGLE_PATH}>LogIn</a>
+  }
 
   render() {
-    return (
-       <a href='/auth/google?scope=email'>LogIn</a>
-    )
+    return (this.renderButton())
   }
 }
 

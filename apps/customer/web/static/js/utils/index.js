@@ -9,21 +9,24 @@ export const axios = client.create({
   }
 });
 
-export function getCSRFToken() {
+function getCSRFToken() {
   const el = document.querySelector('meta[name="csrf-token"]');
   return el ? el.getAttribute('content') : '';
 }
 
 export function createAuthorizeRequest(method, path, params) {
-  const config = { headers: { 'Authorization' : localStorage.getItem('accessToken') } }
   switch(method) {
     case 'get':
-      return axios.get(path, config);
+      return axios.get(path, config());
     case 'post':
-      return axios.post(path, params, config);
+      return axios.post(path, params, config());
     case 'patch' :
-      return axios.patch(path, params, config);
+      return axios.patch(path, params, config());
     case 'delete' :
-      return axios.delete(path, config);
+      return axios.delete(path, config());
   }
+}
+
+function config() {
+  return { headers: { 'Authorization' : `Bearer ${localStorage.getItem('token')}` } }
 }

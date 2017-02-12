@@ -31,8 +31,8 @@ defmodule Customer.Web do
     quote do
       use Phoenix.Controller
       use Guardian.Phoenix.Controller
-      #alias Guardian.Plug.EnsureAuthenticated
-      #alias Guardian.Plug.EnsurePermissions
+      alias Guardian.Plug.EnsureAuthenticated
+      alias Guardian.Plug.EnsurePermissions
 
       alias Customer.Repo
       import Ecto

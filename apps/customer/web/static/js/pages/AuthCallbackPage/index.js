@@ -1,11 +1,7 @@
-import React, { Component, PropTypes } from 'react';
-import { AuthCallbackContainer } from 'containers';
+import React from 'react';
 
-class AuthCallbackPage extends Component {
-
-  render() {
-    return (<AuthCallbackContainer />)
-  }
+function AuthCallbackPage() {
+  return <div />;
 }
 
 export default AuthCallbackPage;

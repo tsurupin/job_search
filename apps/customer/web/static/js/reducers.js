@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
+import authentication from './containers/AuthenticationContainer/reducer';
 
-import header from './containers/HeaderContainer/reducer';
 const routeReducer = combineReducers({
-  header
+  authentication
 });
 
 export default routeReducer;

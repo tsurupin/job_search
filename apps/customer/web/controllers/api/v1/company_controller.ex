@@ -9,7 +9,7 @@ defmodule Customer.Api.V1.CompanyController do
   end
 
   def show(conn, %{"id" => id}) do
-    company = Repo.get!(Company, id)
+    company = Repo.get!(__MODULE__, id)
     render(conn, "show.json", company: company)
   end
 

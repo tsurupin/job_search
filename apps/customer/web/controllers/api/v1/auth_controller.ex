@@ -9,11 +9,10 @@ defmodule Customer.Api.V1.AuthController do
     if current_user do
       conn
       |> Guardian.revoke!
-      #|> Guardian.Plug.sign_out
-      |> render("logout.json", %{message: "Signed out"})
+      send_resp(conn, 200, "")
     else
       conn
-      |> render("logout.json", %{error: "Not logged in"})
+      |> send_resp(404, "")
     end
   end
 

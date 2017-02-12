@@ -1,2 +1,2 @@
 export HeaderContainer from './HeaderContainer';
-export AuthCallbackContainer from './AuthCallbackContainer';
+export AuthenticationContainer from "./AuthenticationContainer";

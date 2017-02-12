@@ -32,6 +32,7 @@ defmodule Customer.User do
   end
 
   def get_or_create_by!(auth) do
+    IO.inspect auth
     case Repo.get_by(__MODULE__, email: auth.info.email) do
       nil ->
         case create_by!(auth) do

@@ -14,9 +14,8 @@ defmodule Customer.Router do
   end
 
   pipeline :api_auth do
-    #plug Guardian.Plug.VerifyHelper, realm: "Bearer"
-    #plug Guardian.Plug.VerifyHeader
-    #plug Guardian.Plug.LoadResource
+    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    plug Guardian.Plug.LoadResource
   end
 
   scope "/", Customer do
@@ -30,8 +29,6 @@ defmodule Customer.Router do
     end
 
   end
-
-
 
   scope "/api", Customer.Api do
     pipe_through [:api, :api_auth]

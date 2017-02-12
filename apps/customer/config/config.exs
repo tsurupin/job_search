@@ -32,7 +32,6 @@ config :ueberauth, Ueberauth,
     google: {Ueberauth.Strategy.Google, [default_scope: "profile"]}
   ]
 
-
 config :guardian, Guardian,
 issuer: "Customer.#{Mix.env}",
 ttl: {30, :days },

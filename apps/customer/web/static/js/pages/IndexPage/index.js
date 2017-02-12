@@ -4,15 +4,14 @@ import {
   HeaderContainer
 } from 'containers';
 
-class IndexPage extends Component {
+function IndexPage() {
 
-  render() {
-    return (
-      <div className={styles.container}>
-        <HeaderContainer />
-      </div>
-    )
-  }
+  return (
+    <div className={styles.container}>
+      <HeaderContainer />
+    </div>
+  )
+
 }
 
 export default IndexPage;

@@ -12,9 +12,9 @@ defmodule Customer.AuthController do
     |> render("callback.json", %{error: "Failed to authenticate."})
   end
 
-  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params, _current_user, _claims) do
-
-    case Authorizer.get_or_create(auth) do
+  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params, current_user, _claims) do
+    IO.inspect current_user
+    case Authorizer.get_or_create(auth, current_user) do
       {:ok, user} ->
         {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user, :api)
         conn
