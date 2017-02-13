@@ -29,6 +29,15 @@ defmodule Customer.ConnCase do
 
       # The default endpoint for testing
       @endpoint Customer.Endpoint
+
+      # def guardian_login(%Plug.Conn{} = conn, user, token, opts) do
+      #   user = create(:user)
+      #   conn
+      #   current_user = Guardian.Plug.api_sign_in(conn, user)
+      #     |> send_resp(200, "Flush the session yo")
+      #     |> recycle()
+      # end
+      # http://stackoverflow.com/questions/38091540/testing-token-authentication
     end
   end
 

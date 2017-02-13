@@ -1,6 +1,6 @@
 defmodule Customer.Api.V1.AuthController do
   @moduledoc """
-  Auth controller responsible for handling Ueberauth response
+  Auth controller responsible for logout
   """
   use Customer.Web, :controller
   plug Guardian.Plug.EnsureAuthenticated

@@ -1,17 +1,19 @@
 import React, { PropTypes, Component } from 'react';
 import styles from './styles.css';
 import {
-  HeaderContainer
+  HeaderContainer,
+  JobIndexContainer
 } from 'containers';
 
-function IndexPage() {
+function JobShowPage() {
 
   return (
     <div className={styles.container}>
       <HeaderContainer />
+      <JobShowContainer />
     </div>
   )
 
 }
 
-export default IndexPage;
+export default JobShowPage;

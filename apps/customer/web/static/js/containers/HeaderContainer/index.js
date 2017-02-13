@@ -11,7 +11,6 @@ const propTypes = {
 const AUTH_GOOGLE_PATH = '/auth/google?scope=email';
 
 function mapStateToProps({authentication}) {
-  console.log(authentication);
   const { authenticated, errorMessage } = authentication;
   return {
     authenticated,
