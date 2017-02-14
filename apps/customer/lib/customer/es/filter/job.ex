@@ -3,7 +3,7 @@ defmodule Customer.Es.Filter.Job do
   import Tirexs.Search
   require Tirexs.Query.Filter
 
-  def perform(%{"job_title" => job_title, "area_name" => area_name, "techs" => techs, "detail" => detail}) do
+  def perform(%{job_title: job_title, area_name: area_name, techs: techs, detais: detail}) do
     Tirexs.Query.Filter.filter do
       bool do
         must do
@@ -17,7 +17,7 @@ defmodule Customer.Es.Filter.Job do
     |> Keyword.get(:filter)
   end
 
-  def perform(%{"job_title" => job_title, "area_name" => area_name, "techs" => techs}) do
+  def perform(%{job_title: job_title, area_name: area_name, techs: techs}) do
     Tirexs.Query.Filter.filter do
       bool do
         must do
@@ -30,7 +30,7 @@ defmodule Customer.Es.Filter.Job do
     |> Keyword.get(:filter)
   end
 
-  def perform(%{"area_name" => area_name, "techs" => techs, "detail" => detail}) do
+  def perform(%{area_name: area_name, techs: techs, detail: detail}) do
     Tirexs.Query.Filter.filter do
       bool do
         must do
@@ -43,7 +43,7 @@ defmodule Customer.Es.Filter.Job do
     |> Keyword.get(:filter)
   end
 
-  def perform(%{"job_title" => job_title, "area_name" => area_name}) do
+  def perform(%{job_title: job_title, area_name: area_name}) do
     Tirexs.Query.Filter.filter do
       bool do
         must do
@@ -55,7 +55,7 @@ defmodule Customer.Es.Filter.Job do
     |> Keyword.get(:filter)
   end
 
-  def perform(%{"techs" => techs, "detail" => detail}) do
+  def perform(%{techs: techs, detail: detail}) do
     Tirexs.Query.Filter.filter do
       bool do
         must do
@@ -67,7 +67,7 @@ defmodule Customer.Es.Filter.Job do
     |> Keyword.get(:filter)
   end
 
-  def perform(%{"area_name" => area_name, "techs" => techs}) do
+  def perform(%{area_name: area_name, techs: techs}) do
     Tirexs.Query.Filter.filter do
       bool do
         must do
@@ -79,7 +79,7 @@ defmodule Customer.Es.Filter.Job do
     |> Keyword.get(:filter)
   end
 
-  def perform(%{"job_title" => job_title}) do
+  def perform(%{job_title: job_title}) do
     Tirexs.Query.Filter.filter do
       bool do
         must do
@@ -90,7 +90,7 @@ defmodule Customer.Es.Filter.Job do
     |> Keyword.get(:filter)
   end
 
-  def perform(%{"area_name" => area_name}) do
+  def perform(%{area_name: area_name}) do
     Tirexs.Query.Filter.filter do
       bool do
         must do
@@ -101,7 +101,7 @@ defmodule Customer.Es.Filter.Job do
     |> Keyword.get(:filter)
   end
 
-  def perform(%{"techs" => techs}) do
+  def perform(%{techs: techs}) do
     Tirexs.Query.Filter.filter do
       bool do
         must do
@@ -112,7 +112,7 @@ defmodule Customer.Es.Filter.Job do
     |> Keyword.get(:filter)
   end
 
-  def perform(%{"detail" => detail}) do
+  def perform(%{detail: detail}) do
     Tirexs.Query.Filter.filter do
       bool do
         must do

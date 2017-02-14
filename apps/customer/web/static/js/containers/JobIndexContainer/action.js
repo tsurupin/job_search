@@ -4,8 +4,8 @@ import {
 } from './constants';
 import axios from 'axios';
 
-export function fetchJobs() {
-  const request = axios.get(JOBS_PATH);
+export function fetchJobs(path = '') {
+  const request = axios.get(`JOBS_PATH/${path}`);
 
   return dispatch => {
     dispatch(fetchJobsRequest());
@@ -22,10 +22,10 @@ function fetchJobsRequest() {
   }
 }
 
-function fetchJobsSuccess({ jobs }) {
+function fetchJobsSuccess({ jobs, page, offset }) {
   return {
     type: FETCH_JOBS.SUCCESS,
-    payload: { jobs }
+    payload: { jobs, page, offset }
   }
 }
 

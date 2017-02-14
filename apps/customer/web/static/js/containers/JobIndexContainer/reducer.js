@@ -8,8 +8,10 @@ const INITIAL_STATE = {
   errorMessage: '',
   area: '',
   jobTitle: '',
-  keywords: [],
-  techs: []
+  detail: '',
+  techs: [],
+  page: 1,
+  offset: 20
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -18,10 +20,12 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, loading: true };
 
     case FETCH_JOBS.SUCCESS:
-      return { ...state, jobs: action.payload.jobs, loading: false };
+      const { jobs, page, offset } = action.payload;
+      return { ...state, jobs, page, offset, loading: false };
 
     case FETCH_JOBS.FAILURE:
-      return { ..state, errorMessage: action.payload.errorMessage, loading: false };
+      const { errorMessage } = action.payload;
+      return { ...state, errorMessage, loading: false };
 
     default:
       return state;
