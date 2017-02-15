@@ -10,11 +10,12 @@ export function fetchJob(id) {
   return dispatch => {
     dispatch(fetchJobRequest());
 
-    return request
-    .then({ data } => dispatch(fetchJobSuccess(data))
-    .catch({ data } => dispatch(fetchJobFailure(data)))
-  }
-};
+    return
+    request
+    .then(response => dispatch(fetchJobSuccess(response.data)))
+    .catch(error => dispatch(fetchJobFailure(error.data)))
+  };
+}
 
 function fetchJobRequest() {
   return {

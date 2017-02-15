@@ -3,10 +3,20 @@ defmodule Customer.Api.V1.JobController do
 
   alias Customer.Job
   alias Customer.Repo
+  alias Customer.Es
 
   def index(conn, params, _current_user, _claims) do
-    jobs = Job.es_search(search_params(params), option_params(params))
-    # TODO: fetching page & offset
+    search_params = search_params(params)
+    option_params = option_params(params)
+    IO.inspect search_params
+    IO.inspect option_params
+
+    IO.inspect Job.es_search(search_params, option_params)
+
+    jobs =
+        Job.es_search(search_params, option_params)
+        |> Es.Paginator.paginate(Job.query_all(:index), %{query: search_params, options: option_params})
+    IO.inspect jobs
     render("index.json", %{jobs: jobs})
   end
 
@@ -19,26 +29,15 @@ defmodule Customer.Api.V1.JobController do
 
   defp search_params(params) do
     new_params = %{}
-    if params["job-title"] do
-      new_params = Map.put_new(new_params, :job_title, params["job-title"])
-    end
-
-    if params["area"] do
-      new_params = Map.put_new(new_params, :area, params["area"])
-    end
-
-    if params["techs"] do
-      new_params = Map.put_new(new_params, :techs, String.split(params["techs"], ","))
-    end
-
-    if params["detail"] do
-      new_params = Map.put_new(new_params, :detail, params["detail"])
-    end
+    if params["job-title"], do: new_params = Map.put_new(new_params, :job_title, params["job-title"])
+    if params["area"], do: new_params = Map.put_new(new_params, :area, params["area"])
+    if params["techs"], do: new_params = Map.put_new(new_params, :techs, String.split(params["techs"], ","))
+    if params["detail"], do: new_params = Map.put_new(new_params, :detail, params["detail"])
     new_params
   end
 
   defp option_params(params) do
-     new_params = %{page: params["page"], sort: params["sort"]}
+     new_params = %{page: params["page"] || 1, sort: params["sort"]}
      Map.put_new(new_params, :offset, params["offset"] || 0)
   end
 

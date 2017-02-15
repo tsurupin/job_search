@@ -18,13 +18,19 @@ defmodule Customer.Es.Paginator do
     total_pages: 0,
   ]
 
-  def paginate(results, query), do: paginate(results, query, [])
+  def paginate(results, %{query: query, options: options}), do: paginate(results, query, options)
+  def paginate(results, query), do: paginate(results, query, %{})
+
   def paginate(%{error: _}, _query, _options), do: %__MODULE__{}
   def paginate(results, query, options) do
     opt = Es.Params.pager_option(options)
     page = opt[:page]
     page_size = opt[:per_page]
-    pages = total_pages(results[:hits][:total], query)
+
+    pages = total_pages(results[:hits][:total], page_size)
+
+    IO.inspect entries(results[:hits][:hits], query)
+    # NEED TO fetch gracefuly
 
     %__MODULE__{
       entries: entries(results[:hits][:hits], query),
@@ -60,6 +66,7 @@ defmodule Customer.Es.Paginator do
 
   defp entries(hits, query) do
     Enum.map(hits, fn(hit) ->
+
       query
       |> where([model], model.id == ^hit[:_id])
       |> Repo.one

@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as JobIndexActionoCreators from './action';
+import * as JobIndexActionCreators from './action';
 
 const propTypes = {
 
-}
+};
 
 function mapStateToProps({ jobIndex }) {
   const { jobs, errorMessage, loading, jobTitle, area, techs, detail, page, offset } = jobIndex;
@@ -52,14 +52,14 @@ class JobIndexContainer extends Component {
   }
 
   updateProps(newProps) {
-    updatedProps = {};
+    let updatedProps = {};
     const { jobTitle, area, techs, detail } = this.props;
     const { newJobTitle, newArea, newTechs, newDetail } = newProps;
 
-    if (jobTitle !== newJobTitle) updatedProps.push(newJobTitle);
-    if (area !== newArea) updatedProps.push(newArea);
-    if (techs !== newTechs) updatedProps.push(newTechs);
-    if (detail !== newDetail) updatedProps.push(newDetail);
+    if (jobTitle !== newJobTitle) updatedProps['jobTitle'] = newJobTitle;
+    if (area !== newArea) updatedProps['area'] = newArea;
+    if (techs !== newTechs) updatedProps['techs'] = newTechs;
+    if (detail !== newDetail) updatedProps['detail'] = newDetail;
 
     return updatedProps;
   }

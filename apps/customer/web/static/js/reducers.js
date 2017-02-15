@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import authentication from './containers/AuthenticationContainer/reducer';
-import jobIndex from './containers/JobIndexContainer';
-import jobShow from './containers/JobShowContainer';
+import jobIndex from './containers/JobIndexContainer/reducer';
+import jobShow from './containers/JobShowContainer/reducer';
 
 const routeReducer = combineReducers({
   authentication,

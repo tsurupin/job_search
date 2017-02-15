@@ -5,16 +5,16 @@ import {
 import axios from 'axios';
 
 export function fetchJobs(path = '') {
-  const request = axios.get(`JOBS_PATH/${path}`);
+  const request = axios.get(`${JOBS_PATH}/${path}`);
 
   return dispatch => {
     dispatch(fetchJobsRequest());
 
     return request
-    .then(response => dispatch(fetchJobsSuccess(response.data))
+    .then(response => dispatch(fetchJobsSuccess(response.data)))
     .catch(error => dispatch(fetchJobsFailure(error.data)))
-  }
-};
+  };
+}
 
 function fetchJobsRequest() {
   return {
@@ -34,4 +34,4 @@ function fetchJobsFailure({ errorMessage }) {
     type: FETCH_JOBS.FAILURE,
     paylaod: { errorMessage }
   }
-};
+}
