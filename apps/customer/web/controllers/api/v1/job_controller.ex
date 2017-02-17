@@ -8,22 +8,18 @@ defmodule Customer.Api.V1.JobController do
   def index(conn, params, _current_user, _claims) do
     search_params = search_params(params)
     option_params = option_params(params)
-    IO.inspect search_params
-    IO.inspect option_params
-
-    IO.inspect Job.es_search(search_params, option_params)
 
     jobs =
-        Job.es_search(search_params, option_params)
-        |> Es.Paginator.paginate(Job.query_all(:index), %{query: search_params, options: option_params})
-    IO.inspect jobs
-    render("index.json", %{jobs: jobs})
+       Job.es_search(search_params, option_params)
+       |> Es.Paginator.paginate(%{query: search_params, options: option_params})
+
+    render(conn, "index.json", %{jobs: jobs})
   end
 
   def show(conn, %{"id" => id}, _current_user, _claims) do
     case Repo.get(Job, id) do
-      {:ok, job} -> render("show.json", %{job: job})
-      {:error, error} -> render("show.json", %{error: error})
+      {:ok, job} -> render(conn, "show.json", %{job: job})
+      {:error, error} -> render(conn, "show.json", %{error: error})
     end
   end
 

@@ -29,11 +29,8 @@ defmodule Customer.Es.Paginator do
 
     pages = total_pages(results[:hits][:total], page_size)
 
-    IO.inspect entries(results[:hits][:hits], query)
-    # NEED TO fetch gracefuly
-
     %__MODULE__{
-      entries: entries(results[:hits][:hits], query),
+      entries: entries(results[:hits][:hits]),
       page_size: options[:page_size],
       page_number: page,
       total_entries: results[:hits][:total],
@@ -64,13 +61,8 @@ defmodule Customer.Es.Paginator do
     }
   end
 
-  defp entries(hits, query) do
-    Enum.map(hits, fn(hit) ->
-
-      query
-      |> where([model], model.id == ^hit[:_id])
-      |> Repo.one
-    end)
+  defp entries(hits) do
+    Enum.map(hits, &(&1[:_source]))
   end
 
 end

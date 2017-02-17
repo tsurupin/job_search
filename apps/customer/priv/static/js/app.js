@@ -28599,11 +28599,11 @@
 
 	var _reducer2 = _interopRequireDefault(_reducer);
 
-	var _reducer3 = __webpack_require__(319);
+	var _reducer3 = __webpack_require__(268);
 
 	var _reducer4 = _interopRequireDefault(_reducer3);
 
-	var _reducer5 = __webpack_require__(320);
+	var _reducer5 = __webpack_require__(270);
 
 	var _reducer6 = _interopRequireDefault(_reducer5);
 
@@ -28702,153 +28702,47 @@
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _react = __webpack_require__(2);
+	exports.default = function () {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
+	  var action = arguments[1];
 
-	var _react2 = _interopRequireDefault(_react);
+	  switch (action.type) {
+	    case _constants.FETCH_JOBS.REQUEST:
+	      return _extends({}, state, { loading: true });
 
-	var _reactRedux = __webpack_require__(235);
+	    case _constants.FETCH_JOBS.SUCCESS:
+	      var _action$payload = action.payload,
+	          jobs = _action$payload.jobs,
+	          page = _action$payload.page,
+	          offset = _action$payload.offset;
 
-	var _redux = __webpack_require__(242);
+	      return _extends({}, state, { jobs: jobs, page: page, offset: offset, loading: false });
 
-	var _action = __webpack_require__(269);
+	    case _constants.FETCH_JOBS.FAILURE:
+	      var errorMessage = action.payload.errorMessage;
 
-	var JobIndexActionCreators = _interopRequireWildcard(_action);
+	      return _extends({}, state, { errorMessage: errorMessage, loading: false });
 
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var propTypes = {};
-
-	function mapStateToProps(_ref) {
-	  var jobIndex = _ref.jobIndex;
-	  var jobs = jobIndex.jobs,
-	      errorMessage = jobIndex.errorMessage,
-	      loading = jobIndex.loading,
-	      jobTitle = jobIndex.jobTitle,
-	      area = jobIndex.area,
-	      techs = jobIndex.techs,
-	      detail = jobIndex.detail,
-	      page = jobIndex.page,
-	      offset = jobIndex.offset;
-
-	  return {
-	    jobs: jobs,
-	    errorMessage: errorMessage,
-	    loading: loading,
-	    jobTitle: jobTitle,
-	    area: area,
-	    techs: techs,
-	    detail: detail,
-	    page: page,
-	    offset: offset
-	  };
-	}
-
-	function mapDispatchToProps(dispatch) {
-	  return {
-	    actions: (0, _redux.bindActionCreators)(JobIndexActionCreators, dispatch)
-	  };
-	}
-
-	var JobIndexContainer = function (_Component) {
-	  _inherits(JobIndexContainer, _Component);
-
-	  function JobIndexContainer(props) {
-	    _classCallCheck(this, JobIndexContainer);
-
-	    var _this = _possibleConstructorReturn(this, (JobIndexContainer.__proto__ || Object.getPrototypeOf(JobIndexContainer)).call(this, props));
-
-	    var jobTitle = props.jobTitle,
-	        area = props.area,
-	        techs = props.techs,
-	        detail = props.detail;
-
-	    _this.state = {
-	      jobTitle: jobTitle,
-	      area: area,
-	      techs: techs,
-	      detail: detail
-	    };
-	    return _this;
+	    default:
+	      return state;
 	  }
+	};
 
-	  _createClass(JobIndexContainer, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.props.actions.fetchJobs(this.getSearchPath());
-	    }
-	  }, {
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(newProps) {
-	      this.setState(this.updateProps(newProps));
-	    }
-	  }, {
-	    key: 'updateProps',
-	    value: function updateProps(newProps) {
-	      var updatedProps = {};
-	      var _props = this.props,
-	          jobTitle = _props.jobTitle,
-	          area = _props.area,
-	          techs = _props.techs,
-	          detail = _props.detail;
-	      var newJobTitle = newProps.newJobTitle,
-	          newArea = newProps.newArea,
-	          newTechs = newProps.newTechs,
-	          newDetail = newProps.newDetail;
+	var _constants = __webpack_require__(269);
 
-
-	      if (jobTitle !== newJobTitle) updatedProps['jobTitle'] = newJobTitle;
-	      if (area !== newArea) updatedProps['area'] = newArea;
-	      if (techs !== newTechs) updatedProps['techs'] = newTechs;
-	      if (detail !== newDetail) updatedProps['detail'] = newDetail;
-
-	      return updatedProps;
-	    }
-	  }, {
-	    key: 'getSearchPath',
-	    value: function getSearchPath() {
-	      var path = '?';
-	      var _props2 = this.props,
-	          page = _props2.page,
-	          offset = _props2.offset;
-	      var _state = this.state,
-	          jobTitle = _state.jobTitle,
-	          area = _state.area,
-	          techs = _state.techs,
-	          detail = _state.detail;
-
-	      path += 'page=' + page + '&offset=' + offset + '&';
-
-	      if (jobTitle) path += 'job-title=' + jobTitle + '&';
-	      if (area) path += 'area=' + area + '&';
-	      if (techs.length > 0) path += 'techs=' + techs.join(",") + '&';
-	      if (detail) path += 'detail=' + detail;
-	      if (path[path.length] === '&') return path.slice(0, path.length - 1);
-
-	      return path;
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement('div', null);
-	    }
-	  }]);
-
-	  return JobIndexContainer;
-	}(_react.Component);
-
-	JobIndexContainer.propTypes = propTypes;
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(JobIndexContainer);
+	var INITIAL_STATE = {
+	  jobs: [],
+	  loading: false,
+	  errorMessage: '',
+	  area: '',
+	  jobTitle: '',
+	  detail: '',
+	  techs: [],
+	  page: 1,
+	  offset: 20
+	};
 
 /***/ },
 /* 269 */
@@ -28859,140 +28753,51 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.fetchJobs = fetchJobs;
+	exports.JOBS_PATH = exports.FETCH_JOBS = undefined;
 
-	var _constants = __webpack_require__(318);
+	var _constants = __webpack_require__(267);
 
-	var _axios = __webpack_require__(285);
-
-	var _axios2 = _interopRequireDefault(_axios);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function fetchJobs() {
-	  var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-	  var request = _axios2.default.get(_constants.JOBS_PATH + '/' + path);
-
-	  return function (dispatch) {
-	    dispatch(fetchJobsRequest());
-
-	    return request.then(function (response) {
-	      return dispatch(fetchJobsSuccess(response.data));
-	    }).catch(function (error) {
-	      return dispatch(fetchJobsFailure(error.data));
-	    });
-	  };
-	}
-
-	function fetchJobsRequest() {
-	  return {
-	    type: _constants.FETCH_JOBS.REQUEST
-	  };
-	}
-
-	function fetchJobsSuccess(_ref) {
-	  var jobs = _ref.jobs,
-	      page = _ref.page,
-	      offset = _ref.offset;
-
-	  return {
-	    type: _constants.FETCH_JOBS.SUCCESS,
-	    payload: { jobs: jobs, page: page, offset: offset }
-	  };
-	}
-
-	function fetchJobsFailure(_ref2) {
-	  var errorMessage = _ref2.errorMessage;
-
-	  return {
-	    type: _constants.FETCH_JOBS.FAILURE,
-	    paylaod: { errorMessage: errorMessage }
-	  };
-	}
+	var FETCH_JOBS = exports.FETCH_JOBS = (0, _constants.createRequestTypes)('jobs');
+	var JOBS_PATH = exports.JOBS_PATH = '/api/v1/jobs';
 
 /***/ },
 /* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _react = __webpack_require__(2);
+	exports.default = function () {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
+	  var action = arguments[1];
 
-	var _react2 = _interopRequireDefault(_react);
+	  switch (action.type) {
+	    case _constants.FETCH_JOB.REQUEST:
+	      return _extends({}, state, { loading: true });
 
-	var _reactRedux = __webpack_require__(235);
+	    case _constants.FETCH_JOB.SUCCESS:
+	      return _extends({}, state, { job: action.payload.job, loading: false });
 
-	var _redux = __webpack_require__(242);
+	    case _constants.FETCH_JOB.FAILURE:
+	      return _extends({}, state, { errorMessage: action.payload.errorMessage, loading: false });
 
-	var _action = __webpack_require__(271);
-
-	var JobShowActionCreators = _interopRequireWildcard(_action);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var propTypes = {};
-
-	function mapStateToProps(_ref) {
-	  var jobShow = _ref.jobShow;
-	  var job = jobShow.job,
-	      loading = jobShow.loading,
-	      errorMessage = jobShow.errorMessage;
-
-	  return {
-	    job: job,
-	    loading: loading,
-	    errorMessage: errorMessage
-	  };
-	}
-
-	function mapDispatchToProps(dispatch) {
-	  return {
-	    actions: (0, _redux.bindActionCreators)(JobShowActionCreators, dispatch)
-	  };
-	}
-
-	var JobShowContainer = function (_Component) {
-	  _inherits(JobShowContainer, _Component);
-
-	  function JobShowContainer(props) {
-	    _classCallCheck(this, JobShowContainer);
-
-	    return _possibleConstructorReturn(this, (JobShowContainer.__proto__ || Object.getPrototypeOf(JobShowContainer)).call(this, props));
+	    default:
+	      return state;
 	  }
+	};
 
-	  _createClass(JobShowContainer, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.props.actions.fetchJob(this.props.params.id);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement('div', null);
-	    }
-	  }]);
+	var _constants = __webpack_require__(271);
 
-	  return JobShowContainer;
-	}(_react.Component);
-
-	JobShowContainer.propTypes = propTypes;
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(JobShowContainer);
+	var INITIAL_STATE = {
+	  loading: false,
+	  job: {},
+	  errorMessage: ""
+	};
 
 /***/ },
 /* 271 */
@@ -29003,54 +28808,12 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.fetchJob = fetchJob;
+	exports.JOBS_PATH = exports.FETCH_JOB = undefined;
 
-	var _constants = __webpack_require__(317);
+	var _constants = __webpack_require__(267);
 
-	var _axios = __webpack_require__(285);
-
-	var _axios2 = _interopRequireDefault(_axios);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function fetchJob(id) {
-	  var request = _axios2.default.get(_constants.JOBS_PATH + '/' + id);
-
-	  return function (dispatch) {
-	    dispatch(fetchJobRequest());
-
-	    return;
-	    request.then(function (response) {
-	      return dispatch(fetchJobSuccess(response.data));
-	    }).catch(function (error) {
-	      return dispatch(fetchJobFailure(error.data));
-	    });
-	  };
-	}
-
-	function fetchJobRequest() {
-	  return {
-	    type: _constants.FETCH_JOB.REQUEST
-	  };
-	}
-
-	function fetchJobSuccess(_ref) {
-	  var job = _ref.job;
-
-	  return {
-	    type: _constants.FETCH_JOB.SUCCESS,
-	    payload: { job: job }
-	  };
-	}
-
-	function fetchJobFailure(_ref2) {
-	  var errorMessage = _ref2.errorMessage;
-
-	  return {
-	    type: _constants.FETCH_JOB.FAILURE,
-	    paylaod: { errorMessage: errorMessage }
-	  };
-	};
+	var FETCH_JOB = exports.FETCH_JOB = (0, _constants.createRequestTypes)('job');
+	var JOBS_PATH = exports.JOBS_PATH = '/api/v1/jobs';
 
 /***/ },
 /* 272 */
@@ -29479,11 +29242,11 @@
 
 	var _JobIndexPage3 = _interopRequireDefault(_JobIndexPage2);
 
-	var _JobShowPage2 = __webpack_require__(313);
+	var _JobShowPage2 = __webpack_require__(317);
 
 	var _JobShowPage3 = _interopRequireDefault(_JobShowPage2);
 
-	var _AuthCallbackPage2 = __webpack_require__(316);
+	var _AuthCallbackPage2 = __webpack_require__(320);
 
 	var _AuthCallbackPage3 = _interopRequireDefault(_AuthCallbackPage2);
 
@@ -29587,11 +29350,11 @@
 
 	var _AuthenticationContainer3 = _interopRequireDefault(_AuthenticationContainer2);
 
-	var _JobIndexContainer2 = __webpack_require__(268);
+	var _JobIndexContainer2 = __webpack_require__(313);
 
 	var _JobIndexContainer3 = _interopRequireDefault(_JobIndexContainer2);
 
-	var _JobShowContainer2 = __webpack_require__(270);
+	var _JobShowContainer2 = __webpack_require__(315);
 
 	var _JobShowContainer3 = _interopRequireDefault(_JobShowContainer2);
 
@@ -31403,11 +31166,371 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _styles = __webpack_require__(314);
+	var _reactRedux = __webpack_require__(235);
+
+	var _redux = __webpack_require__(242);
+
+	var _action = __webpack_require__(314);
+
+	var JobIndexActionCreators = _interopRequireWildcard(_action);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var propTypes = {};
+
+	function mapStateToProps(_ref) {
+	  var jobIndex = _ref.jobIndex;
+	  var jobs = jobIndex.jobs,
+	      errorMessage = jobIndex.errorMessage,
+	      loading = jobIndex.loading,
+	      jobTitle = jobIndex.jobTitle,
+	      area = jobIndex.area,
+	      techs = jobIndex.techs,
+	      detail = jobIndex.detail,
+	      page = jobIndex.page,
+	      offset = jobIndex.offset;
+
+	  return {
+	    jobs: jobs,
+	    errorMessage: errorMessage,
+	    loading: loading,
+	    jobTitle: jobTitle,
+	    area: area,
+	    techs: techs,
+	    detail: detail,
+	    page: page,
+	    offset: offset
+	  };
+	}
+
+	function mapDispatchToProps(dispatch) {
+	  return {
+	    actions: (0, _redux.bindActionCreators)(JobIndexActionCreators, dispatch)
+	  };
+	}
+
+	var JobIndexContainer = function (_Component) {
+	  _inherits(JobIndexContainer, _Component);
+
+	  function JobIndexContainer(props) {
+	    _classCallCheck(this, JobIndexContainer);
+
+	    var _this = _possibleConstructorReturn(this, (JobIndexContainer.__proto__ || Object.getPrototypeOf(JobIndexContainer)).call(this, props));
+
+	    var jobTitle = props.jobTitle,
+	        area = props.area,
+	        techs = props.techs,
+	        detail = props.detail;
+
+	    _this.state = {
+	      jobTitle: jobTitle,
+	      area: area,
+	      techs: techs,
+	      detail: detail
+	    };
+	    return _this;
+	  }
+
+	  _createClass(JobIndexContainer, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.actions.fetchJobs(this.getSearchPath());
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      this.setState(this.updateProps(newProps));
+	    }
+	  }, {
+	    key: 'updateProps',
+	    value: function updateProps(newProps) {
+	      var updatedProps = {};
+	      var _props = this.props,
+	          jobTitle = _props.jobTitle,
+	          area = _props.area,
+	          techs = _props.techs,
+	          detail = _props.detail;
+	      var newJobTitle = newProps.newJobTitle,
+	          newArea = newProps.newArea,
+	          newTechs = newProps.newTechs,
+	          newDetail = newProps.newDetail;
+
+
+	      if (jobTitle !== newJobTitle) updatedProps['jobTitle'] = newJobTitle;
+	      if (area !== newArea) updatedProps['area'] = newArea;
+	      if (techs !== newTechs) updatedProps['techs'] = newTechs;
+	      if (detail !== newDetail) updatedProps['detail'] = newDetail;
+
+	      return updatedProps;
+	    }
+	  }, {
+	    key: 'getSearchPath',
+	    value: function getSearchPath() {
+	      var path = '?';
+	      var _props2 = this.props,
+	          page = _props2.page,
+	          offset = _props2.offset;
+	      var _state = this.state,
+	          jobTitle = _state.jobTitle,
+	          area = _state.area,
+	          techs = _state.techs,
+	          detail = _state.detail;
+
+	      path += 'page=' + page + '&offset=' + offset + '&';
+
+	      if (jobTitle) path += 'job-title=' + jobTitle + '&';
+	      if (area) path += 'area=' + area + '&';
+	      if (techs.length > 0) path += 'techs=' + techs.join(",") + '&';
+	      if (detail) path += 'detail=' + detail;
+	      if (path[path.length] === '&') return path.slice(0, path.length - 1);
+
+	      return path;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement('div', null);
+	    }
+	  }]);
+
+	  return JobIndexContainer;
+	}(_react.Component);
+
+	JobIndexContainer.propTypes = propTypes;
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(JobIndexContainer);
+
+/***/ },
+/* 314 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.fetchJobs = fetchJobs;
+
+	var _constants = __webpack_require__(269);
+
+	var _axios = __webpack_require__(285);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function fetchJobs() {
+	  var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+	  var request = _axios2.default.get(_constants.JOBS_PATH + '/' + path);
+
+	  return function (dispatch) {
+	    dispatch(fetchJobsRequest());
+
+	    return request.then(function (response) {
+	      return dispatch(fetchJobsSuccess(response.data));
+	    }).catch(function (error) {
+	      return dispatch(fetchJobsFailure(error.data));
+	    });
+	  };
+	}
+
+	function fetchJobsRequest() {
+	  return {
+	    type: _constants.FETCH_JOBS.REQUEST
+	  };
+	}
+
+	function fetchJobsSuccess(_ref) {
+	  var jobs = _ref.jobs,
+	      page = _ref.page,
+	      offset = _ref.offset;
+
+	  return {
+	    type: _constants.FETCH_JOBS.SUCCESS,
+	    payload: { jobs: jobs, page: page, offset: offset }
+	  };
+	}
+
+	function fetchJobsFailure(_ref2) {
+	  var errorMessage = _ref2.errorMessage;
+
+	  return {
+	    type: _constants.FETCH_JOBS.FAILURE,
+	    paylaod: { errorMessage: errorMessage }
+	  };
+	}
+
+/***/ },
+/* 315 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(235);
+
+	var _redux = __webpack_require__(242);
+
+	var _action = __webpack_require__(316);
+
+	var JobShowActionCreators = _interopRequireWildcard(_action);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var propTypes = {};
+
+	function mapStateToProps(_ref) {
+	  var jobShow = _ref.jobShow;
+	  var job = jobShow.job,
+	      loading = jobShow.loading,
+	      errorMessage = jobShow.errorMessage;
+
+	  return {
+	    job: job,
+	    loading: loading,
+	    errorMessage: errorMessage
+	  };
+	}
+
+	function mapDispatchToProps(dispatch) {
+	  return {
+	    actions: (0, _redux.bindActionCreators)(JobShowActionCreators, dispatch)
+	  };
+	}
+
+	var JobShowContainer = function (_Component) {
+	  _inherits(JobShowContainer, _Component);
+
+	  function JobShowContainer(props) {
+	    _classCallCheck(this, JobShowContainer);
+
+	    return _possibleConstructorReturn(this, (JobShowContainer.__proto__ || Object.getPrototypeOf(JobShowContainer)).call(this, props));
+	  }
+
+	  _createClass(JobShowContainer, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.actions.fetchJob(this.props.params.id);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement('div', null);
+	    }
+	  }]);
+
+	  return JobShowContainer;
+	}(_react.Component);
+
+	JobShowContainer.propTypes = propTypes;
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(JobShowContainer);
+
+/***/ },
+/* 316 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.fetchJob = fetchJob;
+
+	var _constants = __webpack_require__(271);
+
+	var _axios = __webpack_require__(285);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function fetchJob(id) {
+	  var request = _axios2.default.get(_constants.JOBS_PATH + '/' + id);
+
+	  return function (dispatch) {
+	    dispatch(fetchJobRequest());
+
+	    return;
+	    request.then(function (response) {
+	      return dispatch(fetchJobSuccess(response.data));
+	    }).catch(function (error) {
+	      return dispatch(fetchJobFailure(error.data));
+	    });
+	  };
+	}
+
+	function fetchJobRequest() {
+	  return {
+	    type: _constants.FETCH_JOB.REQUEST
+	  };
+	}
+
+	function fetchJobSuccess(_ref) {
+	  var job = _ref.job;
+
+	  return {
+	    type: _constants.FETCH_JOB.SUCCESS,
+	    payload: { job: job }
+	  };
+	}
+
+	function fetchJobFailure(_ref2) {
+	  var errorMessage = _ref2.errorMessage;
+
+	  return {
+	    type: _constants.FETCH_JOB.FAILURE,
+	    paylaod: { errorMessage: errorMessage }
+	  };
+	};
+
+/***/ },
+/* 317 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _styles = __webpack_require__(318);
 
 	var _styles2 = _interopRequireDefault(_styles);
 
@@ -31428,13 +31551,13 @@
 	exports.default = JobShowPage;
 
 /***/ },
-/* 314 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(315);
+	var content = __webpack_require__(319);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(276)(content, {});
@@ -31454,7 +31577,7 @@
 	}
 
 /***/ },
-/* 315 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(275)();
@@ -31468,7 +31591,7 @@
 
 
 /***/ },
-/* 316 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31488,129 +31611,6 @@
 	}
 
 	exports.default = AuthCallbackPage;
-
-/***/ },
-/* 317 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.JOBS_PATH = exports.FETCH_JOB = undefined;
-
-	var _constants = __webpack_require__(267);
-
-	var FETCH_JOB = exports.FETCH_JOB = (0, _constants.createRequestTypes)('job');
-	var JOBS_PATH = exports.JOBS_PATH = '/api/v1/jobs';
-
-/***/ },
-/* 318 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.JOBS_PATH = exports.FETCH_JOBS = undefined;
-
-	var _constants = __webpack_require__(267);
-
-	var FETCH_JOBS = exports.FETCH_JOBS = (0, _constants.createRequestTypes)('jobs');
-	var JOBS_PATH = exports.JOBS_PATH = '/api/v1/jobs';
-
-/***/ },
-/* 319 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	exports.default = function () {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case _constants.FETCH_JOBS.REQUEST:
-	      return _extends({}, state, { loading: true });
-
-	    case _constants.FETCH_JOBS.SUCCESS:
-	      var _action$payload = action.payload,
-	          jobs = _action$payload.jobs,
-	          page = _action$payload.page,
-	          offset = _action$payload.offset;
-
-	      return _extends({}, state, { jobs: jobs, page: page, offset: offset, loading: false });
-
-	    case _constants.FETCH_JOBS.FAILURE:
-	      var errorMessage = action.payload.errorMessage;
-
-	      return _extends({}, state, { errorMessage: errorMessage, loading: false });
-
-	    default:
-	      return state;
-	  }
-	};
-
-	var _constants = __webpack_require__(318);
-
-	var INITIAL_STATE = {
-	  jobs: [],
-	  loading: false,
-	  errorMessage: '',
-	  area: '',
-	  jobTitle: '',
-	  detail: '',
-	  techs: [],
-	  page: 1,
-	  offset: 20
-	};
-
-/***/ },
-/* 320 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	exports.default = function () {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case _constants.FETCH_JOB.REQUEST:
-	      return _extends({}, state, { loading: true });
-
-	    case _constants.FETCH_JOB.SUCCESS:
-	      return _extends({}, state, { job: action.payload.job, loading: false });
-
-	    case _constants.FETCH_JOB.FAILURE:
-	      return _extends({}, state, { errorMessage: action.payload.errorMessage, loading: false });
-
-	    default:
-	      return state;
-	  }
-	};
-
-	var _constants = __webpack_require__(317);
-
-	var INITIAL_STATE = {
-	  loading: false,
-	  job: {},
-	  errorMessage: ""
-	};
 
 /***/ }
 /******/ ]);
