@@ -67,7 +67,7 @@ defmodule Customer.Job do
       company_name: String.downcase(model.company.name),
       area: String.downcase(model.area.name),
       techs: Enum.map(model.tech_keywords, &(String.downcase(&1.name))),
-      updated_at: Timex.format!(model.updated_at, "%Y%m%d%H%M%S%f", :strftime)
+      updated_at: Timex.format!(model.updated_at, "%Y-%m-%d", :strftime)
     ]
   end
 
@@ -103,7 +103,7 @@ defmodule Customer.Job do
     end
   end
 
-  defp build_default_query() do
+  defp build_default_query do
     import Tirexs.Search
     require Tirexs.Query.Filter
     search [index: esindex] do

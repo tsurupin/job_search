@@ -59,6 +59,7 @@ defmodule Customer.Es.Document do
   end
 
   defp change_document(type, records, name, model) do
+
     records
     |> Stream.map(&model.es_search_data(&1))
     |> Stream.filter(fn item -> !Blank.blank?(item) end)
@@ -71,7 +72,14 @@ defmodule Customer.Es.Document do
             :delete -> delete(index_and_type_name(model, name), data)
           end
         end
-      Tirexs.bump!(payload)._bulk({[refresh: true]})
+
+      case Tirexs.bump!(payload)._bulk({[refresh: true]}) do
+        {:ok, 200, %{errors: false}}  -> {:ok}
+        {:ok, 200, %{errors: true, items: items}} ->
+            IO.inspect items
+            {:error}
+      end
+
     end)
     |> Stream.run
   end
