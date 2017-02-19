@@ -12,7 +12,7 @@ defmodule Customer.Api.V1.JobController do
     jobs =
        Job.es_search(search_params, option_params)
        |> Es.Paginator.paginate(%{query: search_params, options: option_params})
-
+    IO.inspect jobs
     render(conn, "index.json", %{jobs: jobs})
   end
 

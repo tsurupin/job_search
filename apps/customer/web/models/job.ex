@@ -59,15 +59,15 @@ defmodule Customer.Job do
 
   def es_search_data(model) do
     model = get_with_associations!(model.id)
+    IO.inspect model
     [
       id: model.id,
-      title: String.downcase(model.title),
       job_title: String.downcase(model.job_title),
       detail: String.downcase(Map.get(model.detail, "value")),
       company_name: String.downcase(model.company.name),
       area: String.downcase(model.area.name),
       techs: Enum.map(model.tech_keywords, &(String.downcase(&1.name))),
-      updated_time: Timex.format!(model.updated_at, "%Y%m%d%H%M%S%f", :strftime)
+      updated_at: Timex.format!(model.updated_at, "%Y%m%d%H%M%S%f", :strftime)
     ]
   end
 

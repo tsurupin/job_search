@@ -28740,8 +28740,10 @@
 	  jobTitle: '',
 	  detail: '',
 	  techs: [],
+	  updatedAt: '',
 	  page: 1,
-	  offset: 20
+	  nextPage: 1,
+	  hasNext: true
 	};
 
 /***/ },
@@ -31281,22 +31283,20 @@
 	    key: 'getSearchPath',
 	    value: function getSearchPath() {
 	      var path = '?';
-	      var _props2 = this.props,
-	          page = _props2.page,
-	          offset = _props2.offset;
+	      var page = this.props.page;
 	      var _state = this.state,
 	          jobTitle = _state.jobTitle,
 	          area = _state.area,
 	          techs = _state.techs,
 	          detail = _state.detail;
 
-	      path += 'page=' + page + '&offset=' + offset + '&';
+	      path += 'page=' + page + '&';
 
 	      if (jobTitle) path += 'job-title=' + jobTitle + '&';
 	      if (area) path += 'area=' + area + '&';
 	      if (techs.length > 0) path += 'techs=' + techs.join(",") + '&';
 	      if (detail) path += 'detail=' + detail;
-	      if (path[path.length] === '&') return path.slice(0, path.length - 1);
+	      if (path[path.length - 1] === '&') return path.slice(0, path.length - 1);
 
 	      return path;
 	    }
@@ -31342,7 +31342,8 @@
 	    dispatch(fetchJobsRequest());
 
 	    return request.then(function (response) {
-	      return dispatch(fetchJobsSuccess(response.data));
+	      console.log(response.data);
+	      dispatch(fetchJobsSuccess(response.data));
 	    }).catch(function (error) {
 	      return dispatch(fetchJobsFailure(error.data));
 	    });

@@ -11,7 +11,10 @@ export function fetchJobs(path = '') {
     dispatch(fetchJobsRequest());
 
     return request
-    .then(response => dispatch(fetchJobsSuccess(response.data)))
+    .then((response) => {
+      console.log(response.data);
+      dispatch(fetchJobsSuccess(response.data))
+    })
     .catch(error => dispatch(fetchJobsFailure(error.data)))
   };
 }

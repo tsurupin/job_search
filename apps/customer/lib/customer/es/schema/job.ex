@@ -24,7 +24,7 @@ defmodule Customer.Es.Schema.Job do
       use Tirexs.Mapping
 
       mappings do
-        indexes "area_name", type: "string", index: "not_analyzed"
+        indexes "area", type: "string", index: "not_analyzed"
         indexes "job_title", type: "string", index: "not_analyzed"
         indexes "techs", type: "string", index: "not_analyzed"
         indexes "details", type: "string", analyzer: "ngram_analyzer"

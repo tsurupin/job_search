@@ -1,8 +1,13 @@
 defmodule Customer.Api.V1.JobView do
   use Customer.Web, :view
 
-  def render("index.json", %{jobs: %{entries: jobs}} = params) do
-    Enum.map(jobs, &(parse(&1)))
+  def render("index.json", %{jobs: %{entries: jobs, has_next: has_next, next_page: next_page, page: page}} = params) do
+    %{
+       jobs: Enum.map(jobs, &(parse(&1))),
+       hasNext: has_next,
+       nextPage: next_page,
+       page: page
+    }
   end
 
   def render("show.json", %{job: job} = params) do
@@ -15,9 +20,9 @@ defmodule Customer.Api.V1.JobView do
 
   defp parse(job) do
     %{
-        title: job.job_title,
-        area_name: job.area_name,
-        updated_time: job.updated_time,
+        jobTitle: job.job_title,
+        area: job.area,
+        updatedAt: job.updated_at,
         techs: job.techs,
         detail: job.detail
     }

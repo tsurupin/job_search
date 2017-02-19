@@ -66,15 +66,15 @@ class JobIndexContainer extends Component {
 
   getSearchPath() {
     let path = '?';
-    const { page, offset } = this.props;
+    const { page } = this.props;
     const { jobTitle, area, techs, detail } = this.state;
-    path += `page=${page}&offset=${offset}&`;
+    path += `page=${page}&`;
 
     if (jobTitle) path += `job-title=${jobTitle}&`;
     if (area) path += `area=${area}&`;
     if (techs.length > 0) path += `techs=${techs.join(",")}&`;
     if (detail) path += `detail=${detail}`;
-    if (path[path.length] === '&') return path.slice(0, path.length-1);
+    if (path[path.length-1] === '&') return path.slice(0, path.length-1);
 
     return path;
   }

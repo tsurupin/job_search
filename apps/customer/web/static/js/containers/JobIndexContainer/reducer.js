@@ -10,8 +10,10 @@ const INITIAL_STATE = {
   jobTitle: '',
   detail: '',
   techs: [],
+  updatedAt: '',
   page: 1,
-  offset: 20
+  nextPage: 1,
+  hasNext: true
 };
 
 export default function(state = INITIAL_STATE, action) {
