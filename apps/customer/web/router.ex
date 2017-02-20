@@ -31,17 +31,21 @@ defmodule Customer.Router do
   end
 
   scope "/api", Customer.Api do
-    pipe_through [:api, :api_auth]
 
     scope "/v1", V1 do
-      scope "/auth" do
+      pipe_through [:api]
+      resources "/jobs", JobController, only: [:index, :show]
+      resources "/tech-keywords", TechKeywordController, only: [:index]
+    end
 
+    scope "/v1", V1 do
+      pipe_through [:api, :api_auth]
+      scope "/auth" do
         delete "/", AuthController, :delete, as: :logout
       end
 
-      resources "/companies", CompanyController
+      resources "/favorite-jobs", FavoriteJobController, only: [:index, :create, :delete, :update]
     end
-
   end
 
   # Other scopes may use custom stacks.

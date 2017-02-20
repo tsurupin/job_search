@@ -23,7 +23,8 @@ export default(
       history={browserHistory}
     >
     <Route path="/" component={ App } >
-      <IndexRoute component={ Pages.IndexPage } />
+      <IndexRoute component={ Pages.JobIndexPage } />
+      <Route path="/jobs/:id" component={ Pages.JobShowPage } />
       <Route path="/auth/:provider/callback" component={ AuthenticationContainer(Pages.AuthCallbackPage) } />
     </Route>
     </Router>

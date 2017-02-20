@@ -3,9 +3,7 @@ defmodule Customer.Es.Suggester do
 
   def response(results) when is_nil(results), do: []
   def response(results) do
-    Enum.map results[:hits][:hits], fn hit ->
-      List.first(hit[:fields][:name])
-    end
+    Enum.map results[:hits][:hits], &(&1[:_source][:name])
   end
 
   def completion(model, word) do

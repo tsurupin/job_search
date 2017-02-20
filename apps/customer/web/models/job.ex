@@ -50,19 +50,23 @@ defmodule Customer.Job do
     Repo.one!(from(j in __MODULE__, where: j.id == ^id, preload: [:area, :company, :tech_keywords]))
   end
 
+  def query_all(:index) do
+    from j in __MODULE__,
+    preload: [:area, :company, :tech_keywords]
+  end
+
   # for elastic search
 
   def es_search_data(model) do
     model = get_with_associations!(model.id)
     [
-      id: model.id,
-      title: String.downcase(model.title),
+      job_id: model.id,
       job_title: String.downcase(model.job_title),
       detail: String.downcase(Map.get(model.detail, "value")),
       company_name: String.downcase(model.company.name),
-      area_name: String.downcase(model.area.name),
+      area: String.downcase(model.area.name),
       techs: Enum.map(model.tech_keywords, &(String.downcase(&1.name))),
-      updated_time: Timex.format!(model.updated_at, "%Y%m%d%H%M%S%f", :strftime)
+      updated_at: Timex.format!(model.updated_at, "%Y-%m-%d", :strftime)
     ]
   end
 
@@ -75,16 +79,15 @@ defmodule Customer.Job do
 
   def es_search, do: es_search(nil, [])
   def es_search(params), do: es_search(params, [])
-  def es_search("", options), do: es_search(nil, options)
+  def es_search(params, options) when params == %{},  do: es_search(nil, options)
 
   def es_search(params, options) do
+
     result =
       Tirexs.DSL.define fn ->
         opt = Es.Params.pager_option(options)
-        offset = opt[:offset]
-        per_page = opt[:per_page]
 
-        build_default_query(offset, per_page)
+        build_default_query
         |> add_filter_query(params)
         |> add_sort_query(opt[:sort])
         |> es_logging
@@ -96,7 +99,7 @@ defmodule Customer.Job do
     end
   end
 
-  defp build_default_query(offset, per_page) do
+  defp build_default_query do
     import Tirexs.Search
     require Tirexs.Query.Filter
     search [index: esindex] do

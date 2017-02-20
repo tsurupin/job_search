@@ -8,7 +8,7 @@ defmodule Customer.Es.Paginator do
   defstruct [
     results: [],
     entries: [],
-    page_number: 0,
+    page: 0,
     page_size: 0,
     prev_page: 0,
     next_page: 0,
@@ -18,21 +18,22 @@ defmodule Customer.Es.Paginator do
     total_pages: 0,
   ]
 
-  def paginate(results, query), do: paginate(results, query, [])
+  def paginate(results, %{query: query, options: options}), do: paginate(results, query, options)
+  def paginate(results, query), do: paginate(results, query, %{})
+
   def paginate(%{error: _}, _query, _options), do: %__MODULE__{}
   def paginate(results, query, options) do
     opt = Es.Params.pager_option(options)
     page = opt[:page]
     page_size = opt[:per_page]
-    pages = total_pages(results[:hits][:total], query)
+
+    pages = total_pages(results[:hits][:total], page_size)
 
     %__MODULE__{
-      entries: entries(results[:hits][:hits], query),
+      entries: entries(results[:hits][:hits]),
       page_size: options[:page_size],
-      page_number: page,
-      total_entries: results[:hits][:total],
-      total_pages: pages,
-      results: results
+      page: page,
+      total_pages: pages
     }
     |> add_pagination_info
   end
@@ -51,19 +52,15 @@ defmodule Customer.Es.Paginator do
 
   defp add_pagination_info(map) do
     Map.merge map, %{
-      prev_page: map.page_number - 1,
-      next_page: map.page_number + 1,
-      has_prev: map.page_number > 1,
-      has_next: map.page_number < map.total_pages
+      prev_page: map.page - 1,
+      next_page: map.page + 1,
+      has_prev: map.page > 1,
+      has_next: map.page < map.total_pages
     }
   end
 
-  defp entries(hits, query) do
-    Enum.map(hits, fn(hit) ->
-      query
-      |> where([model], model.id == ^hit[:_id])
-      |> Repo.one
-    end)
+  defp entries(hits) do
+    Enum.map(hits, &(&1[:_source]))
   end
 
 end

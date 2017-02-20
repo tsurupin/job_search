@@ -42,8 +42,15 @@ defmodule Customer.Es.Index do
 
   defp upsert_index(model, index, data, new_index, old_index \\ nil) do
     model.es_create_index(new_index)
-    unless Blank.blank?(data), do: Es.Document.put_document(data, new_index)
-    upsert_aliases(aliase_query(index, new_index, old_index))
+    unless Blank.blank?(data) do
+
+
+       case Es.Document.put_document(data, new_index) do
+         :ok -> upsert_aliases(aliase_query(index, new_index, old_index))
+         error -> IO.inspect error
+
+       end
+    end
   end
 
   defp upsert_aliases(alias_query) do

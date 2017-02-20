@@ -1,7 +1,7 @@
 defmodule Customer.Area do
   use Customer.Web, :model
   alias Customer.Repo
-  alias Customer.{Job, JobSource, State, Area, Repo}
+  alias Customer.{Job, JobSource, State, Area}
   alias Customer.Es
 
   schema "areas" do
@@ -35,10 +35,17 @@ defmodule Customer.Area do
     Repo.get_by!(Area, %{state_id: state.id, name: area_name})
   end
 
+  def names do
+    (from a in __MODULE__, select: a.name)
+    |> Repo.all
+  end
+
   defp area_and_state(place) do
     place
     |> String.split(",")
     |> Enum.map(&(String.trim(&1)))
   end
+
+
 
 end
