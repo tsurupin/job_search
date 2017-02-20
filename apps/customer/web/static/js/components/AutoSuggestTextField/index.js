@@ -2,7 +2,13 @@ import React, { Component, PropTypes } from 'react';
 
 
 const propTypes = {
-
+  name: PropTypes.string.isRequired,
+  suggestedItems: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentValue: PropTypes.arrayOf(PropTypes.string),
+  tabIndex: PropTypes.number.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  handleAutoSuggest: PropTypes.func.isRequired,
+  handleSelect: PropTypes.func.isRequired,
 };
 
 class AutoSuggestTextField extends Component {
@@ -10,50 +16,54 @@ class AutoSuggestTextField extends Component {
   constructor(props) {
     super(props);
 
-    this.handleChange = this.handleChange.bind(this);
+    this.state = { currentValue: '' };
+    this.handleAutoSuggest = this.handleAutoSuggest.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
-    this.handleSelectSuggestedItem = this.handleSelectSuggestedItem.bind(this);
   }
 
-  handleChange(e) {
-    e.preventDefault();
-    this.props.handleChange(e.target.value);
+  handleAutoSuggest(e) {
+    const { value } = e.target;
+    this.props.handleAutoSuggest(value);
   }
 
   handleSelect(e) {
-    e.preventDefault();
+    if (e.key !== 'Enter') return;
     this.props.handleSelect(e.target.name, e.target.value);
   }
 
-  handleSelectSuggestedItem(value) {
-    this.props.handleSelect(this.props.name, value);
-  }
-
   getLabelId() {
-    return  `${name}-suggested-text`;
+    return `${this.props.name}-suggested-text`;
   }
 
 
   render() {
-    const { name, suggestedItems, currentValue, tabIndex, placeholder } = this.props;
+    const {
+      name,
+      suggestedItems,
+      tabIndex,
+      placeholder
+    } = this.props;
+    const { currentValue } = this.state;
+
     return(
       <div>
       <label htmlFor={this.getLabelId()} >{name}</label>
         <input
           id={this.getLabelId()}
           type='text'
+          name={name}
           placeholder={placeholder}
           tabIndex={tabIndex}
-          onChange={this.handleChange()}
-          onClick={this.handleSelect()}
-          value={currentValue}
+          onChange={this.handleAutoSuggest}
+          onKeyPress={this.handleSelect}
+          defaultValue={currentValue}
         />
         <ul>
           {suggestedItems.map((suggestedItem) => {
             return(
-              <li key={suggestedItem} onClick={this.handleSelectSuggestedItem(suggestedItem)}>
-              {suggestedItem}
-            </li>
+              <li key={suggestedItem} onClick={() => this.props.handleSelect(name, suggestedItem)} >
+                {suggestedItem}
+              </li>
             )
           })
           }

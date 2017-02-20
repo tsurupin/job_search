@@ -32,17 +32,18 @@ function fetchJobsRequest() {
   }
 }
 
-function fetchJobsSuccess({ jobs, page, offset }) {
+function fetchJobsSuccess({ jobs, page, hasNext, nextPage, jobTitles, areas }) {
   return {
     type: FETCH_JOBS.SUCCESS,
-    payload: { jobs, page, offset }
+    payload: { jobs, page, hasNext, nextPage, jobTitles, areas }
   }
 }
 
-function fetchJobsFailure({ errorMessage }) {
+function fetchJobsFailure(errorMessage) {
+  console.log(errorMessage);
   return {
     type: FETCH_JOBS.FAILURE,
-    paylaod: { errorMessage }
+    payload: { errorMessage }
   }
 }
 
@@ -64,29 +65,29 @@ export function fetchTechKeywords(value) {
 
 function fetchTechKeywordsSuccess(suggestedTechKeywords) {
   return {
-    type: FETCH_TECH_KEYWORDS.SUCCESS.
-    suggestedTechKeywords
+    type: FETCH_TECH_KEYWORDS.SUCCESS,
+    payload: { suggestedTechKeywords }
   }
 }
 
-function fetchTechKeywordsFailure({ errorMessage }) {
+function fetchTechKeywordsFailure(errorMessage) {
+  console.log(errorMessage)
   return {
     type: FETCH_TECH_KEYWORDS.FAILURE,
-    errorMessage
+    payload: { errorMessage }
   }
 }
 
 export function resetItem(key) {
   return {
     type: RESET_ITEM,
-    key
+    payload: { key }
   }
 }
 
 export function selectItem(key, value) {
   return {
     type: SELECT_ITEM,
-    key,
-    value
+    payload: { key, value }
   }
 }

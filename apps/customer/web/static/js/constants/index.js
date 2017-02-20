@@ -5,3 +5,5 @@ export function createRequestTypes(base) {
   });
   return requestType;
 }
+
+export const TECH_KEYWORD = 'techKeyword';

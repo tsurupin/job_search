@@ -35,6 +35,7 @@ defmodule Customer.Router do
     scope "/v1", V1 do
       pipe_through [:api]
       resources "/jobs", JobController, only: [:index, :show]
+      resources "/tech-keywords", TechKeywordController, only: [:index]
     end
 
     scope "/v1", V1 do

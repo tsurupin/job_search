@@ -31,7 +31,7 @@ export default function(state = INITIAL_STATE, action) {
       const { jobs, jobTitles, areas, page, nextPage, hasNext } = action.payload;
       return { ...state, jobs, jobTitles, areas, page, nextPage, hasNext, loading: false };
 
-    case FETCH_JOBS.FAILURE:
+    case FETCH_JOBS.FAILURE, FETCH_TECH_KEYWORDS.FAILURE:
       const { errorMessage } = action.payload;
       return { ...state, errorMessage, loading: false };
 
@@ -40,16 +40,11 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, [key]: value };
 
     case RESET_ITEM:
-      const { key } = action.payload;
-      return { ...state, [key]: '' };
+      return { ...state, [action.payload.key]: '' };
 
     case FETCH_TECH_KEYWORDS.SUCCESS:
       const { suggestedTechKeywords } = action.payload;
       return { ...state, suggestedTechKeywords };
-
-    case FETCH_TECH_KEYWORDS.FAILURE:
-      const { errorMessage } = action.payload;
-      return { ...state, errorMessage };
 
     default:
       return state;

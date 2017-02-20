@@ -91,6 +91,7 @@ defmodule Customer.Es.Filter.Job do
   end
 
   def perform(%{area: area}) do
+    IO.inspect "#######################"
     Tirexs.Query.Filter.filter do
       bool do
         must do

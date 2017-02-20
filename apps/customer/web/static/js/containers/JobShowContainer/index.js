@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as JobShowActionCreators from './action';
 
 const propTypes = {
-
+  id: PropTypes.string.isRequired
 }
 
 function mapStateToProps({jobShow}) {
@@ -32,12 +32,13 @@ class JobShowContainer extends Component {
   }
 
   componentWillMount() {
-    this.props.actions.fetchJob(this.props.params.id);
+    console.log(this.props)
+    this.props.actions.fetchJob(this.props.id);
   }
 
   render() {
     return (
-      <div />
+      <div >Hoge</div>
     )
   }
 

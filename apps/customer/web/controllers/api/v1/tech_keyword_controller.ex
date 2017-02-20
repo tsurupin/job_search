@@ -1,4 +1,4 @@
-defmodule Customer.API.V1.TechKeywordController do
+defmodule Customer.Api.V1.TechKeywordController do
   use Customer.Web, :controller
 
   alias Customer.Es

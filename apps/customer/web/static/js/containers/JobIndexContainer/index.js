@@ -2,11 +2,30 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as JobIndexActionCreators from './action';
-import { JobTable } from 'components';
+import { JobTable, JobFilterBox } from 'components';
+import { TECH_KEYWORD } from 'constants';
 
 const propTypes = {
-
+  jobTitles: PropTypes.array.isRequired,
+  jobTitle: PropTypes.string.isRequired,
+  areas: PropTypes.array.isRequired,
+  area: PropTypes.string.isRequired,
+  jobs: PropTypes.array.isRequired,
+  suggestedTechKeywords: PropTypes.array.isRequired,
+  techKeywords: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  detail: PropTypes.string.isRequired,
+  page: PropTypes.number.isRequired,
+  nextPage: PropTypes.number.isRequired,
+  hasNext: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string.isRequired,
+  actions: PropTypes.shape({
+    selectItem: PropTypes.func.isRequired,
+    resetItem: PropTypes.func.isRequired,
+    fetchTechKeywords: PropTypes.func.isRequired
+  }).isRequired
 };
+
+const TECH_KEYWORDS = 'techKeywords';
 
 function mapStateToProps({ jobIndex }) {
   const {
@@ -56,40 +75,44 @@ class JobIndexContainer extends Component {
     super(props);
 
     this.handleReset = this.handleReset.bind(this);
+    this.handleResetTechKeyword = this.handleResetTechKeyword.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleAutoSuggest = this.handleAutoSuggest.bind(this);
   }
 
   componentWillMount() {
-    this.props.actions.fetchJobs(this.getSearchPath());
+    this.props.actions.fetchJobs(this.getSearchPath(this.props));
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState(this.updateProps(newProps));
+    if (this.needUpdate(newProps)) {
+      this.props.actions.fetchJobs(this.getSearchPath(newProps));
+    }
   }
 
-  updateProps(newProps) {
+  needUpdate(newProps) {
     let updatedProps = {};
     const { jobTitle, area, techKeywords, detail } = this.props;
 
     if (jobTitle !== newProps.jobTitle) updatedProps['jobTitle'] = newProps.jobTitle;
-    if (area !== newProps.Area) updatedProps['area'] = newProps.Area;
+    if (area !== newProps.area) updatedProps['area'] = newProps.area;
     if (techKeywords !== newProps.techKeywords) updatedProps['techKeywords'] = newProps.techKeywords;
     if (detail !== newProps.detail) updatedProps['detail'] = newProps.detail;
 
-    return updatedProps;
+    return Object.keys(updatedProps).length > 0
   }
 
-  getSearchPath() {
+  getSearchPath(props) {
     let path = '?';
-    const { page } = this.props;
-    const { jobTitle, area, techKeywords, detail } = this.props;
+    const { page } = props;
+    const { jobTitle, area, techKeywords, detail } = props;
     path += `page=${page}&`;
 
     if (jobTitle) path += `job-title=${jobTitle}&`;
     if (area) path += `area=${area}&`;
     if (techKeywords.length > 0) path += `techs=${techKeywords.join(",")}&`;
     if (detail) path += `detail=${detail}`;
+
     if (path[path.length-1] === '&') return path.slice(0, path.length-1);
 
     return path;
@@ -99,8 +122,19 @@ class JobIndexContainer extends Component {
     this.props.actions.resetItem(key);
   }
 
+  handleResetTechKeyword(key, value) {
+    const newValue = this.props.techKeywords.filter(techKeyword => techKeyword !== value)
+    this.props.actions.selectItem(TECH_KEYWORDS, newValue);
+  }
+
   handleSelect(key, value) {
-    this.props.actions.selectItem(key, value);
+    if (key === TECH_KEYWORD) {
+      value = [...this.props.techKeywords, value];
+      this.props.actions.selectItem(TECH_KEYWORDS, value);
+    } else {
+      this.props.actions.selectItem(key, value);
+    }
+
   }
 
   handleAutoSuggest(value) {
@@ -129,9 +163,10 @@ class JobIndexContainer extends Component {
           jobTitles={jobTitles}
           areas={areas}
           suggestedTechKeywords={suggestedTechKeywords}
-          handleSelect={this.handleSelect()}
-          handleReset={this.handleReset()}
-          handleAutoSuggest={this.handleAutoSuggest()}
+          handleSelect={this.handleSelect}
+          handleReset={this.handleReset}
+          handleResetTechKeyword={this.handleResetTechKeyword}
+          handleAutoSuggest={this.handleAutoSuggest}
         />
         {jobs.length === 0 ? null : <JobTable jobs={jobs} />}
       </article>

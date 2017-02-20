@@ -2,7 +2,10 @@ import React, { Component, PropTypes } from 'react';
 
 
 const propTypes = {
-
+  items: PropTypes.array.isRequired,
+  name: PropTypes.string.isRequired,
+  currentValue: PropTypes.string.isRequired,
+  handleSelect: PropTypes.func.isRequired
 };
 
 class SingleSelectField extends Component {
@@ -15,28 +18,24 @@ class SingleSelectField extends Component {
     return <option key='disabled' value='' disabled>{this.props.placeholder}</option>
   }
 
-
   getOptions() {
     let options = [];
+    const { items } = this.props;
     options.push(this.getPlaceholderOption());
-    {this.props.items.forEach(item => {
+    {items.forEach(item => {
       options.push(<option key={item} value={item}>{item}</option>);
     })}
     return options;
   }
 
-  handleSelect(e) {
-    this.props.handleSelect(e.target.name, e.target.value);
-  }
-
   render() {
-    const { name, currentValue } = this.props;
+    const { name, currentValue, handleSelect } = this.props;
 
     return(
       <select
         name={name}
         defaultValue={currentValue}
-        onClick={this.handleSelect()}
+        onBlur={e => handleSelect(e.target.name, e.target.value)}
       >
         {this.getOptions()}
       </select>

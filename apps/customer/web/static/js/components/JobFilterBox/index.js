@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import {
   CurrentFilterBox,
   SingleSelectField,
@@ -9,7 +9,17 @@ import styles from './styles.css';
 
 
 const propTypes = {
-
+  jobTitles: PropTypes.array.isRequired,
+  jobTitle: PropTypes.string.isRequired,
+  areas: PropTypes.array.isRequired,
+  area: PropTypes.string.isRequired,
+  suggestedTechKeywords: PropTypes.array.isRequired,
+  techKeywords: PropTypes.array.isRequired,
+  detail: PropTypes.string.isRequired,
+  handleSelect: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
+  handleResetTechKeyword: PropTypes.func.isRequired,
+  handleAutoSuggest: PropTypes.func.isRequired
 };
 
 class JobFilterBox extends Component {
@@ -38,15 +48,18 @@ class JobFilterBox extends Component {
       techKeywords,
       detail,
       handleReset,
+      handleResetTechKeyword,
       handleSelect,
       handleAutoSuggest
     } = this.props;
 
+    console.log(jobTitles);
     return(
       <article className={styles.filterBox}>
         <CurrentFilterBox
           items={this.getSelectedItems()}
-          handleReset={handleReset()}
+          handleReset={handleReset}
+          handleResetTechKeyword={handleResetTechKeyword}
         />
         <section className={styles.filterBox}>
           <SingleSelectField
@@ -55,7 +68,7 @@ class JobFilterBox extends Component {
             currentValue={jobTitle}
             placeholder='Job Title'
             tabIndex={1}
-            handleSelect={handleSelect()}
+            handleSelect={handleSelect}
           />
           <SingleSelectField
             name='area'
@@ -63,16 +76,15 @@ class JobFilterBox extends Component {
             currentValue={area}
             placeholder='Area'
             tabIndex={2}
-            handleSelect={handleSelect()}
+            handleSelect={handleSelect}
           />
           <AutoSuggestTextField
             name='techKeyword'
             suggestedItems={suggestedTechKeywords}
-            currentValue={techKeywords}
             tabIndex={3}
             placeholder="Enter Techs"
-            handleSelect={handleSelect()}
-            handleAutoSuggest={handleAutoSuggest()}
+            handleSelect={handleSelect}
+            handleAutoSuggest={handleAutoSuggest}
           />
           <TextField
             name='detail'
@@ -80,7 +92,7 @@ class JobFilterBox extends Component {
             placeholder='Enter Keywords'
             tabIndex={4}
             autoComplete='on'
-            handleSelect={handleSelect()}
+            handleSelect={handleSelect}
           />
         </section>
       </article>

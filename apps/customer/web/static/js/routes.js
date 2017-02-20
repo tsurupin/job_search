@@ -24,7 +24,7 @@ export default(
     >
     <Route path="/" component={ App } >
       <IndexRoute component={ Pages.JobIndexPage } />
-      <Route path="/api/v1/jobs/:id" component={ Pages.JobShowPage } />
+      <Route path="/jobs/:id" component={ Pages.JobShowPage } />
       <Route path="/auth/:provider/callback" component={ AuthenticationContainer(Pages.AuthCallbackPage) } />
     </Route>
     </Router>

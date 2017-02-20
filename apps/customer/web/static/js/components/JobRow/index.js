@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 
 const propTypes = {
   id: PropTypes.number.isRequired,
@@ -10,9 +11,15 @@ const propTypes = {
 
 const JobRow = ({ id, jobTitle, area, updatedAt, techs }) =>{
   return (
-    <tr>
-      <p>{jobTitle}</p>
-    </tr>
+    <div>
+      <Link to={`/jobs/${id}`} >
+        {jobTitle}
+      </Link>
+      <p>{area}</p>
+      <p>{updatedAt}</p>
+      <p>{techs.join(",")}</p>
+
+    </div>
   )
 };
 

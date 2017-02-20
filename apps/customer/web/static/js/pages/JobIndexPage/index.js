@@ -5,14 +5,19 @@ import {
   JobIndexContainer
 } from 'containers';
 
-function JobIndexPage() {
+class JobIndexPage extends Component {
 
-  return (
-    <div className={styles.container}>
-      <HeaderContainer />
-      <JobIndexContainer />
-    </div>
-  )
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <div className={styles.container}>
+        <HeaderContainer />
+        <JobIndexContainer />
+      </div>
+    )
+  }
 
 }
 

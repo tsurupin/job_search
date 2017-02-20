@@ -79,18 +79,15 @@ defmodule Customer.Job do
 
   def es_search, do: es_search(nil, [])
   def es_search(params), do: es_search(params, [])
-  def es_search(%{}, options), do: es_search(nil, options)
+  def es_search(params, options) when params == %{},  do: es_search(nil, options)
 
   def es_search(params, options) do
 
     result =
       Tirexs.DSL.define fn ->
         opt = Es.Params.pager_option(options)
-#        offset = opt[:offset]
-#        per_page = opt[:per_page]
 
-
-        build_default_query()
+        build_default_query
         |> add_filter_query(params)
         |> add_sort_query(opt[:sort])
         |> es_logging

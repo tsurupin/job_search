@@ -1,7 +1,7 @@
 defmodule Customer.Api.V1.JobController do
   use Customer.Web, :controller
 
-  alias Customer.Job
+  alias Customer.{Job, Area}
   alias Customer.Repo
   alias Customer.Es
 
@@ -13,16 +13,15 @@ defmodule Customer.Api.V1.JobController do
        Job.es_search(search_params, option_params)
        |> Es.Paginator.paginate(%{query: search_params, options: option_params})
     # TODO: fetch by cache
+
     job_titles = []
     areas = Area.names
-    render(conn, "index.json", %{jobs: jobs, job_title: job_titles, ares: areas})
+    render(conn, "index.json", %{jobs: jobs, job_titles: job_titles, areas: areas})
   end
 
   def show(conn, %{"id" => id}, _current_user, _claims) do
-    case Repo.get(Job, id) do
-      {:ok, job} -> render(conn, "show.json", %{job: job})
-      {:error, error} -> render(conn, "show.json", %{error: error})
-    end
+    job = Job.get_with_associations!(id)
+    render(conn, "show.json", %{job: job})
   end
 
   defp search_params(params) do

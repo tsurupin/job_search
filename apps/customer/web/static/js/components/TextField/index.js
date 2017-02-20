@@ -1,18 +1,46 @@
 import React, { PropTypes, Component } from 'react';
 
+const propTypes = {
+  name: PropTypes.string.isRequired,
+  currentValue: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  tabIndex: PropTypes.number.isRequired,
+  autoComplete: PropTypes.string.isRequired,
+  handleSelect: PropTypes.func.isRequired
+};
+
 class TextField extends Component {
   constructor(props) {
     super(props);
+    const { currentValue } = props;
+    this.state = { currentValue };
     this.handleSelect = this.handleSelect.bind(this);
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.state.currentValue === newProps.currentValue) return;
+    const { currentValue } = newProps;
+    this.setState({ currentValue });
+  }
+
   handleSelect(e) {
-    e.preventDefault();
+    if (e.key !== 'Enter') return;
     this.props.handleSelect(e.target.name, e.target.value);
   }
 
+  getLabelId() {
+    return `${this.props.name}-text-field`;
+  }
+
   render() {
-    const { name, currentValue, placeholder, tabIndex, autoComplete } = this.props;
+    const {
+      name,
+      placeholder,
+      tabIndex,
+      autoComplete
+    } = this.props;
+    const { currentValue } = this.state;
+
     return(
       <div>
         <label
@@ -22,12 +50,14 @@ class TextField extends Component {
         </label>
         <input
           id={this.getLabelId()}
-          type={name}
+          type='text'
+          name={name}
           value={currentValue}
           placeholder={placeholder}
           tabIndex={tabIndex}
           autoComplete={autoComplete}
-          onClick={this.handleSelect()}
+          onChange={e => this.setState({currentValue: e.target.value})}
+          onKeyPress={this.handleSelect}
         />
       </div>
     )
