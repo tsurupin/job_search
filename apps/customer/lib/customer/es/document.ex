@@ -65,6 +65,7 @@ defmodule Customer.Es.Document do
     |> Stream.filter(fn item -> !Blank.blank?(item) end)
     |> Stream.chunk(50_000, 50_000, [])
     |> Stream.each(fn data ->
+
       payload =
         bulk do
           case type do

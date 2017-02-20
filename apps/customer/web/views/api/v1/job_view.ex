@@ -20,6 +20,7 @@ defmodule Customer.Api.V1.JobView do
 
   defp parse(job) do
     %{
+        id: job.job_id,
         jobTitle: job.job_title,
         area: job.area,
         updatedAt: job.updated_at,

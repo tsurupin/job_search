@@ -24,6 +24,7 @@ defmodule Customer.Es.Schema.Job do
       use Tirexs.Mapping
 
       mappings do
+        indexes "job_id", type: "integer"
         indexes "area", type: "string", index: "not_analyzed"
         indexes "job_title", type: "string", index: "not_analyzed"
         indexes "techs", type: "string", index: "not_analyzed"

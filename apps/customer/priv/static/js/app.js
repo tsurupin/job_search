@@ -28599,7 +28599,7 @@
 
 	var _reducer2 = _interopRequireDefault(_reducer);
 
-	var _reducer3 = __webpack_require__(268);
+	var _reducer3 = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./containers/JobIndexContainer/reducer\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 	var _reducer4 = _interopRequireDefault(_reducer3);
 
@@ -28693,60 +28693,7 @@
 	}
 
 /***/ },
-/* 268 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	exports.default = function () {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case _constants.FETCH_JOBS.REQUEST:
-	      return _extends({}, state, { loading: true });
-
-	    case _constants.FETCH_JOBS.SUCCESS:
-	      var _action$payload = action.payload,
-	          jobs = _action$payload.jobs,
-	          page = _action$payload.page,
-	          offset = _action$payload.offset;
-
-	      return _extends({}, state, { jobs: jobs, page: page, offset: offset, loading: false });
-
-	    case _constants.FETCH_JOBS.FAILURE:
-	      var errorMessage = action.payload.errorMessage;
-
-	      return _extends({}, state, { errorMessage: errorMessage, loading: false });
-
-	    default:
-	      return state;
-	  }
-	};
-
-	var _constants = __webpack_require__(269);
-
-	var INITIAL_STATE = {
-	  jobs: [],
-	  loading: false,
-	  errorMessage: '',
-	  area: '',
-	  jobTitle: '',
-	  detail: '',
-	  techs: [],
-	  updatedAt: '',
-	  page: 1,
-	  nextPage: 1,
-	  hasNext: true
-	};
-
-/***/ },
+/* 268 */,
 /* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -28755,12 +28702,16 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.JOBS_PATH = exports.FETCH_JOBS = undefined;
+	exports.SELECT_ITEM = exports.RESET_ITEM = exports.FETCH_TECH_KEYWORDS = exports.TECH_KEYWORDS_PATH = exports.JOBS_PATH = exports.FETCH_JOBS = undefined;
 
 	var _constants = __webpack_require__(267);
 
 	var FETCH_JOBS = exports.FETCH_JOBS = (0, _constants.createRequestTypes)('jobs');
 	var JOBS_PATH = exports.JOBS_PATH = '/api/v1/jobs';
+	var TECH_KEYWORDS_PATH = exports.TECH_KEYWORDS_PATH = '/api/v1/tech-keywords';
+	var FETCH_TECH_KEYWORDS = exports.FETCH_TECH_KEYWORDS = (0, _constants.createRequestTypes)('techKeywords');
+	var RESET_ITEM = exports.RESET_ITEM = 'resetItem';
+	var SELECT_ITEM = exports.SELECT_ITEM = 'selectItem';
 
 /***/ },
 /* 270 */
@@ -31182,6 +31133,8 @@
 
 	var JobIndexActionCreators = _interopRequireWildcard(_action);
 
+	var _components = __webpack_require__(321);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -31201,10 +31154,15 @@
 	      loading = jobIndex.loading,
 	      jobTitle = jobIndex.jobTitle,
 	      area = jobIndex.area,
-	      techs = jobIndex.techs,
 	      detail = jobIndex.detail,
+	      techKeywords = jobIndex.techKeywords,
+	      jobTitles = jobIndex.jobTitles,
+	      areas = jobIndex.areas,
+	      suggestedTechKeywords = jobIndex.suggestedTechKeywords,
 	      page = jobIndex.page,
-	      offset = jobIndex.offset;
+	      nextPage = jobIndex.nextPage,
+	      hasNext = jobIndex.hasNext;
+
 
 	  return {
 	    jobs: jobs,
@@ -31212,10 +31170,14 @@
 	    loading: loading,
 	    jobTitle: jobTitle,
 	    area: area,
-	    techs: techs,
 	    detail: detail,
+	    techKeywords: techKeywords,
+	    jobTitles: jobTitles,
+	    areas: areas,
+	    suggestedTechKeywords: suggestedTechKeywords,
 	    page: page,
-	    offset: offset
+	    nextPage: nextPage,
+	    hasNext: hasNext
 	  };
 	}
 
@@ -31233,17 +31195,9 @@
 
 	    var _this = _possibleConstructorReturn(this, (JobIndexContainer.__proto__ || Object.getPrototypeOf(JobIndexContainer)).call(this, props));
 
-	    var jobTitle = props.jobTitle,
-	        area = props.area,
-	        techs = props.techs,
-	        detail = props.detail;
-
-	    _this.state = {
-	      jobTitle: jobTitle,
-	      area: area,
-	      techs: techs,
-	      detail: detail
-	    };
+	    _this.handleReset = _this.handleReset.bind(_this);
+	    _this.handleSelect = _this.handleSelect.bind(_this);
+	    _this.handleAutoSuggest = _this.handleAutoSuggest.bind(_this);
 	    return _this;
 	  }
 
@@ -31264,18 +31218,14 @@
 	      var _props = this.props,
 	          jobTitle = _props.jobTitle,
 	          area = _props.area,
-	          techs = _props.techs,
+	          techKeywords = _props.techKeywords,
 	          detail = _props.detail;
-	      var newJobTitle = newProps.newJobTitle,
-	          newArea = newProps.newArea,
-	          newTechs = newProps.newTechs,
-	          newDetail = newProps.newDetail;
 
 
-	      if (jobTitle !== newJobTitle) updatedProps['jobTitle'] = newJobTitle;
-	      if (area !== newArea) updatedProps['area'] = newArea;
-	      if (techs !== newTechs) updatedProps['techs'] = newTechs;
-	      if (detail !== newDetail) updatedProps['detail'] = newDetail;
+	      if (jobTitle !== newProps.jobTitle) updatedProps['jobTitle'] = newProps.jobTitle;
+	      if (area !== newProps.Area) updatedProps['area'] = newProps.Area;
+	      if (techKeywords !== newProps.techKeywords) updatedProps['techKeywords'] = newProps.techKeywords;
+	      if (detail !== newProps.detail) updatedProps['detail'] = newProps.detail;
 
 	      return updatedProps;
 	    }
@@ -31284,26 +31234,68 @@
 	    value: function getSearchPath() {
 	      var path = '?';
 	      var page = this.props.page;
-	      var _state = this.state,
-	          jobTitle = _state.jobTitle,
-	          area = _state.area,
-	          techs = _state.techs,
-	          detail = _state.detail;
+	      var _props2 = this.props,
+	          jobTitle = _props2.jobTitle,
+	          area = _props2.area,
+	          techKeywords = _props2.techKeywords,
+	          detail = _props2.detail;
 
 	      path += 'page=' + page + '&';
 
 	      if (jobTitle) path += 'job-title=' + jobTitle + '&';
 	      if (area) path += 'area=' + area + '&';
-	      if (techs.length > 0) path += 'techs=' + techs.join(",") + '&';
+	      if (techKeywords.length > 0) path += 'techs=' + techKeywords.join(",") + '&';
 	      if (detail) path += 'detail=' + detail;
 	      if (path[path.length - 1] === '&') return path.slice(0, path.length - 1);
 
 	      return path;
 	    }
 	  }, {
+	    key: 'handleReset',
+	    value: function handleReset(key) {
+	      this.props.actions.resetItem(key);
+	    }
+	  }, {
+	    key: 'handleSelect',
+	    value: function handleSelect(key, value) {
+	      this.props.actions.selectItem(key, value);
+	    }
+	  }, {
+	    key: 'handleAutoSuggest',
+	    value: function handleAutoSuggest(value) {
+	      this.props.actions.fetchTechKeywords(value);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement('div', null);
+	      var _props3 = this.props,
+	          jobs = _props3.jobs,
+	          jobTitles = _props3.jobTitles,
+	          jobTitle = _props3.jobTitle,
+	          areas = _props3.areas,
+	          area = _props3.area,
+	          suggestedTechKeywords = _props3.suggestedTechKeywords,
+	          techKeywords = _props3.techKeywords,
+	          detail = _props3.detail;
+
+
+	      return _react2.default.createElement(
+	        'article',
+	        null,
+	        _react2.default.createElement(JobFilterBox, {
+	          jobTitle: jobTitle,
+	          area: area,
+	          detail: detail,
+	          techKeywords: techKeywords,
+	          jobTitles: jobTitles,
+	          areas: areas,
+	          suggestedTechKeywords: suggestedTechKeywords,
+	          handleSelect: this.handleSelect(),
+	          handleReset: this.handleReset(),
+	          handleAutoSuggest: this.handleAutoSuggest()
+	        }),
+	        jobs.length === 0 ? null : _react2.default.createElement(_components.JobTable, { jobs: jobs })
+	      );
 	    }
 	  }]);
 
@@ -31324,6 +31316,9 @@
 	  value: true
 	});
 	exports.fetchJobs = fetchJobs;
+	exports.fetchTechKeywords = fetchTechKeywords;
+	exports.resetItem = resetItem;
+	exports.selectItem = selectItem;
 
 	var _constants = __webpack_require__(269);
 
@@ -31345,7 +31340,8 @@
 	      console.log(response.data);
 	      dispatch(fetchJobsSuccess(response.data));
 	    }).catch(function (error) {
-	      return dispatch(fetchJobsFailure(error.data));
+	      console.log(error);
+	      dispatch(fetchJobsFailure(error.data));
 	    });
 	  };
 	}
@@ -31373,6 +31369,50 @@
 	  return {
 	    type: _constants.FETCH_JOBS.FAILURE,
 	    paylaod: { errorMessage: errorMessage }
+	  };
+	}
+
+	function fetchTechKeywords(value) {
+	  var request = _axios2.default.get(_constants.TECH_KEYWORDS_PATH + '?value=' + value);
+
+	  return function (dispatch) {
+	    return request.then(function (response) {
+	      console.log(response);
+	      dispatch(fetchTechKeywordsSuccess(response.data));
+	    }).catch(function (error) {
+	      console.log(error);
+	      dispatch(fetchTechKeywordsFailure(error.data));
+	    });
+	  };
+	}
+
+	function fetchTechKeywordsSuccess(suggestedTechKeywords) {
+	  return {
+	    type: _constants.FETCH_TECH_KEYWORDS.SUCCESS.suggestedTechKeywords
+	  };
+	}
+
+	function fetchTechKeywordsFailure(_ref3) {
+	  var errorMessage = _ref3.errorMessage;
+
+	  return {
+	    type: _constants.FETCH_TECH_KEYWORDS.FAILURE,
+	    errorMessage: errorMessage
+	  };
+	}
+
+	function resetItem(key) {
+	  return {
+	    type: _constants.RESET_ITEM,
+	    key: key
+	  };
+	}
+
+	function selectItem(key, value) {
+	  return {
+	    type: _constants.SELECT_ITEM,
+	    key: key,
+	    value: value
 	  };
 	}
 
@@ -31612,6 +31652,119 @@
 	}
 
 	exports.default = AuthCallbackPage;
+
+/***/ },
+/* 321 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.JobRow = exports.JobTable = exports.App = undefined;
+
+	var _App2 = __webpack_require__(272);
+
+	var _App3 = _interopRequireDefault(_App2);
+
+	var _JobTable2 = __webpack_require__(322);
+
+	var _JobTable3 = _interopRequireDefault(_JobTable2);
+
+	var _JobRow2 = __webpack_require__(323);
+
+	var _JobRow3 = _interopRequireDefault(_JobRow2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.App = _App3.default;
+	exports.JobTable = _JobTable3.default;
+	exports.JobRow = _JobRow3.default;
+
+/***/ },
+/* 322 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _components = __webpack_require__(321);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var propTypes = {
+	  jobs: _react.PropTypes.array.isRequired
+	};
+
+	var JobTable = function JobTable(_ref) {
+	  var jobs = _ref.jobs;
+
+	  return _react2.default.createElement(
+	    'table',
+	    null,
+	    jobs.map(function (job) {
+	      return _react2.default.createElement(_components.JobRow, _extends({ key: job.id }, job));
+	    })
+	  );
+	};
+
+	JobTable.propTypes = propTypes;
+	exports.default = JobTable;
+
+/***/ },
+/* 323 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var propTypes = {
+	  id: _react.PropTypes.number.isRequired,
+	  jobTitle: _react.PropTypes.string.isRequired,
+	  area: _react.PropTypes.string.isRequired,
+	  updatedAt: _react.PropTypes.string.isRequired,
+	  techs: _react.PropTypes.array.isRequired
+	};
+
+	var JobRow = function JobRow(_ref) {
+	  var id = _ref.id,
+	      jobTitle = _ref.jobTitle,
+	      area = _ref.area,
+	      updatedAt = _ref.updatedAt,
+	      techs = _ref.techs;
+
+	  return _react2.default.createElement(
+	    'tr',
+	    null,
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      jobTitle
+	    )
+	  );
+	};
+
+	JobRow.propTypes = propTypes;
+	exports.default = JobRow;
 
 /***/ }
 /******/ ]);

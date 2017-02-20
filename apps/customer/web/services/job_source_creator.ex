@@ -7,7 +7,6 @@ defmodule Customer.Services.JobSourceCreator do
     Repo.transaction fn ->
       company = Company.find_or_create_by!(params.name, params.url)
       area = Area.find_by!(params.place)
-      IO.inspect params
 
       job_source = upsert_job_source!(params, company.id, area.id)
       bulk_upsert_job_source_tech_keywords!(params.keywords, job_source.id)

@@ -44,6 +44,7 @@ defmodule Customer.Es.Index do
     model.es_create_index(new_index)
     unless Blank.blank?(data) do
 
+
        case Es.Document.put_document(data, new_index) do
          :ok -> upsert_aliases(aliase_query(index, new_index, old_index))
          error -> IO.inspect error
