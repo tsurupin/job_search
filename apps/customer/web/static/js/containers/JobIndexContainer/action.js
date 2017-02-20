@@ -47,7 +47,7 @@ function fetchJobsFailure({ errorMessage }) {
 }
 
 export function fetchTechKeywords(value) {
-  const request = axios.get(`${TECH_KEYWORDS_PATH}?value=${value}`);
+  const request = axios.get(`${TECH_KEYWORDS_PATH}?word=${value}`);
 
   return dispatch => {
     return request

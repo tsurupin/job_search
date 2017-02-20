@@ -12,8 +12,10 @@ defmodule Customer.Api.V1.JobController do
     jobs =
        Job.es_search(search_params, option_params)
        |> Es.Paginator.paginate(%{query: search_params, options: option_params})
-    IO.inspect jobs
-    render(conn, "index.json", %{jobs: jobs})
+    # TODO: fetch by cache
+    job_titles = []
+    areas = Area.names
+    render(conn, "index.json", %{jobs: jobs, job_title: job_titles, ares: areas})
   end
 
   def show(conn, %{"id" => id}, _current_user, _claims) do

@@ -1,12 +1,14 @@
 defmodule Customer.Api.V1.JobView do
   use Customer.Web, :view
 
-  def render("index.json", %{jobs: %{entries: jobs, has_next: has_next, next_page: next_page, page: page}} = params) do
+  def render("index.json", %{jobs: %{entries: jobs, has_next: has_next, next_page: next_page, page: page}, job_titles: job_titles, areas: areas} = params) do
     %{
        jobs: Enum.map(jobs, &(parse(&1))),
        hasNext: has_next,
        nextPage: next_page,
-       page: page
+       page: page,
+       jobTitles: job_titles,
+       areas: areas
     }
   end
 

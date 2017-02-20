@@ -31373,7 +31373,7 @@
 	}
 
 	function fetchTechKeywords(value) {
-	  var request = _axios2.default.get(_constants.TECH_KEYWORDS_PATH + '?value=' + value);
+	  var request = _axios2.default.get(_constants.TECH_KEYWORDS_PATH + '?word=' + value);
 
 	  return function (dispatch) {
 	    return request.then(function (response) {
