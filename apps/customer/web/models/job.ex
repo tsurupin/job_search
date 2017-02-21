@@ -18,8 +18,8 @@ defmodule Customer.Job do
     timestamps
   end
 
-  @required_fields [:company_id, :area_id, :job_title_id, :title, :url]
-  @optional_fields [:detail]
+  @required_fields ~w(company_id area_id job_title_id title url)a
+  @optional_fields ~w(detail)a
 
   @doc """
   Builds a changeset based on the `struct` and `params`.

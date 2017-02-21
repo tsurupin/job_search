@@ -6,8 +6,8 @@ defmodule Customer.Services.JobSourceCreatorTest do
   test "creates a job source" do
     state = insert(:state, abbreviation: "CA")
     insert(:area, state: state, name: "San Francisco")
-    keyword1 = insert(:tech_keyword)
-    keyword2 = insert(:tech_keyword)
+    keyword1 = insert(:tech_keyword, name: "keyword1")
+    keyword2 = insert(:tech_keyword, name: "keyword2")
     params = %{
       name: "new company",
       place: "San Francisco, CA, USA",
@@ -31,6 +31,8 @@ defmodule Customer.Services.JobSourceCreatorTest do
     company = insert(:company)
     state = insert(:state, abbreviation: "CA")
     area = insert(:area, state: state, name: "San Francisco")
+    job_title = insert(:job_title, name: "job_title")
+    job_title_alias = insert(:job_title_alias, job_title: job_title, name: "job title")
     job_source = insert(:job_source, url: "http://google.com", title: "hoge", job_title: "job title", source: "Sequoia", area: area, company: company)
     keyword1 = insert(:tech_keyword)
     keyword2 = insert(:tech_keyword)
@@ -47,7 +49,7 @@ defmodule Customer.Services.JobSourceCreatorTest do
     }
 
     other_job_source = insert(:job_source, job_title: "job title", source: "ycombinator", detail: "other_detail", area: area, company: company)
-    job = insert(:job, job_title: "job title", area: area, company: company, title: %{"job_source_id" => other_job_source.id, "priority": other_job_source.priority, "value": other_job_source.title}, url: %{"job_source_id" => other_job_source.id, "priority": other_job_source.priority, "value": other_job_source.url}, detail: %{"job_source_id" => other_job_source.id, "priority": other_job_source.priority, "value": other_job_source.detail})
+    job = insert(:job, job_title: job_title, area: area, company: company, title: %{"job_source_id" => other_job_source.id, "priority": other_job_source.priority, "value": other_job_source.title}, url: %{"job_source_id" => other_job_source.id, "priority": other_job_source.priority, "value": other_job_source.url}, detail: %{"job_source_id" => other_job_source.id, "priority": other_job_source.priority, "value": other_job_source.detail})
     keyword3 = insert(:tech_keyword)
     insert(:job_tech_keyword, job: job, tech_keyword: keyword1)
     insert(:job_tech_keyword, job: job, tech_keyword: keyword3)

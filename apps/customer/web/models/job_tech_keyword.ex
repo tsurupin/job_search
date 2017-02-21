@@ -14,9 +14,11 @@ defmodule Customer.JobTechKeyword do
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
+  @required_fields ~w(tech_keyword_id job_id)a
+
   def changeset(struct \\ %__MODULE__{}, params \\ %{}) do
     struct
-    |> cast(params, ~w(tech_keyword_id job_id))
+    |> cast(params, @required_fields)
     |> unique_constraint(:tech_keyword_id, name: :job_tech_keywords_tech_keyword_id_job_id_index)
     |> foreign_key_constraint(:tech_keyword_id)
     |> foreign_key_constraint(:job_id)

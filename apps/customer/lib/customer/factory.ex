@@ -12,6 +12,7 @@ defmodule Customer.Factory do
     %Customer.Job{
       company: build(:company),
       area: build(:area),
+      job_title: build(:job_title),
       job_title: "job_title",
       title: %{"value" => "title"},
       url: %{"value": "http://google.com"}
@@ -29,6 +30,19 @@ defmodule Customer.Factory do
     %Customer.Area{
       state: build(:state),
       name: sequence(:name, &"hoge#{&1}")
+    }
+  end
+
+  def job_title_factory do
+    %Customer.JobTitle{
+      name: sequence(:name, &"hoge#{&1}")
+    }
+  end
+
+  def job_title_alias_factory do
+    %Customer.JobTitleAlias{
+       job_title: build(:job_title),
+       name: sequence(:name, &"hoge#{&1}")
     }
   end
 
