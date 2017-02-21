@@ -43,6 +43,7 @@ defmodule Customer.Services.JobSourceCreator do
 
   defp upsert_job!(%JobSource{company_id: company_id, job_title: job_title, area_id: area_id} = job_source, job_title_id) do
     job = Job.find_or_initialize_by(company_id, area_id, job_title_id)
+
     Job.changeset(job, update_attributes(job, job_source))
     |> Repo.insert_or_update!
   end
@@ -56,6 +57,7 @@ defmodule Customer.Services.JobSourceCreator do
 
   defp bulk_upsert_job_tech_keywords_if_needed!(%Job{detail: detail}) when is_nil(detail), do: nil
   defp bulk_upsert_job_tech_keywords_if_needed!(%Job{id: id, detail: detail}) do
+
     JobSourceTechKeyword.tech_keyword_ids_by(detail["job_source_id"])
     |> JobTechKeyword.bulk_upsert!(id)
   end

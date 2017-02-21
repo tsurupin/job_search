@@ -1,7 +1,8 @@
 defmodule Customer.Services.JobSourceCreatorTest do
   use Customer.TestWithEcto, async: true
   alias Customer.Services.JobSourceCreator
-  alias Customer.{JobSource, Company, JobSourceTechKeyword, Job, JobTechKeyword}
+  alias Customer.{JobSource, Company, JobSourceTechKeyword, Job, JobTechKeyword, JobTitleAlias, JobTitle}
+
 
   test "creates a job source" do
     state = insert(:state, abbreviation: "CA")
@@ -23,6 +24,8 @@ defmodule Customer.Services.JobSourceCreatorTest do
     assert Enum.map(job_source.tech_keywords, &(&1.name)) == [keyword1.name, keyword2.name]
     assert job_source.company.name == "new company"
     assert job_source.area.name == "San Francisco"
+    assert Repo.aggregate(JobTitle, :count, :id) == 1
+    assert Repo.aggregate(JobTitleAlias, :count, :id) == 1
     assert Repo.aggregate(Job, :count, :id) == 1
     assert Repo.aggregate(JobTechKeyword, :count, :id) == 2
   end
@@ -60,6 +63,8 @@ defmodule Customer.Services.JobSourceCreatorTest do
     assert Enum.map(job_source.tech_keywords, &(&1.name)) == [keyword2.name]
     assert Repo.aggregate(JobSource, :count, :id) == 2
     assert Repo.aggregate(Company, :count, :id) == 1
+    assert Repo.aggregate(JobTitle, :count, :id) == 1
+    assert Repo.aggregate(JobTitleAlias, :count, :id) == 1
     assert Repo.aggregate(JobSourceTechKeyword, :count, :id) == 1
 
     job = Repo.get(Job, job.id)

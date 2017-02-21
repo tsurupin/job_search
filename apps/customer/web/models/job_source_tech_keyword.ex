@@ -25,13 +25,12 @@ defmodule Customer.JobSourceTechKeyword do
   def tech_keyword_ids_by(job_source_id) do
     query_for_tech_keyword_ids(job_source_id)
     |> Repo.all
-    |> Enum.map(&(&1.id))
   end
 
   defp query_for_tech_keyword_ids(job_source_id) do
     from(j in __MODULE__,
       where: j.job_source_id == ^job_source_id,
-      select: map(j, [:id])
+      select: j.tech_keyword_id
     )
   end
 
