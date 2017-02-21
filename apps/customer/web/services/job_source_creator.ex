@@ -1,6 +1,6 @@
 defmodule Customer.Services.JobSourceCreator do
   alias Customer.Repo
-  alias Customer.{JobSource, JobSourceTechKeyword, TechKeyword, JobTechKeyword, Company, Area, Job, Company}
+  alias Customer.{JobTitle, JobTitleAlias, JobSource, JobSourceTechKeyword, TechKeyword, JobTechKeyword, Company, Area, Job, Company}
   @job_source_attributes [:company_id, :area_id, :title, :url, :job_title, :detail, :source]
 
   def perform(params) do
@@ -10,8 +10,9 @@ defmodule Customer.Services.JobSourceCreator do
 
       job_source = upsert_job_source!(params, company.id, area.id)
       bulk_upsert_job_source_tech_keywords!(params.keywords, job_source.id)
+      job_title_id = get_or_create_job_title!(job_source.job_title)
 
-      upsert_job!(job_source)
+      upsert_job!(job_source, job_title_id)
       |> bulk_upsert_job_tech_keywords_if_needed!
     end
   end
@@ -22,8 +23,26 @@ defmodule Customer.Services.JobSourceCreator do
     |> Repo.insert_or_update!
   end
 
-  defp upsert_job!(%JobSource{company_id: company_id, job_title: job_title, area_id: area_id} = job_source) do
-    job = Job.find_or_initialize_by(company_id, area_id, job_title)
+  defp get_or_create_job_title!(job_title) do
+    case JobTitleAlias.get_or_find_approximate_job_title(job_title) do
+      {:ok, job_title_id} -> job_title_id
+      {:error, _} ->
+         job_title = create_job_title_and_alias!(job_title)
+         job_title.id
+    end
+  end
+
+  defp create_job_title_and_alias!(name) do
+    job_title =
+      JobTitle.changeset(%JobTitle{}, %{name: name})
+      |> Repo.insert!
+    JobTitleAlias.changeset(%JobTitleAlias{}, %{name: name, job_title_id: job_title.id})
+    |> Repo.insert!
+    job_title
+  end
+
+  defp upsert_job!(%JobSource{company_id: company_id, job_title: job_title, area_id: area_id} = job_source, job_title_id) do
+    job = Job.find_or_initialize_by(company_id, area_id, job_title_id)
     Job.changeset(job, update_attributes(job, job_source))
     |> Repo.insert_or_update!
   end

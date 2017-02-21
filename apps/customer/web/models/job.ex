@@ -2,7 +2,7 @@ defmodule Customer.Job do
   use Customer.Web, :model
   use Customer.Es
   alias Customer.Repo
-  alias Customer.{TechKeyword, Company, Area, JobTechKeyword, UserInterest}
+  alias Customer.{TechKeyword, Company, Area, JobTechKeyword, UserInterest, JobTitle}
 
   schema "jobs" do
     many_to_many :tech_keywords, TechKeyword, join_through: JobTechKeyword
@@ -10,7 +10,7 @@ defmodule Customer.Job do
     has_one :user_interest, UserInterest
     belongs_to :company, Company
     belongs_to :area, Area
-    field :job_title, :string
+    belongs_to :job_title, JobTitle
     field :url, :map
     field :title, :map
     field :detail, :map
@@ -18,8 +18,8 @@ defmodule Customer.Job do
     timestamps
   end
 
-  @required_fields [:company_id, :area_id, :job_title, :title, :url]
-  @optional_fields [:job_title, :detail]
+  @required_fields [:company_id, :area_id, :job_title_id, :title, :url]
+  @optional_fields [:detail]
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
@@ -32,9 +32,9 @@ defmodule Customer.Job do
     |> foreign_key_constraint(:company_id)
   end
 
-  def find_or_initialize_by(company_id, area_id, job_title) do
-    case Repo.get_by(__MODULE__, company_id: company_id, area_id: area_id, job_title: job_title) do
-      nil -> %__MODULE__{company_id: company_id, area_id: area_id, job_title: job_title}
+  def find_or_initialize_by(company_id, area_id, job_title_id) do
+    case Repo.get_by(__MODULE__, company_id: company_id, area_id: area_id, job_title_id: job_title_id) do
+      nil -> %__MODULE__{company_id: company_id, area_id: area_id, job_title_id: job_title_id}
       job -> job
     end
   end
@@ -47,12 +47,12 @@ defmodule Customer.Job do
   end
 
   def get_with_associations!(id) do
-    Repo.one!(from(j in __MODULE__, where: j.id == ^id, preload: [:area, :company, :tech_keywords]))
+    Repo.one!(from(j in __MODULE__, where: j.id == ^id, preload: [:area, :company, :tech_keywords, :job_title]))
   end
 
   def query_all(:index) do
     from j in __MODULE__,
-    preload: [:area, :company, :tech_keywords]
+    preload: [:area, :company, :tech_keywords, :job_title]
   end
 
   # for elastic search
@@ -61,7 +61,7 @@ defmodule Customer.Job do
     model = get_with_associations!(model.id)
     [
       job_id: model.id,
-      job_title: String.downcase(model.job_title),
+      job_title: String.downcase(model.job_title.name),
       detail: String.downcase(Map.get(model.detail, "value")),
       company_name: String.downcase(model.company.name),
       area: String.downcase(model.area.name),
