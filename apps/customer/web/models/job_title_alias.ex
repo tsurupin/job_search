@@ -45,7 +45,7 @@ defmodule Customer.JobTitleAlias do
 
   defp transform_to_string(word) do
     word
-    |> String.replace(~r/[\s,\.-]/, "", global: true)
+    |> String.replace(~r/[\s,\.-_]/, "", global: true)
     |> String.downcase
   end
 
