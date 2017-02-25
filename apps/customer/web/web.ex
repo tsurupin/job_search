@@ -105,6 +105,7 @@ defmodule Customer.Web do
         Areas,
         Authorization,
         Company,
+        Companies,
         Job,
         Company,
         JobSource,

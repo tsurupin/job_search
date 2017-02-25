@@ -5,7 +5,7 @@ defmodule Customer.Services.JobSourceCreator do
 
   def perform(params) do
     Repo.transaction fn ->
-      company = Company.find_or_create_by!(params.name, params.url)
+      company = Companies.find_or_create_by!(params.name, params.url)
       area = Areas.get_by!(params.place)
 
       job_source = upsert_job_source!(params, company.id, area.id)
