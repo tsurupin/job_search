@@ -3,7 +3,7 @@ defmodule Customer.Auth.Authorizer do
   Retrieve the user information from a auth request
   """
   alias Customer.Repo
-  alias Customer.{User, Authorization}
+  alias Customer.{User, Authorization, Authorizations}
   alias Ueberauth.Auth
 
   def get_or_create(auth, current_user \\ nil) do
@@ -14,7 +14,7 @@ defmodule Customer.Auth.Authorizer do
         if Authorization.expired?(authorization) do
           replace_authorization(authorization, auth, current_user)
         else
-          Authorization.get_user_by(authorization, current_user)
+          Authorizations.get_user_by(authorization, current_user)
         end
     end
   end
@@ -22,7 +22,7 @@ defmodule Customer.Auth.Authorizer do
   defp register_user_from_auth(current_user, auth) do
     case Repo.transaction(fn ->
       user = current_user || User.get_or_create_by!(auth)
-      Authorization.create_by!(user, auth)
+      Authorizations.create_by(user, auth)
       user
     end) do
       {:ok, user} -> {:ok, user}
@@ -31,10 +31,10 @@ defmodule Customer.Auth.Authorizer do
   end
 
   defp replace_authorization(authorization, auth, current_user) do
-    case Authorization.get_user_by(authorization, current_user) do
+    case Authorizations.get_user_by(authorization, current_user) do
       {:error, reason} -> {:error, reason}
       {:ok, user} ->
-        case Authorization.reset_authorization(authorization, user, auth) do
+        case Authorizations.reset_authorization(authorization, user, auth) do
           {:ok, _authorization} -> {:ok, user}
           {:error, reason} -> {:error, reason}
         end

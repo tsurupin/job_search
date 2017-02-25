@@ -15,7 +15,7 @@ defmodule Customer.Api.V1.JobController do
     # TODO: fetch by cache
 
     job_titles = JobTitle.names
-    areas = Area.names
+    areas = Areas.names
     render(conn, "index.json", %{jobs: jobs, job_titles: job_titles, areas: areas})
   end
 

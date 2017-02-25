@@ -17,6 +17,7 @@ defmodule Customer.TechKeywordTest do
   end
 
   test "delete! with valid record" do
+
   end
 
   test "delete! with invalid record" do

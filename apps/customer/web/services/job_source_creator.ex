@@ -1,12 +1,12 @@
 defmodule Customer.Services.JobSourceCreator do
-  alias Customer.Repo
-  alias Customer.{JobTitle, JobTitleAlias, JobSource, JobSourceTechKeyword, TechKeyword, JobTechKeyword, Company, Area, Job, Company}
+  use Customer.Web, :service
+
   @job_source_attributes [:company_id, :area_id, :title, :url, :job_title, :detail, :source]
 
   def perform(params) do
     Repo.transaction fn ->
       company = Company.find_or_create_by!(params.name, params.url)
-      area = Area.find_by!(params.place)
+      area = Areas.get_by!(params.place)
 
       job_source = upsert_job_source!(params, company.id, area.id)
       bulk_upsert_job_source_tech_keywords!(params.keywords, job_source.id)
