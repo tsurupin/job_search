@@ -24,6 +24,28 @@ defmodule Customer.Web do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
+
+      Customer.Web.shared
+    end
+  end
+
+  def crud do
+     quote do
+       import Ecto
+       import Ecto.Changeset
+       import Ecto.Query, only: [from: 1, from: 2]
+       alias Customer.Repo
+       alias Ecto.Multi
+
+       Customer.Web.shared
+     end
+  end
+
+  def service do
+    quote do
+      alias Customer.Repo
+
+      Customer.Web.shared
     end
   end
 
@@ -73,6 +95,35 @@ defmodule Customer.Web do
       import Ecto
       import Ecto.Query
       import Customer.Gettext
+    end
+  end
+
+  defmacro shared do
+    quote do
+      alias Customer.{
+        Area,
+        Areas,
+        Authorization,
+        Company,
+        Companies,
+        Job,
+        Jobs,
+        Company,
+        JobSource,
+        JobSources,
+        JobSourceTechKeyword,
+        JobSourceTechKeywords,
+        JobTechKeyword,
+        JobTechKeywords,
+        TechKeywords,
+        TechKeyword,
+        State,
+        JobTitle,
+        JobTitles,
+        JobTitleAlias,
+        User,
+        UserInterest
+      }
     end
   end
 

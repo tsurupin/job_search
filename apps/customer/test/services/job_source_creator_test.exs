@@ -19,6 +19,7 @@ defmodule Customer.Services.JobSourceCreatorTest do
       keywords: [keyword1.name, keyword2.name]
     }
     JobSourceCreator.perform(params)
+
     job_source = Repo.one(from j in JobSource, preload: [:tech_keywords, :company, :area])
     assert job_source.title == "hoge"
     assert Enum.map(job_source.tech_keywords, &(&1.name)) == [keyword1.name, keyword2.name]

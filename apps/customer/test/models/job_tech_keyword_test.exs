@@ -1,23 +1,29 @@
 defmodule Customer.JobTechKeywordTest do
   use Customer.TestWithEcto, async: true
 
-  alias Customer.JobTechKeyword
+  alias Customer.{JobTechKeywords, JobTechKeyword}
+  alias Customer.Repo
 
   test "user bulk_upserts" do
     import Ecto.Query, only: [where: 2]
     job = insert(:job)
+
     job_tech_keyword1 = insert(:job_tech_keyword, job: job)
     job_tech_keyword2 = insert(:job_tech_keyword, job: job)
-    JobTechKeyword.bulk_upsert!([job_tech_keyword1.tech_keyword.id], job.id)
+    tech_keyword = insert(:tech_keyword)
+
+    JobTechKeywords.bulk_delete_and_upsert([job_tech_keyword1.tech_keyword_id, tech_keyword.id], job.id)
+    |> Repo.transaction
     job_tech_keywords = JobTechKeyword |> where(job_id: ^job.id) |> Repo.all
-    assert Enum.map(job_tech_keywords, &(&1.id)) == [job_tech_keyword1.id]
+    assert Enum.map(job_tech_keywords, &(&1.id)) == [job_tech_keyword1.id, tech_keyword.id]
   end
 
   test "user bulk_upserts with empty job_tech_keywords" do
     import Ecto.Query, only: [where: 2]
     job = insert(:job)
     insert(:job_tech_keyword, job: job)
-    JobTechKeyword.bulk_upsert!([], job.id)
+    JobTechKeywords.bulk_delete_and_upsert([], job.id)
+    |> Repo.transaction
     job_tech_keywords = JobTechKeyword |> where(job_id: ^job.id) |> Repo.all
     assert Enum.map(job_tech_keywords, &(&1.id)) == []
   end
@@ -27,7 +33,7 @@ defmodule Customer.JobTechKeywordTest do
     job = insert(:job)
     job_tech_keyword1 = insert(:job_tech_keyword, job: job)
     insert(:job_tech_keyword, job: job)
-    assert_raise(Ecto.InvalidChangesetError, fn -> JobTechKeyword.bulk_upsert!([job_tech_keyword1.tech_keyword.id], job.id+1)end)
+    assert {:error, _, _, _} = JobTechKeywords.bulk_delete_and_upsert([job_tech_keyword1.tech_keyword.id], job.id+1) |> Repo.transaction
   end
 
 end
