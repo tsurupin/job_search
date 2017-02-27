@@ -24,6 +24,7 @@ defmodule Customer.ConnCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
+      import Customer.Factory
 
       import Customer.Router.Helpers
 

@@ -24,6 +24,7 @@ defmodule Customer.Web do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
+      alias Customer.Repo
 
       Customer.Web.shared
     end

@@ -1,0 +1,28 @@
+defmodule Customer.Api.V1.TechKeywordControllerTest do
+  use Customer.ConnCase, async: true
+
+  alias Customer.TechKeyword
+
+  setup do
+    insert(:tech_keyword, name: "rails")
+    insert(:tech_keyword, name: "ruby")
+    insert(:tech_keyword, name: "elixir")
+    TechKeyword.es_reindex
+  end
+
+  test "get tech keywords" do
+    conn = get build_conn(), "api/v1/tech-keywords?word=r"
+
+    assert conn.status == 200
+    body = Poison.decode!(conn.resp_body)
+    assert body == ~w(ruby rails)
+  end
+
+  test "get empty list" do
+     conn = get build_conn(), "api/v1/tech-keywords?word=xyz"
+      assert conn.status == 200
+      body = Poison.decode!(conn.resp_body)
+      assert body == []
+  end
+
+end
