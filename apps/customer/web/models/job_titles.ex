@@ -9,7 +9,7 @@ defmodule Customer.JobTitles do
     JobTitle.names |> Repo.all
   end
 
-  def create_job_title_and_alias(name), do: create_job_title_and_alias(Multinew, name)
+  def create_job_title_and_alias(name), do: create_job_title_and_alias(Multi.new, name)
 
   def create_job_title_and_alias(multi, name) do
     Multi.insert(multi, :job_title, JobTitle.build(%{name: name}))
