@@ -9,17 +9,12 @@ defmodule Customer.Companies do
     |> Repo.transaction
   end
 
-  def delete!(model) do
-    Repo.transaction(fn ->
-      Repo.delete! model
-      Es.Document.delete_document model
-    end)
-  end
+  def get_or_create_by(%{name: name, url: url} = params), do: get_or_create_by(Multi.new, params)
 
-  def find_or_create_by!(name, url) do
+  def get_or_create_by(multi, %{name: name, url: url} = params) do
     case Repo.get_by(Company, name: name) do
-      nil -> Repo.insert!(Company.build(%{name: name, url: url}))
-      company -> company
+      nil -> Multi.insert(multi, :company, Company.build(params))
+      company -> Multi.run(multi, :company, fn _ -> {:ok, company} end)
     end
   end
 

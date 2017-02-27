@@ -10,7 +10,6 @@ defmodule Customer.Areas do
     Multi.new
     |> Multi.delete(:delete, area)
     |> Multi.run(:delete_document, fn _ -> Es.Document.delete_document(area) end)
-    |> Repo.transaction
   end
 
   def get_by!(place) do

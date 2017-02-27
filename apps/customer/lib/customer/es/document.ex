@@ -75,10 +75,11 @@ defmodule Customer.Es.Document do
         end
 
       case Tirexs.bump!(payload)._bulk({[refresh: true]}) do
-        {:ok, 200, %{errors: false}}  -> {:ok}
+        {:ok, 200, %{errors: false}} ->
+          {:ok, nil}
         {:ok, 200, %{errors: true, items: items}} ->
-            IO.inspect items
-            {:error}
+           IO.inspect items
+           {:error, items}
       end
 
     end)

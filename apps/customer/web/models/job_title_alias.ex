@@ -23,6 +23,9 @@ defmodule Customer.JobTitleAlias do
     |> unique_constraint(:name)
   end
 
+  def build(params) do
+    changeset(%__MODULE__{}, params)
+  end
 
   def get_or_find_approximate_job_title(job_title) do
     case Repo.get_by(__MODULE__, name: job_title) do

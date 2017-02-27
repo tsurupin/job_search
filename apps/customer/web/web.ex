@@ -107,15 +107,22 @@ defmodule Customer.Web do
         Company,
         Companies,
         Job,
+        Jobs,
         Company,
         JobSource,
+        JobSources,
         JobSourceTechKeyword,
+        JobSourceTechKeywords,
         JobTechKeyword,
+        JobTechKeywords,
+        TechKeywords,
         TechKeyword,
         State,
         JobTitle,
+        JobTitles,
         JobTitleAlias,
-        User
+        User,
+        UserInterest
       }
     end
   end

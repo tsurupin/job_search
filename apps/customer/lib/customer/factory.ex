@@ -13,7 +13,6 @@ defmodule Customer.Factory do
       company: build(:company),
       area: build(:area),
       job_title: build(:job_title),
-      job_title: "job_title",
       title: %{"value" => "title"},
       url: %{"value": "http://google.com"}
     }

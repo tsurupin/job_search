@@ -1,33 +1,25 @@
 defmodule Customer.TechKeyword do
   use Customer.Web, :model
   use Customer.Es
-  alias Customer.Repo
-  alias Customer.{JobTechKeyword, JobSourceTechKeyword}
+  alias Customer.Es
 
   schema "tech_keywords" do
-    has_many :job_source_tech_keywords, JobSourceTechKeyword
-    has_many :job_tech_keywords, JobTechKeyword
     field :type, :string
     field :name, :string
 
-    timestamps
+    timestamps()
+
+    has_many :job_source_tech_keywords, JobSourceTechKeyword
+    has_many :job_tech_keywords, JobTechKeyword
   end
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
-  def changeset(struct \\ %__MODULE__{}, params \\ %{}) do
-    struct
-    |> cast(params, [:type, :name])
+  def changeset(tech_keyword \\ %__MODULE__{}, params \\ %{}) do
+    cast(tech_keyword, params, [:type, :name])
     |> validate_required([:type, :name])
     |> unique_constraint(:name)
-  end
-
-  def delete!(model) do
-    Repo.transaction(fn ->
-      Repo.delete! model
-      Es.Document.delete_document model
-    end)
   end
 
   def by_names(names) do
@@ -37,8 +29,6 @@ defmodule Customer.TechKeyword do
 
   def pluck(query \\ __MODULE__, column) do
     from(t in query, select: map(t, [column]))
-    |> Repo.all
-    |> Enum.map(&(&1[column]))
   end
 
   # for elastic search
