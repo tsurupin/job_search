@@ -62,6 +62,10 @@ defmodule Customer.Web do
 
       import Customer.Router.Helpers
       import Customer.Gettext
+
+      alias Customer.Es
+
+      Customer.Web.shared
     end
   end
 
@@ -78,6 +82,7 @@ defmodule Customer.Web do
       import Customer.Router.Helpers
       import Customer.ErrorHelpers
       import Customer.Gettext
+
     end
   end
 

@@ -21,8 +21,8 @@ defmodule Customer.Jobs do
     |> Multi.run(:delete_document, fn _ -> Es.Document.delete_document(job) end)
   end
 
-  def get_with_associations!(id) do
-    Repo.one!(Job.get_by_id(id))
+  def get_with_associations(id) do
+    Repo.one(Job.get_by_id(id))
   end
 
 

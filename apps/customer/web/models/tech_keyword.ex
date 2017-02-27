@@ -50,6 +50,7 @@ defmodule Customer.TechKeyword do
   def es_search(nil), do: nil
   def es_search(word) do
     word = String.downcase(word)
+
     result =
       Tirexs.DSL.define fn ->
         import Tirexs.Search

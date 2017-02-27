@@ -1,9 +1,6 @@
 defmodule Customer.Api.V1.JobController do
   use Customer.Web, :controller
 
-  alias Customer.Repo
-  alias Customer.Es
-
   def index(conn, params, _current_user, _claims) do
     search_params = search_params(params)
     option_params = option_params(params)
@@ -19,15 +16,18 @@ defmodule Customer.Api.V1.JobController do
   end
 
   def show(conn, %{"id" => id}, _current_user, _claims) do
-    job = Job.get_with_associations!(id)
-    render(conn, "show.json", %{job: job})
+    case Jobs.get_with_associations(id) do
+      {:ok, job} -> render(conn, "show.json", %{job: job})
+      {:error, reason} -> render(conn, "show.json", %{error: reason})
+    end
+
   end
 
   defp search_params(params) do
     new_params = %{}
     if params["job-title"], do: new_params = Map.put_new(new_params, :job_title, params["job-title"])
     if params["area"], do: new_params = Map.put_new(new_params, :area, params["area"])
-    if params["techs"], do: new_params = Map.put_new(new_params, :techs, String.split(params["techs"], ","))
+    if params["techs"], do: new_params = Map.put_new(new_params, :techs, params["techs"])
     if params["detail"], do: new_params = Map.put_new(new_params, :detail, params["detail"])
     new_params
   end
