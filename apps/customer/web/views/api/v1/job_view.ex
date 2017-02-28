@@ -24,14 +24,10 @@ defmodule Customer.Api.V1.JobView do
     }
   end
 
-  def render("show.json", %{error: error} = params) do
-#    %{
-#        id: id,
-#        jobTitle: job_title,
-#        area: area.name,
-#        updatedAt: updated_at,
-#        detail: detail["value"]
-#    }
+  def render("show.json", %{error: error}) do
+    %{
+      error: error
+    }
   end
 
   defp parse(%{job_id: id, job_title: job_title, area: area, updated_at: updated_at,techs: techs, detail: detail}) do

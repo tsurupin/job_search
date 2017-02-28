@@ -17,11 +17,12 @@ defmodule Customer.Api.V1.JobController do
 
   def show(conn, %{"id" => id}, _current_user, _claims) do
     job = Jobs.get_with_associations(id)
-    IO.inspect job
     if job do
       render(conn, "show.json", %{job: job})
     else
-      render(conn, "show.json", %{error: "not found"})
+      conn
+      |> put_status(:not_found)
+      |> render("show.json", %{error: "Not Found"})
     end
   end
 

@@ -40,26 +40,36 @@ defmodule Customer.Api.V1.JobControllerTest do
       tech_keyword = insert(:tech_keyword)
       job = insert(:job, company: company, area: area, job_title: job_title, detail: %{"value": "detail"})
       insert(:job_tech_keyword, tech_keyword: tech_keyword, job: job)
-      {:ok, job_title: job_title, area: area, tech_keyword: tech_keyword, job: job, company: company}
+      {:ok, job_title: job_title, area: area, tech_keywords: [tech_keyword], job: job, company: company}
     end
 
     test "get a job", j do
       conn = get build_conn(), "api/v1/jobs/#{j.job.id}"
       assert conn.status == 200
+      result =
+      body = Poison.decode!(conn.resp_body)
+      %{
+        "id" => id,
+        "area" => area,
+        "jobTitle" => jobTitle,
+        "techKeywords" => techKeywords,
+        "company" => company
+       } = body
+      assert id = j.job.id
+      assert area == j.area.name
+      assert jobTitle = j.job_title.name
+      assert techKeywords == Enum.map(j.tech_keywords, &(%{"id" => &1.id, "name" => &1.name}))
+      assert company == %{"id" => j.company.id, "name" => j.company.name}
+    end
+
+    test "get an error message", j do
+      conn = get build_conn(), "api/v1/jobs/#{j.job.id + 1}"
+      assert conn.status == 404
       result = %{
-        id: j.job.id,
-        area: j.area.name,
-        jobTitle: j.job_title.name,
-        techKeywords: Enum.map(j.tech_keywords, &(%{id: &1.id, name: &1.name})),
-        company: %{id: j.company.id, name: j.company.name},
-        updatedAt: j.job.updated_at,
-        detail: j.job.detail["value"]
+        "error" => "Not Found"
        }
       body = Poison.decode!(conn.resp_body)
       assert body == result
-    end
-
-    test "get an error message" do
 
     end
   end
