@@ -1,14 +1,16 @@
 defmodule Customer.Api.V1.JobView do
   use Customer.Web, :view
 
-  def render("index.json", %{jobs: %{entries: jobs, has_next: has_next, next_page: next_page, page: page}, job_titles: job_titles, areas: areas} = params) do
+  @default_attributes [:id, :name]
+
+  def render("index.json", %{jobs: %{entries: jobs, has_next: has_next, next_page: next_page, page: page}, job_titles: job_title_names, areas: area_names} = params) do
    %{
        jobs: Enum.map(jobs, &(parse(&1))),
        hasNext: has_next,
        nextPage: next_page,
        page: page,
-       jobTitles: job_titles,
-       areas: areas
+       jobTitles: job_title_names,
+       areas: area_names
     }
   end
 
@@ -17,8 +19,8 @@ defmodule Customer.Api.V1.JobView do
         id: id,
         jobTitle: job_title.name,
         area: area.name,
-        techKeywords: Enum.map(tech_keywords, &(%{id: &1.id, name: &1.name})),
-        company: %{id: company.id, name: company.name},
+        techKeywords: fetch(tech_keywords),
+        company: fetch(company),
         updatedAt: updated_at,
         detail: detail["value"]
     }
@@ -39,6 +41,16 @@ defmodule Customer.Api.V1.JobView do
         techs: techs,
         detail: detail
     }
+  end
+
+  defp fetch(records, columns \\ @default_attributes)
+
+  defp fetch(records, columns) when is_list(records) do
+    Enum.map(records, &(fetch(&1, columns)))
+  end
+
+  defp fetch(record, columns)  do
+    Map.take(record, columns)
   end
 
 end

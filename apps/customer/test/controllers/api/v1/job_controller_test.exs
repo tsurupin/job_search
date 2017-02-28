@@ -20,10 +20,23 @@ defmodule Customer.Api.V1.JobControllerTest do
       insert(:job_tech_keyword, tech_keyword: tech_keyword2, job: job2)
 
       Job.es_reindex
+
+      {:ok, job_titles: [job_title1, job_title2], areas: [area1, area2], job1: job1, job2: job2}
     end
 
-    test "get jobs and job_titles and areas" do
+    test "get jobs and job_titles and areas", j do
+      conn = get build_conn(), "api/v1/jobs?page=1"
+      assert conn.status == 200
+      body = Poison.decode!(conn.resp_body)
+      %{
+         "jobs" => jobs,
+         "jobTitles" => job_titles,
+         "areas" => areas
+       } = body
 
+       assert job_titles = Enum.map(j.job_titles, &(&1.name))
+       assert areas = Enum.map(j.areas, &(&1.name))
+       assert jobs == [j.job1, j.job2]
     end
 
     test "get jobs and job_titles and areas with page 2" do
@@ -46,7 +59,6 @@ defmodule Customer.Api.V1.JobControllerTest do
     test "get a job", j do
       conn = get build_conn(), "api/v1/jobs/#{j.job.id}"
       assert conn.status == 200
-      result =
       body = Poison.decode!(conn.resp_body)
       %{
         "id" => id,
