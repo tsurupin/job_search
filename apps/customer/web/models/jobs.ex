@@ -22,7 +22,9 @@ defmodule Customer.Jobs do
   end
 
   def get_with_associations(id) do
-    Repo.one(Job.get_by_id(id))
+    Job.get(id)
+    |> first
+    |> Repo.one
   end
 
 

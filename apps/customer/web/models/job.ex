@@ -46,7 +46,7 @@ defmodule Customer.Job do
     changeset(job, update_attributes(job, job_source))
   end
 
-  def get_by_id(id) do
+  def get(id) do
     from(j in __MODULE__, where: j.id == ^id, preload: [:area, :company, :tech_keywords, :job_title])
   end
 
@@ -105,7 +105,6 @@ defmodule Customer.Job do
   def es_search(params, options) when params == %{},  do: es_search(nil, options)
 
   def es_search(params, options) do
-
     result =
       Tirexs.DSL.define fn ->
         opt = Es.Params.pager_option(options)

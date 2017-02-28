@@ -16,11 +16,13 @@ defmodule Customer.Api.V1.JobController do
   end
 
   def show(conn, %{"id" => id}, _current_user, _claims) do
-    case Jobs.get_with_associations(id) do
-      {:ok, job} -> render(conn, "show.json", %{job: job})
-      {:error, reason} -> render(conn, "show.json", %{error: reason})
+    job = Jobs.get_with_associations(id)
+    IO.inspect job
+    if job do
+      render(conn, "show.json", %{job: job})
+    else
+      render(conn, "show.json", %{error: "not found"})
     end
-
   end
 
   defp search_params(params) do

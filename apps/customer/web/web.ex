@@ -34,7 +34,7 @@ defmodule Customer.Web do
      quote do
        import Ecto
        import Ecto.Changeset
-       import Ecto.Query, only: [from: 1, from: 2]
+       import Ecto.Query, only: [from: 1, from: 2, first: 1]
        alias Customer.Repo
        alias Ecto.Multi
 
@@ -83,6 +83,8 @@ defmodule Customer.Web do
       import Customer.Router.Helpers
       import Customer.ErrorHelpers
       import Customer.Gettext
+
+      Customer.Web.shared
 
     end
   end
