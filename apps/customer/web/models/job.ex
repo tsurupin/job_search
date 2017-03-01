@@ -20,12 +20,11 @@ defmodule Customer.Job do
   @required_fields ~w(company_id area_id job_title_id title url)a
   @optional_fields ~w(detail)a
   @associated_tables [:area, :company, :tech_keywords, :job_title]
-
+  @default_options %{sort: "desc"}
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(job \\ %__MODULE__{}, params \\ %{}) do
-    IO.inspect params
     cast(job, params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> foreign_key_constraint(:area_id)
@@ -105,6 +104,7 @@ defmodule Customer.Job do
   def es_search(params, options) when params == %{},  do: es_search(nil, options)
 
   def es_search(params, options) do
+    options = Map.merge(@default_options, options)
     result =
       Tirexs.DSL.define fn ->
         opt = Es.Params.pager_option(options)

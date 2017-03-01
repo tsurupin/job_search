@@ -3,6 +3,17 @@ defmodule Customer.Api.V1.JobControllerTest do
 
   alias Customer.Job
 
+  defp build_job_attributes([job_id: id, job_title: job_title, detail: detail, company_name: _company_name, area: area, techs: techs, updated_at: updated_at]) do
+    %{
+      "id" => id,
+      "area" => area,
+      "jobTitle" => job_title,
+      "detail" => detail,
+      "techs" => techs,
+      "updatedAt" => updated_at
+    }
+  end
+
   describe "index" do
     setup do
       job_title1 = insert(:job_title, name: "test1")
@@ -20,27 +31,60 @@ defmodule Customer.Api.V1.JobControllerTest do
       insert(:job_tech_keyword, tech_keyword: tech_keyword2, job: job2)
 
       Job.es_reindex
-
-      {:ok, job_titles: [job_title1, job_title2], areas: [area1, area2], job1: job1, job2: job2}
+      {:ok, job_titles: [job_title1, job_title2], areas: [area1, area2], jobs: Enum.map([job1, job2], &(Job.es_search_data(&1))) }
     end
 
     test "get jobs and job_titles and areas", j do
       conn = get build_conn(), "api/v1/jobs?page=1"
       assert conn.status == 200
       body = Poison.decode!(conn.resp_body)
+      result =
       %{
-         "jobs" => jobs,
-         "jobTitles" => job_titles,
-         "areas" => areas
-       } = body
+         "jobs" => Enum.map(j.jobs, &(build_job_attributes(&1))),
+         "jobTitles" =>  Enum.map(j.job_titles, &(&1.name)),
+         "areas" => Enum.map(j.areas, &(&1.name)),
+         "hasNext" => false,
+         "nextPage" => 2,
+         "page" => 1
+       }
 
-       assert job_titles = Enum.map(j.job_titles, &(&1.name))
-       assert areas = Enum.map(j.areas, &(&1.name))
-       assert jobs == [j.job1, j.job2]
+       assert body == result
     end
 
-    test "get jobs and job_titles and areas with page 2" do
+    test "get jobs and job_titles and areas with page 2", j do
+      conn = get build_conn(), "api/v1/jobs?page=2"
+      assert conn.status == 200
+      body = Poison.decode!(conn.resp_body)
 
+      assert conn.status == 200
+      body = Poison.decode!(conn.resp_body)
+      result =
+        %{
+           "jobs" => [build_job_attributes(Enum.at(j.jobs, 1))],
+           "jobTitles" =>  Enum.map(j.job_titles, &(&1.name)),
+           "areas" => Enum.map(j.areas, &(&1.name)),
+           "hasNext" => false,
+           "nextPage" => 2,
+           "page" => 1
+         }
+       assert body == result
+
+    end
+
+    test "get jobs and job_titles and areas with job_title", j do
+      conn = get build_conn(), "api/v1/jobs?job-title=test1"
+      assert conn.status == 200
+      body = Poison.decode!(conn.resp_body)
+      result =
+        %{
+           "jobs" => [build_job_attributes(Enum.at(j.jobs, 1))],
+           "jobTitles" =>  Enum.map(j.job_titles, &(&1.name)),
+           "areas" => Enum.map(j.areas, &(&1.name)),
+           "hasNext" => false,
+           "nextPage" => 2,
+           "page" => 1
+         }
+       assert body == result
     end
   end
 
