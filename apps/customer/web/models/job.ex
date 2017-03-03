@@ -21,6 +21,7 @@ defmodule Customer.Job do
   @optional_fields ~w(detail)a
   @associated_tables [:area, :company, :tech_keywords, :job_title]
   @default_options %{sort: "desc"}
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
@@ -103,13 +104,13 @@ defmodule Customer.Job do
   def es_search(params), do: es_search(params, [])
   def es_search(params, options) when params == %{},  do: es_search(nil, options)
 
-  def es_search(params, options) do
+  def es_search(params, options \\ %{page: 1}) do
     options = Map.merge(@default_options, options)
     result =
       Tirexs.DSL.define fn ->
         opt = Es.Params.pager_option(options)
 
-        build_default_query
+        build_default_query(Map.take(opt, [:per_page, :offset]))
         |> add_filter_query(params)
         |> add_sort_query(opt[:sort])
         |> es_logging
@@ -121,10 +122,10 @@ defmodule Customer.Job do
     end
   end
 
-  defp build_default_query do
+  defp build_default_query(%{per_page: per_page, offset: offset}) do
     import Tirexs.Search
     require Tirexs.Query.Filter
-    search [index: esindex] do
+    search [index: esindex, from: offset, size: per_page] do
       query do
         filtered do
           query do

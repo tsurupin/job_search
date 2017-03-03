@@ -1,38 +1,32 @@
 defmodule Customer.Es.Params do
   import Customer.TypeConverter.Integer, only: [to_i: 1]
 
-  @default_page 1
   @default_page_size 20
 
   def pager_option(options) do
-    options = options_with_convert_keys(options)
+    options = convert_keys(options)
     page = page(options[:page])
-    per_page = per_page(options[:limit], options[:per_page], options[:page_size])
     %{
       page: page,
-      per_page: per_page,
-      offset: offset(options[:offset], page, per_page),
-      sort: options[:sort],
+      per_page: @default_page_size,
+      offset: offset(page),
+      sort: options[:sort]
     }
   end
 
-  defp options_with_convert_keys(options) do
+  defp convert_keys(options) do
     Enum.reduce(options, %{}, fn {k, v}, map ->
-      unless is_atom(k), do: k = String.to_atom(k)
-      Map.put(map, k, v)
+      Map.put(map, convert_to_atom(k), v)
     end)
   end
 
-  defp page(page) do
-    max(page |> to_i, @default_page)
-  end
+  defp convert_to_atom(str) when is_atom(str), do: str
+  defp convert_to_atom(str), do: String.to_atom(str)
 
-  defp per_page(limit, per_page, page_size) do
-    limit ||  per_page || page_size || @default_page_size
-  end
+  defp page(page), do: max(page |> to_i, 1)
 
-  defp offset(offset, page, per_page) do
-     offset || (page - 1) * per_page
+  defp offset(page, per_page \\ @default_page_size) do
+     ((page - 1) * per_page)
   end
 
 end
