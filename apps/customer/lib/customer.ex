@@ -12,6 +12,7 @@ defmodule Customer do
       supervisor(Customer.Repo, []),
       # Start the endpoint when the application starts
       supervisor(Customer.Endpoint, []),
+      worker(Customer.Ets, [])
       # Start your own worker by calling: Customer.Worker.start_link(arg1, arg2, arg3)
       # worker(Customer.Worker, [arg1, arg2, arg3]),
     ]

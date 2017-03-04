@@ -10,6 +10,7 @@ defmodule Customer.Api.V1.JobController do
        |> Es.Paginator.paginate(%{query: search_params, options: option_params})
     # TODO: fetch by cache
 
+
     job_titles = JobTitles.names
     areas = Areas.names
     render(conn, "index.json", %{jobs: jobs, job_titles: job_titles, areas: areas})
