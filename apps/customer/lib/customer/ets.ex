@@ -14,6 +14,10 @@ defmodule Customer.Ets do
    end
 
    def upsert(%{key: key, value: value} = cache) do
+     GenServer.call(@name, {:upsert, cache})
+   end
+
+   def async_upsert(%{key: key, value: value} = cache) do
      GenServer.cast(@name, {:upsert, cache})
    end
 
@@ -22,6 +26,12 @@ defmodule Customer.Ets do
    end
 
    def handle_call({:fetch, key}, _from, state) do
+     value = fetch_value(key)
+     {:reply, value, state}
+   end
+
+   def handle_call({:upsert, %{key: key, value: value}}, _from, state) do
+     :ets.insert(@name, {key, value})
      value = fetch_value(key)
      {:reply, value, state}
    end

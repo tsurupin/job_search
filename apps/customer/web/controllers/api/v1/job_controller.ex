@@ -1,5 +1,6 @@
 defmodule Customer.Api.V1.JobController do
   use Customer.Web, :controller
+  alias Customer.Ets
 
   def index(conn, params, _current_user, _claims) do
     search_params = search_params(params)
@@ -9,10 +10,9 @@ defmodule Customer.Api.V1.JobController do
        Job.es_search(search_params, option_params)
        |> Es.Paginator.paginate(%{query: search_params, options: option_params})
     # TODO: fetch by cache
+    job_titles = fetch_from_ets("JobTitles", :names)
+    areas = fetch_from_ets("Areas", :names)
 
-
-    job_titles = JobTitles.names
-    areas = Areas.names
     render(conn, "index.json", %{jobs: jobs, job_titles: job_titles, areas: areas})
   end
 
@@ -40,5 +40,20 @@ defmodule Customer.Api.V1.JobController do
      new_params = %{page: params["page"] || 1, sort: params["sort"]}
      Map.put_new(new_params, :offset, params["offset"] || 0)
   end
+
+  defp fetch_from_ets(key, action) do
+    case Ets.fetch(key) do
+      {:ok, value} -> value
+      {:error, _reason} ->
+        upsert_ets(key, action)
+        fetch_from_ets(key, action)
+    end
+  end
+
+  defp upsert_ets(key, action) do
+    value = apply(Module.concat(Customer, key, action), action, [])
+    Ets.upsert(key, value)
+  end
+
 
 end
