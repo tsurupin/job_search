@@ -53,11 +53,9 @@ export function fetchTechKeywords(value) {
   return dispatch => {
     return request
       .then((response) => {
-        console.log(response);
         dispatch(fetchTechKeywordsSuccess(response.data))
       })
       .catch((error) => {
-        console.log(error);
         dispatch(fetchTechKeywordsFailure(error.data))
       })
   }

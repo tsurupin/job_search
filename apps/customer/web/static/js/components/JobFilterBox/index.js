@@ -45,7 +45,6 @@ class JobFilterBox extends Component {
       areas,
       area,
       suggestedTechKeywords,
-      techKeywords,
       detail,
       handleReset,
       handleResetTechKeyword,
@@ -53,7 +52,7 @@ class JobFilterBox extends Component {
       handleAutoSuggest
     } = this.props;
 
-    console.log(jobTitles);
+
     return(
       <article className={styles.filterBox}>
         <CurrentFilterBox

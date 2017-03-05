@@ -28825,7 +28825,7 @@
 	var _constants = __webpack_require__(271);
 
 	var INITIAL_STATE = {
-	  loading: false,
+	  loading: true,
 	  job: {},
 	  errorMessage: ""
 	};
@@ -29611,7 +29611,9 @@
 	  return el ? el.getAttribute('content') : '';
 	}
 
-	function createAuthorizeRequest(method, path, params) {
+	function createAuthorizeRequest(method, path) {
+	  var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
 	  switch (method) {
 	    case 'get':
 	      return axios.get(path, config());
@@ -31520,10 +31522,8 @@
 
 	  return function (dispatch) {
 	    return request.then(function (response) {
-	      console.log(response);
 	      dispatch(fetchTechKeywordsSuccess(response.data));
 	    }).catch(function (error) {
-	      console.log(error);
 	      dispatch(fetchTechKeywordsFailure(error.data));
 	    });
 	  };
@@ -32121,7 +32121,6 @@
 	          areas = _props2.areas,
 	          area = _props2.area,
 	          suggestedTechKeywords = _props2.suggestedTechKeywords,
-	          techKeywords = _props2.techKeywords,
 	          detail = _props2.detail,
 	          handleReset = _props2.handleReset,
 	          handleResetTechKeyword = _props2.handleResetTechKeyword,
@@ -32129,7 +32128,6 @@
 	          handleAutoSuggest = _props2.handleAutoSuggest;
 
 
-	      console.log(jobTitles);
 	      return _react2.default.createElement(
 	        'article',
 	        { className: _styles2.default.filterBox },
@@ -32505,16 +32503,70 @@
 	  _createClass(JobShowContainer, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      console.log(this.props);
 	      this.props.actions.fetchJob(this.props.id);
+	    }
+	  }, {
+	    key: 'renderTechKeyword',
+	    value: function renderTechKeyword() {
+	      var techKeywords = this.props.job.techKeywords;
+
+	      return _react2.default.createElement(
+	        'ul',
+	        null,
+	        techKeywords.map(function (techKeyword) {
+	          return _react2.default.createElement(
+	            'li',
+	            { key: techKeyword.id },
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              techKeyword.name
+	            )
+	          );
+	        })
+	      );
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      console.log(this.props);
+	      var _props = this.props,
+	          loading = _props.loading,
+	          errorMessage = _props.errorMessage,
+	          job = _props.job;
+	      var jobTitle = job.jobTitle,
+	          company = job.company,
+	          detail = job.detail,
+	          updatedAt = job.updatedAt;
+
+	      if (loading) {
+	        return _react2.default.createElement('div', null);
+	      }
+
 	      return _react2.default.createElement(
-	        'div',
+	        'article',
 	        null,
-	        'Hoge'
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          jobTitle
+	        ),
+	        _react2.default.createElement(
+	          'h4',
+	          null,
+	          company.name
+	        ),
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          updatedAt
+	        ),
+	        this.renderTechKeyword(),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          detail
+	        )
 	      );
 	    }
 	  }]);
@@ -32543,6 +32595,8 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
+	var _utils = __webpack_require__(284);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function fetchJob(id) {
@@ -32551,11 +32605,11 @@
 	  return function (dispatch) {
 	    dispatch(fetchJobRequest());
 
-	    return;
-	    request.then(function (response) {
-	      return dispatch(fetchJobSuccess(response.data));
+	    return request.then(function (response) {
+	      dispatch(fetchJobSuccess(response.data));
 	    }).catch(function (error) {
-	      return dispatch(fetchJobFailure(error.data));
+	      console.log(error);
+	      dispatch(fetchJobFailure(error.data));
 	    });
 	  };
 	}
@@ -32566,23 +32620,24 @@
 	  };
 	}
 
-	function fetchJobSuccess(_ref) {
-	  var job = _ref.job;
-
+	function fetchJobSuccess(job) {
 	  return {
 	    type: _constants.FETCH_JOB.SUCCESS,
 	    payload: { job: job }
 	  };
 	}
 
-	function fetchJobFailure(_ref2) {
-	  var errorMessage = _ref2.errorMessage;
-
+	function fetchJobFailure(errorMessage) {
+	  console.log(errorMessage);
 	  return {
 	    type: _constants.FETCH_JOB.FAILURE,
 	    paylaod: { errorMessage: errorMessage }
 	  };
 	};
+
+	function fetchFavoriteJob() {
+	  var request = (0, _utils.createAuthorizeRequest)('get', FAVORITE_JOB_PATH + '/' + id);
+	}
 
 /***/ },
 /* 330 */

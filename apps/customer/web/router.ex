@@ -16,6 +16,7 @@ defmodule Customer.Router do
   pipeline :api_auth do
     plug Guardian.Plug.VerifyHeader, realm: "Bearer"
     plug Guardian.Plug.LoadResource
+    plug Guardian.Plug.EnsureAuthenticated
   end
 
   scope "/", Customer do
@@ -44,12 +45,7 @@ defmodule Customer.Router do
         delete "/", AuthController, :delete, as: :logout
       end
 
-      resources "/favorite-jobs", FavoriteJobController, only: [:index, :create, :delete, :update]
+      resources "me/favorites/jobs", FavoriteJobController, except: [:new, :edit]
     end
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Customer do
-  #   pipe_through :api
-  # end
 end

@@ -14,7 +14,7 @@ function getCSRFToken() {
   return el ? el.getAttribute('content') : '';
 }
 
-export function createAuthorizeRequest(method, path, params) {
+export function createAuthorizeRequest(method, path, params = {}) {
   switch(method) {
     case 'get':
       return axios.get(path, config());

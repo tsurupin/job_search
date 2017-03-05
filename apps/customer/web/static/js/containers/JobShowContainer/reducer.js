@@ -3,7 +3,7 @@ import {
 } from './constants';
 
 const INITIAL_STATE = {
-  loading: false,
+  loading: true,
   job: {},
   errorMessage: ""
 };

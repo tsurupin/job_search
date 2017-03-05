@@ -32,13 +32,36 @@ class JobShowContainer extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props)
     this.props.actions.fetchJob(this.props.id);
   }
 
-  render() {
+  renderTechKeyword() {
+    const { techKeywords } = this.props.job;
     return (
-      <div >Hoge</div>
+      <ul>
+          {techKeywords.map(techKeyword => {
+            return <li key={techKeyword.id}><p>{techKeyword.name}</p></li>
+        })}
+      </ul>
+    )
+  }
+
+  render() {
+      console.log(this.props)
+    const { loading, errorMessage, job} = this.props;
+    const {jobTitle, company, detail, updatedAt} = job;
+    if(loading) { return(<div></div>) }
+
+    return (
+      <article>
+        <h2>{jobTitle}</h2>
+        <h4>{company.name}</h4>
+        <span>{updatedAt}</span>
+          {this.renderTechKeyword()}
+        <p>{detail}</p>
+
+      </article>
+
     )
   }
 

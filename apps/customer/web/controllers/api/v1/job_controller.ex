@@ -9,7 +9,7 @@ defmodule Customer.Api.V1.JobController do
     jobs =
        Job.es_search(search_params, option_params)
        |> Es.Paginator.paginate(%{query: search_params, options: option_params})
-    # TODO: fetch by cache
+
     job_titles = fetch_from_ets("JobTitles", :names)
     areas = fetch_from_ets("Areas", :names)
 
@@ -18,6 +18,7 @@ defmodule Customer.Api.V1.JobController do
 
   def show(conn, %{"id" => id}, _current_user, _claims) do
     job = Jobs.get_with_associations(id)
+    IO.inspect job
     if job do
       render(conn, "show.json", %{job: job})
     else
@@ -51,8 +52,8 @@ defmodule Customer.Api.V1.JobController do
   end
 
   defp upsert_ets(key, action) do
-    value = apply(Module.concat(Customer, key, action), action, [])
-    Ets.upsert(key, value)
+    value = apply(Module.concat(Customer, key), action, [])
+    Ets.upsert(%{key: key, value: value})
   end
 
 

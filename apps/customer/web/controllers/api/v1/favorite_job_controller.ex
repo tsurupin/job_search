@@ -1,21 +1,22 @@
 defmodule Customer.Api.V1.FavoriteJobController do
   use Customer.Web, :controller
 
-   plug Guardian.Plug.EnsureAuthenticated
-
-  def index(conn, params, current_user, _claimers) do
+  def index(conn, params, current_user, _claims) do
 
   end
 
-  def create(con, params, current_user, _claimers) do
+  def show(conn, params, current_user, _claims) do
 
   end
 
-  def update(conn, params, current_user, _claimers) do
+  def create(conn, params, current_user, _claims) do
+  end
+
+  def update(conn, params, current_user, _claims) do
 
   end
 
-  def delete(con, params, current_user, _claims) do
+  def delete(conn, params, current_user, _claims) do
 
   end
 end

@@ -72,7 +72,9 @@ const base = {
       }
     },
     devServer: {
-      historyApiFallback: true
+      historyApiFallback: {
+        index: 'web/templates/layout/app.html.eex'
+      }
     }
   };
 
