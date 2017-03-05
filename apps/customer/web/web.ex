@@ -125,12 +125,13 @@ defmodule Customer.Web do
         JobTechKeywords,
         TechKeywords,
         TechKeyword,
+        FavoriteJob,
+        FavoriteJobs,
         State,
         JobTitle,
         JobTitles,
         JobTitleAlias,
-        User,
-        UserInterest
+        User
       }
     end
   end

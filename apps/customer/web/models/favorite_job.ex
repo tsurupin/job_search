@@ -27,4 +27,24 @@ defmodule Customer.FavoriteJob do
     |> foreign_key_constraint(:job_id)
     |> unique_constraint(:job_id, name: :favorite_job_user_id_and_job_id_unique_index)
   end
+
+  def build(%{user_id: user_id, job_id: job_id} = params) do
+    changeset(%__MODULE__{}, params)
+  end
+
+  def update(favorite_job, params) do
+    changeset(favorite_job, params)
+  end
+
+  def by_user_id(user_id) do
+    from f in __MODULE__,
+    where: f.user_id == ^user_id,
+    preload: [:job]
+  end
+
+  def by_user_id_and_job_id(user_id, job_id) do
+    from f in __MODULE__,
+    where: f.user_id == ^user_id and f.job_id == ^job_id
+  end
+
 end

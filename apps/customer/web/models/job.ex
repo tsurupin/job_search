@@ -11,7 +11,8 @@ defmodule Customer.Job do
 
     many_to_many :tech_keywords, TechKeyword, join_through: JobTechKeyword
     has_many :job_tech_keywords, JobTechKeyword
-    has_one :user_interest, UserInterest
+
+    has_one :favorite_users, FavoriteUser
     belongs_to :company, Company
     belongs_to :area, Area
     belongs_to :job_title, JobTitle

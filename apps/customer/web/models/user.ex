@@ -1,10 +1,7 @@
 defmodule Customer.User do
   use Customer.Web, :model
-  alias Customer.{UserInterest, Authorization}
-  alias Customer.Repo
 
   schema "users" do
-    has_many :user_interessts, UserInterest
     has_many :authorizations,  Authorization
     field :name, :string
     field :email, :string
