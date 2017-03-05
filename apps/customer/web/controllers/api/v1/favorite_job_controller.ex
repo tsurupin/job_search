@@ -3,6 +3,7 @@ defmodule Customer.Api.V1.FavoriteJobController do
 
   def index(conn, params, current_user, _claims) do
 
+
   end
 
   def show(conn, params, current_user, _claims) do
