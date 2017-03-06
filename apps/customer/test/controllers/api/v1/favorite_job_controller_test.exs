@@ -1,7 +1,7 @@
 defmodule Customer.FavoriteJobControllerTest do
   use Customer.ConnCase, async: true
 
-  alias Customer.FavoriteJob
+  alias Customer.{FavoriteJob, JobApplication}
 
   setup [:login]
 
@@ -21,9 +21,9 @@ defmodule Customer.FavoriteJobControllerTest do
       result = %{"favoriteJobs" => [
         %{
           "interest" => favorite_job.interest,
-          "status" => favorite_job.status,
           "jobId" => job.id,
           "jobTitle" => job_title.name,
+          "status" => favorite_job.status,
           "area" => area.name,
           "company" => company.name
         }
@@ -70,10 +70,21 @@ defmodule Customer.FavoriteJobControllerTest do
          |> put_req_header("authorization", "Bearer #{jwt}")
          |> post(favorite_job_path(conn, :create, %{"id" => job.id}))
        assert conn.status == 201
-
     end
 
-    test "faile to create a new favorite job and get 404", %{user: user, jwt: jwt}  do
+    test "create a new favorite job of which status is same as existing job application's status and get 201", %{user: user, jwt: jwt} do
+       job = insert(:job)
+
+       job_application = insert(:job_application, user: user, job: job, status: 3)
+       conn = build_conn()
+         |> put_req_header("authorization", "Bearer #{jwt}")
+         |> post(favorite_job_path(conn, :create, %{"id" => job.id}))
+       assert conn.status == 201
+       favorite_job = Repo.one(FavoriteJob)
+       assert favorite_job.status == job_application.status
+    end
+
+    test "fail to create a new favorite job and get 404", %{user: user, jwt: jwt}  do
        job = insert(:job)
        favorite_job = insert(:favorite_job, user: user, job: job)
 
@@ -96,7 +107,59 @@ defmodule Customer.FavoriteJobControllerTest do
       Repo.one(FavoriteJob).interest == 4
     end
 
-    test "faile to update an existing job and get 400", %{user: user, jwt: jwt} do
+
+    test "update existing job application and get 200", %{user: user, jwt: jwt}  do
+      job = insert(:job)
+      favorite_job = insert(:favorite_job, user: user, job: job, status: 0)
+      job_application = insert(:job_application, user: user, job: job, status: 0)
+      conn = build_conn()
+        |> put_req_header("authorization", "Bearer #{jwt}")
+        |> put(favorite_job_path(conn, :update, job.id, %{status: 1, comment: "comment"}))
+      assert conn.status == 200
+      updated_job_application = Repo.one(JobApplication)
+      updated_favorite_job = Repo.one(FavoriteJob)
+      assert updated_job_application.status == 1
+      assert updated_job_application.comment == "comment"
+      assert updated_favorite_job.status == 1
+    end
+
+
+    test "update favorite job and create job application and get 200", %{user: user, jwt: jwt}  do
+      job = insert(:job)
+      favorite_job = insert(:favorite_job, user: user, job: job)
+
+      conn = build_conn()
+        |> put_req_header("authorization", "Bearer #{jwt}")
+        |> put(favorite_job_path(conn, :update, job.id, %{status: 1, comment: "comment"}))
+      assert conn.status == 200
+
+      Repo.one(FavoriteJob).status == 1
+      Repo.one(JobApplication).status == 1
+    end
+
+    test "update comment of existing job application and get 200", %{user: user, jwt: jwt}  do
+      job = insert(:job)
+      favorite_job = insert(:favorite_job, user: user, job: job, status: 0)
+      job_application = insert(:job_application, user: user, job: job, status: 0)
+      conn = build_conn()
+        |> put_req_header("authorization", "Bearer #{jwt}")
+        |> put(favorite_job_path(conn, :update, job.id, %{comment: "comment"}))
+      assert conn.status == 200
+
+      Repo.one(JobApplication).comment == "comment"
+    end
+
+    test "fail to update an comment because job application doesn't exist and get 400", %{user: user, jwt: jwt}  do
+      job = insert(:job)
+      favorite_job = insert(:favorite_job, user: user, job: job, status: 0)
+
+      conn = build_conn()
+        |> put_req_header("authorization", "Bearer #{jwt}")
+        |> put(favorite_job_path(conn, :update, job.id, %{comment: "test"}))
+      assert conn.status == 404
+    end
+
+    test "fail to update an existing job and get 400", %{user: user, jwt: jwt} do
       job = insert(:job)
       favorite_job = insert(:favorite_job, user: user, job: job)
 
@@ -120,7 +183,7 @@ defmodule Customer.FavoriteJobControllerTest do
       assert Repo.aggregate(FavoriteJob, :count, :id) == 0
     end
 
-    test "faile to update an existing job and get 404", %{user: user, jwt: jwt} do
+    test "fail to delete an existing job and get 404", %{user: user, jwt: jwt} do
       job = insert(:job)
       favorite_job = insert(:favorite_job, user: user, job: job)
 

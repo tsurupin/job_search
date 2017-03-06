@@ -79,7 +79,7 @@ const base = {
   };
 
   const developmentConfig = {
-    evtool: 'cheap-module-inline-source-map',
+    devtool: 'cheap-module-inline-source-map',
     plugins: [copyWebpackPlugin]
   };
 

@@ -124,6 +124,8 @@ defmodule Customer.Web do
         JobSourceTechKeywords,
         JobTechKeyword,
         JobTechKeywords,
+        JobApplication,
+        JobApplications,
         TechKeywords,
         TechKeyword,
         FavoriteJob,

@@ -5,9 +5,9 @@ defmodule Customer.Repo.Migrations.CreateFavoriteJob do
     create table(:favorite_jobs) do
       add :user_id, references(:users, on_delete: :delete_all)
       add :job_id, references(:jobs, on_delete: :delete_all)
-      add :interest, :integer, default: 3, null: false
-      add :status, :integer, default: 0, null: false
+      add :interest, :integer, default: 3, null: false, check: "interest >= 1 AND interest <= 5"
       add :remarks, :text
+      add :status, :integer, check: "status <= 5"
       timestamps()
     end
 

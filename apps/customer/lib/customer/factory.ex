@@ -98,4 +98,11 @@ defmodule Customer.Factory do
       user: build(:user)
     }
   end
+
+  def job_application_factory do
+    %Customer.JobApplication{
+      job: build(:job),
+      user: build(:user)
+    }
+  end
 end

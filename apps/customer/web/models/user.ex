@@ -6,7 +6,9 @@ defmodule Customer.User do
     field :email, :string
     field :is_admin, :boolean, default: false
 
-    has_many :authorizations,  Authorization
+    has_many :authorizations, Authorization
+    has_many :favorite_jobs, FavoriteJob
+    has_many :job_applications, JobApplication
     timestamps()
   end
 

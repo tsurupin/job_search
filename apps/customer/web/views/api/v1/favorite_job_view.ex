@@ -18,13 +18,13 @@ defmodule Customer.Api.V1.FavoriteJobView do
     %{error => error}
   end
 
-  defp parse(%{interest: interest, status: status, job_id: job_id, job: job}) do
+  defp parse(%{interest: interest, job_id: job_id, job: job, status: status}) do
     %{
       interest: interest,
-      status: status,
       jobId: job_id,
       jobTitle: job.job_title.name,
       area: job.area.name,
+      status: status,
       company: job.company.name
     }
   end

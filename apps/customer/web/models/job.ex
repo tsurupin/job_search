@@ -11,8 +11,8 @@ defmodule Customer.Job do
 
     many_to_many :tech_keywords, TechKeyword, join_through: JobTechKeyword
     has_many :job_tech_keywords, JobTechKeyword
-
-    has_one :favorite_users, FavoriteUser
+    has_many :favorite_jobs, FavoriteJob
+    has_many :job_applications, JobApplication
     belongs_to :company, Company
     belongs_to :area, Area
     belongs_to :job_title, JobTitle
@@ -37,7 +37,6 @@ defmodule Customer.Job do
   def build(params) do
     changeset(%__MODULE__{}, params)
   end
-
 
   def build(params, job_source) do
     changeset(%__MODULE__{}, update_attributes(struct(%__MODULE__{}, params), job_source))
