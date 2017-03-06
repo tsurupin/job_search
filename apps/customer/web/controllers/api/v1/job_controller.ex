@@ -18,7 +18,6 @@ defmodule Customer.Api.V1.JobController do
 
   def show(conn, %{"id" => id}, _current_user, _claims) do
     job = Jobs.get_with_associations(id)
-    IO.inspect job
     if job do
       render(conn, "show.json", %{job: job})
     else

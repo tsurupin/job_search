@@ -13,13 +13,14 @@ defmodule Customer.FavoriteJob do
   end
 
   @required_fields ~w(user_id job_id)a
+  @optional_fields ~w(interest status remarks)a
 
   @doc """
 
   """
 
   def changeset(favorite_job \\ %__MODULE__{}, params \\ %{}) do
-    cast(favorite_job, params, @required_fields)
+    cast(favorite_job, params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> validate_inclusion(:interest, 1..5)
     |> validate_inclusion(:status, 1..5)
@@ -39,7 +40,7 @@ defmodule Customer.FavoriteJob do
   def by_user_id(user_id) do
     from f in __MODULE__,
     where: f.user_id == ^user_id,
-    preload: [:job]
+    preload: [job: [:company, :job_title, :area]]
   end
 
   def by_user_id_and_job_id(user_id, job_id) do

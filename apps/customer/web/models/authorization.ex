@@ -5,9 +5,9 @@ defmodule Customer.Authorization do
 
   schema "authorizations" do
     belongs_to :user, User
-    field :provider, :string
+    field :provider, :string, null: false
     field :uid, :string
-    field :token, :string
+    field :token, :string, null: false
     field :refresh_token, :integer
     field :expired_at, :integer
 

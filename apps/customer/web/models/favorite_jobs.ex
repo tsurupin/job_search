@@ -13,23 +13,29 @@ defmodule Customer.FavoriteJobs do
     Repo.insert(FavoriteJob.build(params))
   end
 
-  def update(id, params) do
-    with {:ok, favorite_job} <- get_favorite_job(id),
-         {:ok} <- Repo.update(FavoriteJob.update(favorite_job, params))
-    do {:ok}
-    else reason ->  {:error, reason}
+  def update(%{job_id: job_id, user_id: user_id}, params) do
+    if favorite_job = get_favorite_job(%{job_id: job_id, user_id: user_id}) do
+      case Repo.update(FavoriteJob.update(favorite_job, params)) do
+        {:ok, _} -> {:ok}
+        {:error, changeset} -> {:error, changeset}
+      end
+    else
+      {:error, "Not Found"}
     end
   end
 
-  def unfavorite(id) do
-    with {:ok, favorite_job} <- get_favorite_job(id),
-         {:ok} <- Repo.delete(favorite_job)
-    do {:ok}
-    else reason ->  {:error, reason}
+  def unfavorite(%{job_id: job_id, user_id: user_id} = params) do
+    if favorite_job = get_favorite_job(params) do
+      case Repo.delete(favorite_job) do
+        {:ok, _} -> {:ok}
+        {:error, changeset} -> {:error, changeset}
+      end
+    else
+      {:error, "Not Found"}
     end
   end
 
-  defp get_favorite_job(id) do
-    Repo.get(FavoriteJob, id)
+  defp get_favorite_job(%{job_id: job_id, user_id: user_id}) do
+    Repo.get_by(FavoriteJob, job_id: job_id, user_id: user_id)
   end
 end

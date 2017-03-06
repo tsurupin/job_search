@@ -8,6 +8,22 @@ defmodule Customer.Factory do
     }
   end
 
+  def user_factory do
+    %Customer.User{
+      name: "name",
+      email: sequence(:email, &"test#{&1}@gmail.com")
+    }
+  end
+
+  def authorization_factory do
+    %Customer.Authorization{
+      provider: "google",
+      token: "token",
+      uid: "uid",
+      user: build(:user)
+    }
+  end
+
   def job_factory do
     %Customer.Job{
       company: build(:company),
@@ -74,5 +90,12 @@ defmodule Customer.Factory do
        job_source: build(:job_source),
        tech_keyword: build(:tech_keyword)
      }
+  end
+
+  def favorite_job_factory do
+    %Customer.FavoriteJob{
+      job: build(:job),
+      user: build(:user)
+    }
   end
 end

@@ -65,6 +65,7 @@ defmodule Customer.Web do
       import Customer.Gettext
 
       alias Customer.Es
+      alias Customer.Error
 
       Customer.Web.shared
     end
