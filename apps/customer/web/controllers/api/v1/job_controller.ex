@@ -2,13 +2,14 @@ defmodule Customer.Api.V1.JobController do
   use Customer.Web, :controller
   alias Customer.Ets
 
-  def index(conn, params, _current_user, _claims) do
+  def index(conn, params, current_user, _claims) do
     search_params = search_params(params)
     option_params = option_params(params)
 
     jobs =
        Job.es_search(search_params, option_params)
        |> Es.Paginator.paginate(%{query: search_params, options: option_params})
+       |> add_favorite_if_needed(current_user)
 
     job_titles = fetch_from_ets("JobTitles", :names)
     areas = fetch_from_ets("Areas", :names)
@@ -53,6 +54,13 @@ defmodule Customer.Api.V1.JobController do
   defp upsert_ets(key, action) do
     value = apply(Module.concat(Customer, key), action, [])
     Ets.upsert(%{key: key, value: value})
+  end
+
+  defp add_favorite_if_needed(jobs, user) when is_nil(user), do: jobs
+  defp add_favorite_if_needed(jobs, user) do
+    Enum.map(jobs, fn job ->
+      Map.put_new(job, :favorited, FavoriteJobs.exists?(%{user_id: user.id, job_id: job.id}))
+    end)
   end
 
 

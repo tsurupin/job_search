@@ -12,6 +12,10 @@ defmodule Customer.FavoriteJobs do
     Repo.one(FavoriteJob.get_by(%{user_id: user_id, job_id: job_id}))
   end
 
+  def exists?(params) do
+    Repo.one(FavoriteJob.count(params)) > 0
+  end
+
   def favorite(%{user_id: user_id, job_id: job_id} = params) do
     if job_application = JobApplications.latest(params) do
       params = Map.put_new(params, :status, job_application.status)

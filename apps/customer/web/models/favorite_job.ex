@@ -37,15 +37,22 @@ defmodule Customer.FavoriteJob do
     changeset(favorite_job, params)
   end
 
-  def get_by(%{user_id: user_id}) do
+  def get_by(%{user_id: user_id} = params) when params == %{user_id: user_id} do
     from f in __MODULE__,
     where: f.user_id == ^user_id,
     preload: [job: [:company, :job_title, :area]]
   end
 
-  def get(%{user_id: user_id, job_id: job_id}) do
+  def get_by(%{user_id: user_id, job_id: job_id}) do
     from f in __MODULE__,
     where: f.user_id == ^user_id and f.job_id == ^job_id
   end
+
+  def count(params) do
+    from f in get_by(params),
+    select: count(f.id)
+  end
+
+
 
 end
