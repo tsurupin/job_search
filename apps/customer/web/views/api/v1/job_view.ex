@@ -14,7 +14,7 @@ defmodule Customer.Api.V1.JobView do
     }
   end
 
-  def render("show.json", %{job: %Job{id: id, job_title: job_title, area: area, tech_keywords: tech_keywords, company: company, updated_at: updated_at, detail: detail} }) do
+  def render("show.json", %{job: %Job{id: id, job_title: job_title, area: area, tech_keywords: tech_keywords, company: company, updated_at: updated_at, detail: detail, favorited: favorited} }) do
     %{
         id: id,
         jobTitle: job_title.name,
@@ -24,6 +24,7 @@ defmodule Customer.Api.V1.JobView do
         updatedAt: updated_at,
         detail: detail["value"]
     }
+    |> add_favorite_if_existed(favorited)
   end
 
   def render("show.json", %{error: error}) do
@@ -63,6 +64,11 @@ defmodule Customer.Api.V1.JobView do
 
   defp fetch(record, columns)  do
     Map.take(record, columns)
+  end
+
+  defp add_favorite_if_existed(map, favorited) when is_nil(favorited), do: map
+  defp add_favorite_if_existed(map, favorited) do
+    Map.put_new(map, :favorited, favorited)
   end
 
 end

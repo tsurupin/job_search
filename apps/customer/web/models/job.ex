@@ -7,6 +7,7 @@ defmodule Customer.Job do
     field :title, :map
     field :detail, :map
     field :priority, :integer, virtual: true
+    field :favorited, :boolean, virtual: true
     timestamps()
 
     many_to_many :tech_keywords, TechKeyword, join_through: JobTechKeyword

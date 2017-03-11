@@ -82,6 +82,36 @@ defmodule Customer.Api.V1.JobControllerTest do
     end
   end
 
+  describe "show with login" do
+    setup [:login, :show_page_setup]
+
+     test "get a job with favorited", j do
+        insert(:favorite_job, user: j.user, job: j.job)
+
+        conn = build_conn()
+          |> put_req_header("authorization", "Bearer #{j.jwt}")
+          |> get(job_path(conn, :show, j.job.id))
+
+        assert conn.status == 200
+        body = Poison.decode!(conn.resp_body)
+        %{
+          "id" => id,
+          "area" => area,
+          "jobTitle" => jobTitle,
+          "techKeywords" => techKeywords,
+          "company" => company,
+          "favorited" => favorited
+         } = body
+        assert id == j.job.id
+        assert area == j.area.name
+        assert jobTitle == j.job_title.name
+        assert favorited = true
+        assert techKeywords == Enum.map(j.tech_keywords, &(%{"id" => &1.id, "name" => &1.name}))
+        assert company == %{"id" => j.company.id, "name" => j.company.name}
+      end
+
+  end
+
   describe "show" do
     setup [:show_page_setup]
 

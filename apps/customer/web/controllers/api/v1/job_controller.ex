@@ -18,9 +18,11 @@ defmodule Customer.Api.V1.JobController do
     render(conn, "index.json", %{jobs: jobs, job_titles: job_titles, areas: areas})
   end
 
-  def show(conn, %{"id" => id}, _current_user, _claims) do
+  def show(conn, %{"id" => id}, current_user, _claims) do
     job = Jobs.get_with_associations(id)
+
     if job do
+      job = add_favorite(job, current_user)
       render(conn, "show.json", %{job: job})
     else
       conn
@@ -28,6 +30,7 @@ defmodule Customer.Api.V1.JobController do
       |> render("show.json", %{error: "Not Found"})
     end
   end
+
 
   defp search_params(params, candidates \\ @search_candidates, new_params \\ %{})
   defp search_params(_, [], new_params), do: new_params
@@ -64,8 +67,18 @@ defmodule Customer.Api.V1.JobController do
     %{jobs | entries: add_favorite(jobs.entries, user)}
   end
 
-  defp add_favorite(jobs, user) do
-    Enum.map(jobs, &(Enum.into(&1, %{ favorited: FavoriteJobs.exists?(%{user_id: user.id, job_id: &1.job_id}) })))
+  defp add_favorite(entries, user) when is_list(entries) do
+    Enum.map(entries, &(add_favorite(&1, user)))
+  end
+
+  defp add_favorite(job, user) when is_nil(user), do: job
+
+  defp add_favorite(%Job{} = job, user) do
+    %Job{ job | favorited: FavoriteJobs.exists?(%{user_id: user.id, job_id: job.id})}
+  end
+
+  defp add_favorite(job, user) when is_map(job) do
+    Enum.into(job, %{ favorited: FavoriteJobs.exists?(%{user_id: user.id, job_id: job.job_id})})
   end
 
 
