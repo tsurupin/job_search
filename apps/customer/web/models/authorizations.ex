@@ -1,4 +1,4 @@
-defmodule Authorizations do
+defmodule Customer.Authorizations do
   use Customer.Web, :crud
 
   def current_auth(user_id) do
@@ -26,7 +26,7 @@ defmodule Authorizations do
   def reset_authorization(authorization, user, auth) do
     Multi.new
     |> Multi.delete(:delete, authorization)
-    |> Multi.merge(fn _ -> Authorizations.create_by(user, auth) end)
+    |> Multi.merge(fn _ -> __MODULE__.create_by(user, auth) end)
     |> Repo.transaction
   end
 

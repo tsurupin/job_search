@@ -2,6 +2,7 @@ defmodule Customer.Api.V1.FavoriteJobController do
   use Customer.Web, :controller
   alias Customer.Converter
 
+
   def index(conn, _params, current_user, _claims) do
     favorite_jobs = FavoriteJobs.all_by(%{user_id: current_user.id})
     render(conn, "index.json", %{favorite_jobs: favorite_jobs})
@@ -20,6 +21,7 @@ defmodule Customer.Api.V1.FavoriteJobController do
       {:ok, _} -> send_resp(conn, 201, "")
       {:error, changeset} -> render_with_404(conn, Error.message(changeset))
     end
+
   end
 
   def update(conn, %{"id" => job_id} = params, current_user, _claims) do

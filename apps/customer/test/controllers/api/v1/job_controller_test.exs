@@ -1,7 +1,36 @@
 defmodule Customer.Api.V1.JobControllerTest do
   use Customer.ConnCase, async: true
 
-  alias Customer.Job
+  alias Customer.{Job, FavoriteJobs, Repo}
+
+  describe "index with login" do
+    setup [:login, :first_page_setup]
+    test "get jobs with favorited and job_titles and areas", j do
+       job = Repo.get(Job, Keyword.get(Enum.at(j.jobs, 1), :job_id))
+       insert(:favorite_job, user: j.user, job: job)
+
+       conn = build_conn()
+         |> put_req_header("authorization", "Bearer #{j.jwt}")
+         |> get(job_path(conn, :index))
+
+       assert conn.status == 200
+       body = Poison.decode!(conn.resp_body)
+       result =
+       %{
+         "jobs" => Enum.map(j.jobs, fn job ->
+            build_job_attributes(job)
+            |> add_favorite_if_needed(j.user)
+          end),
+         "jobTitles" =>  Enum.map(j.job_titles, &(&1.name)),
+         "areas" => Enum.map(j.areas, &(&1.name)),
+         "hasNext" => false,
+         "nextPage" => 2,
+         "page" => 1
+        }
+
+        assert body == result
+    end
+  end
 
   describe "index with page 1" do
     setup [:first_page_setup]
@@ -67,9 +96,9 @@ defmodule Customer.Api.V1.JobControllerTest do
         "techKeywords" => techKeywords,
         "company" => company
        } = body
-      assert id = j.job.id
+      assert id == j.job.id
       assert area == j.area.name
-      assert jobTitle = j.job_title.name
+      assert jobTitle == j.job_title.name
       assert techKeywords == Enum.map(j.tech_keywords, &(%{"id" => &1.id, "name" => &1.name}))
       assert company == %{"id" => j.company.id, "name" => j.company.name}
     end
@@ -95,6 +124,18 @@ defmodule Customer.Api.V1.JobControllerTest do
       "techs" => techs,
       "updatedAt" => updated_at
     }
+  end
+
+  defp add_favorite_if_needed(map, user) do
+   favorited = FavoriteJobs.exists?(%{user_id: user.id, job_id: map["id"]})
+   Enum.into(map, %{"favorited" => favorited})
+  end
+
+  def login(_context) do
+    user = insert(:user)
+    {:ok, jwt, full_claims} = Guardian.encode_and_sign(user)
+
+    {:ok, %{user: user, jwt: jwt, claims: full_claims} }
   end
 
   defp first_page_setup(_context) do

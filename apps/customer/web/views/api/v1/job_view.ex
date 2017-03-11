@@ -32,7 +32,19 @@ defmodule Customer.Api.V1.JobView do
     }
   end
 
-  defp parse(%{job_id: id, job_title: job_title, area: area, updated_at: updated_at,techs: techs, detail: detail}) do
+  defp parse(%{job_id: id, job_title: job_title, area: area, updated_at: updated_at, techs: techs, detail: detail, favorited: favorited} = params) when is_boolean(favorited) do
+    %{
+        id: id,
+        jobTitle: job_title,
+        area: area,
+        updatedAt: updated_at,
+        techs: techs,
+        detail: detail,
+        favorited: favorited
+    }
+  end
+
+  defp parse(%{job_id: id, job_title: job_title, area: area, updated_at: updated_at,techs: techs, detail: detail} = params) do
     %{
         id: id,
         jobTitle: job_title,

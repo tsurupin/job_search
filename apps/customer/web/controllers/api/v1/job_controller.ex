@@ -1,6 +1,7 @@
 defmodule Customer.Api.V1.JobController do
   use Customer.Web, :controller
   alias Customer.Ets
+  @search_candidates [["job-title", :job_title], ["areas", :areas], ["techs", :techs], ["detail", :detail]]
 
   def index(conn, params, current_user, _claims) do
     search_params = search_params(params)
@@ -28,13 +29,15 @@ defmodule Customer.Api.V1.JobController do
     end
   end
 
-  defp search_params(params) do
-    new_params = %{}
-    if params["job-title"], do: new_params = Map.put_new(new_params, :job_title, params["job-title"])
-    if params["area"], do: new_params = Map.put_new(new_params, :area, params["area"])
-    if params["techs"], do: new_params = Map.put_new(new_params, :techs, params["techs"])
-    if params["detail"], do: new_params = Map.put_new(new_params, :detail, params["detail"])
-    new_params
+  defp search_params(params, candidates \\ @search_candidates, new_params \\ %{})
+  defp search_params(_, [], new_params), do: new_params
+
+  defp search_params(params, [[str, atom_str] | remainings], new_params) do
+    if params[str] do
+      search_params(params, remainings, Map.put_new(new_params, atom_str, params[str]))
+    else
+      search_params(params, remainings, new_params)
+    end
   end
 
   defp option_params(params) do
@@ -58,9 +61,11 @@ defmodule Customer.Api.V1.JobController do
 
   defp add_favorite_if_needed(jobs, user) when is_nil(user), do: jobs
   defp add_favorite_if_needed(jobs, user) do
-    Enum.map(jobs, fn job ->
-      Map.put_new(job, :favorited, FavoriteJobs.exists?(%{user_id: user.id, job_id: job.id}))
-    end)
+    %{jobs | entries: add_favorite(jobs.entries, user)}
+  end
+
+  defp add_favorite(jobs, user) do
+    Enum.map(jobs, &(Enum.into(&1, %{ favorited: FavoriteJobs.exists?(%{user_id: user.id, job_id: &1.job_id}) })))
   end
 
 
