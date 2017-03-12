@@ -3,7 +3,7 @@ defmodule Customer.Api.V1.AuthController do
   Auth controller responsible for logout
   """
   use Customer.Web, :controller
-  plug Guardian.Plug.EnsureAuthenticated
+
 
   def delete(conn, _params, current_user, _claims) do
     if current_user do

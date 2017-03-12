@@ -4,12 +4,22 @@ import {
   FETCH_TECH_KEYWORDS,
   TECH_KEYWORDS_PATH,
   RESET_ITEM,
-  SELECT_ITEM
+  SELECT_ITEM,
+  FAVORITE_JOB_INDEX,
+  UNFAVORITE_JOB_INDEX,
 } from './constants';
+import { FAVORITE_JOB_PATH } from 'constants';
+
 import axios from 'axios';
+import { createAuthorizeRequest } from 'utils';
 
 export function fetchJobs(path = '') {
-  const request = axios.get(`${JOBS_PATH}/${path}`);
+  let request;
+  if (localStorage.getItem("token")) {
+    request = createAuthorizeRequest("get",`${JOBS_PATH}/${path}`);
+  } else {
+    request = axios.get(`${JOBS_PATH}/${path}`);
+  }
 
   return dispatch => {
     dispatch(fetchJobsRequest());
@@ -75,6 +85,74 @@ function fetchTechKeywordsFailure(errorMessage) {
     payload: { errorMessage }
   }
 }
+
+export function favoriteJob(sortRank, jobId) {
+  const request = createAuthorizeRequest('post', `${FAVORITE_JOB_PATH}?id=${jobId}`);
+  return dispatch => {
+    dispatch(favoriteJobRequest(sortRank));
+    return request
+        .then(() => dispatch(favoriteJobSuccess(sortRank)))
+        .catch((error) => {
+        console.log(error)
+        dispatch(favoriteJobFailure(sortRank, error.data))
+        })
+  }
+}
+
+function favoriteJobRequest(sortRank) {
+  return {
+    type: FAVORITE_JOB_INDEX.REQUEST,
+      payload: { sortRank }
+  }
+}
+
+function favoriteJobSuccess(sortRank) {
+    return {
+        type: FAVORITE_JOB_INDEX.SUCCESS,
+        payload: { sortRank }
+    }
+}
+
+function favoriteJobFailure(sortRank, errorMessage) {
+    return {
+        type: FAVORITE_JOB_INDEX.FAILURE,
+        payload: { sortRank, errorMessage }
+    }
+}
+
+export function unfavoriteJob(sortRank, jobId) {
+    const request = createAuthorizeRequest('delete', `${FAVORITE_JOB_PATH}/${jobId}`);
+    return dispatch => {
+        dispatch(unfavoriteJobRequest(sortRank));
+        return request
+            .then(() => dispatch(unfavoriteJobSuccess(sortRank)))
+            .catch((error) => dispatch(unfavoriteJobFailure(sortRank, error.data)))
+    }
+}
+
+
+function unfavoriteJobRequest(sortRank) {
+    return {
+        type: UNFAVORITE_JOB_INDEX.REQUEST,
+        payload: { sortRank }
+    }
+}
+
+function unfavoriteJobSuccess(sortRank) {
+    return {
+        type: UNFAVORITE_JOB_INDEX.SUCCESS,
+        payload: { sortRank }
+    }
+}
+
+function unfavoriteJobFailure(sortRank, errorMessage) {
+    return {
+        type: UNFAVORITE_JOB_INDEX.FAILURE,
+        payload: { sortRank, errorMessage }
+    }
+}
+
+
 
 export function resetItem(key) {
   return {

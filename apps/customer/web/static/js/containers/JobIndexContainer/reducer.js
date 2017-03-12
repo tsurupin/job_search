@@ -2,7 +2,9 @@ import {
   FETCH_JOBS,
   FETCH_TECH_KEYWORDS,
   RESET_ITEM,
-  SELECT_ITEM
+  SELECT_ITEM,
+  FAVORITE_JOB_INDEX,
+  UNFAVORITE_JOB_INDEX
 } from './constants';
 
 const INITIAL_STATE = {
@@ -46,7 +48,26 @@ export default function(state = INITIAL_STATE, action) {
       const { suggestedTechKeywords } = action.payload;
       return { ...state, suggestedTechKeywords };
 
+    case FAVORITE_JOB_INDEX.REQUEST, UNFAVORITE_JOB_INDEX.REQUEST:
+      return {...state, jobs: update_favorite_job(state.jobs, action.payload.sortRank, true)};
+
+    case FAVORITE_JOB_INDEX.SUCCESS:
+      return {...state, jobs: update_favorite_job(state.jobs, action.payload.sortRank, false, true)};
+
+    case UNFAVORITE_JOB_INDEX.SUCCESS:
+      return {...state, jobs: update_favorite_job(state.jobs, action.payload.sortRank, false, false)};
+
+    case FAVORITE_JOB_INDEX.FAILURE, UNFAVORITE_JOB_INDEX.FAIURE:
+      return {...state, jobs: update_favorite_job(state.jobs, action.payload.sortRank, false)};
+
     default:
       return state;
   }
+}
+
+function update_favorite_job(jobs, sortRank, submitting, favorited = null) {
+  let job = { ...jobs[sortRank], submitting };
+  if (favorited !== null) { job = {...job, favorited } }
+
+  return [ ...jobs.slice(0, sortRank), job, ...jobs.slice(sortRank+1) ]
 }

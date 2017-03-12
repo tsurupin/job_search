@@ -1,5 +1,7 @@
 import {
-  FETCH_JOB
+  FETCH_JOB,
+  FAVORITE_JOB,
+  UNFAVORITE_JOB
 } from './constants';
 
 const INITIAL_STATE = {
@@ -18,6 +20,18 @@ export default function(state = INITIAL_STATE, action) {
 
     case FETCH_JOB.FAILURE:
         return {...state, errorMessage: action.payload.errorMessage, loading: false};
+
+    case FAVORITE_JOB.REQUEST, UNFAVORITE_JOB.REQUEST:
+      return {...state, job: {...job, submitting: true }};
+
+    case FAVORITE_JOB.SUCCESS:
+      return {...state, job: {...job, favorited: true }};
+
+    case UNFAVORITE_JOB.SUCCESS:
+      return {...state, job: {...job, favorited: false }};
+
+    case FAVORITE_JOB.FAILURE, UNFAVORITE_JOB.FAIURE:
+      return {...state, errorMessage: action.payload.errorMessage };
 
     default:
         return state;

@@ -4,7 +4,10 @@ import { bindActionCreators } from 'redux';
 import * as JobShowActionCreators from './action';
 
 const propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  job: PropTypes.object,
+  errorMessage: PropTypes.string,
+  loading: PropTypes.bool.isRequired
 }
 
 function mapStateToProps({jobShow}) {
@@ -29,11 +32,22 @@ class JobShowContainer extends Component {
 
   constructor(props) {
     super(props);
+
+    this.handleSwitchFavoriteStatus = this.handleSwitchFavoriteStatus.bind(this);
   }
 
   componentWillMount() {
     this.props.actions.fetchJob(this.props.id);
   }
+
+  handleSwitchFavoriteStatus(jobId, favorited) {
+    if (favorited) {
+      this.props.actions.favoriteJob(jobId, favorited)
+    } else {
+      this.props.actions.unfavoriteJob(jobId, favorited)
+    }
+  }
+
 
   renderTechKeyword() {
     const { techKeywords } = this.props.job;
@@ -46,8 +60,21 @@ class JobShowContainer extends Component {
     )
   }
 
+  renderFavoriteButton() {
+    const {id, favorited, submitting } = this.props.job;
+    if (favorited === undefined) { return }
+    return (
+      <FavoriteButton
+        jobId={id}
+        favorited={favorited}
+        submitting={submitting}
+        handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus}
+      />
+    );
+  }
+
   render() {
-      console.log(this.props)
+
     const { loading, errorMessage, job} = this.props;
     const {jobTitle, company, detail, updatedAt} = job;
     if(loading) { return(<div></div>) }
@@ -59,7 +86,7 @@ class JobShowContainer extends Component {
         <span>{updatedAt}</span>
           {this.renderTechKeyword()}
         <p>{detail}</p>
-
+        {this.renderFavoriteButton()}
       </article>
 
     )

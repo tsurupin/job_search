@@ -7,3 +7,5 @@ export function createRequestTypes(base) {
 }
 
 export const TECH_KEYWORD = 'techKeyword';
+
+export const FAVORITE_JOB_PATH = 'api/v1/me/favorites/jobs';

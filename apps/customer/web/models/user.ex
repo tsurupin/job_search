@@ -1,5 +1,6 @@
 defmodule Customer.User do
   use Customer.Web, :model
+  alias Customer.Blank
 
   schema "users" do
     field :name, :string, null: false
@@ -33,7 +34,6 @@ defmodule Customer.User do
   end
 
   def get_or_create_by!(auth) do
-    IO.inspect auth
     case Repo.get_by(__MODULE__, email: auth.info.email) do
       nil ->
         case create_by!(auth) do
@@ -53,14 +53,19 @@ defmodule Customer.User do
   end
 
   defp name_from_auth(auth) do
-    if auth.info.name do
+
+    if !Blank.blank?(auth.info.name) do
       auth.info.name
     else
       name = [auth.info.first_name, auth.info.last_name]
       |> Enum.filter(&(&1 != nil && &1 != ""))
 
       if Enum.empty?(name) do
-        auth.info.nickname
+        if Blank.blank?(auth.info.nickname) do
+          "no name"
+        else
+          auth.info.nickname
+        end
       else
         Enum.join(name, " ")
       end

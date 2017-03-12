@@ -17,17 +17,19 @@ defmodule Customer.Authorizations do
     end
   end
 
+  def get_by(%{uid: uid, provider: provider} = params) do
+    Repo.one(Authorization.get_by(params))
+  end
+
   def create_by(user, auth) do
      Multi.new
      |> Multi.insert(:user, Authorization.build_with_auth(user, auth))
-     |> Repo.transaction
   end
 
   def reset_authorization(authorization, user, auth) do
     Multi.new
     |> Multi.delete(:delete, authorization)
     |> Multi.merge(fn _ -> __MODULE__.create_by(user, auth) end)
-    |> Repo.transaction
   end
 
 end

@@ -30,3 +30,4 @@ export function createAuthorizeRequest(method, path, params = {}) {
 function config() {
   return { headers: { 'Authorization' : `Bearer ${localStorage.getItem('token')}` } }
 }
+

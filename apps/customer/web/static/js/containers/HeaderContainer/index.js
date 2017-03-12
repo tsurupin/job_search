@@ -34,12 +34,16 @@ class HeaderContainer extends Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
+  authenticated() {
+    return !!localStorage.getItem("token");
+  }
+
   handleLogout() {
     this.props.actions.logout();
   }
 
   renderButton() {
-    if (this.props.authenticated) return <button type='submit' onClick={this.handleLogout}>Logout</button>
+    if (this.authenticated()) return <button type='submit' onClick={this.handleLogout}>Logout</button>
     return <a href={AUTH_GOOGLE_PATH}>LogIn</a>
   }
 

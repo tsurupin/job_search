@@ -78,6 +78,7 @@ class JobIndexContainer extends Component {
     this.handleResetTechKeyword = this.handleResetTechKeyword.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleAutoSuggest = this.handleAutoSuggest.bind(this);
+    this.handleSwitchFavoriteStatus = this.handleSwitchFavoriteStatus.bind(this);
   }
 
   componentWillMount() {
@@ -122,6 +123,14 @@ class JobIndexContainer extends Component {
     this.props.actions.resetItem(key);
   }
 
+  handleSwitchFavoriteStatus(sortRank, jobId, favorited) {
+    if (favorited) {
+      this.props.actions.favoriteJob(sortRank, jobId, favorited)
+    } else {
+      this.props.actions.unfavoriteJob(sortRank, jobId, favorited)
+    }
+  }
+
   handleResetTechKeyword(key, value) {
     const newValue = this.props.techKeywords.filter(techKeyword => techKeyword !== value)
     this.props.actions.selectItem(TECH_KEYWORDS, newValue);
@@ -139,6 +148,11 @@ class JobIndexContainer extends Component {
 
   handleAutoSuggest(value) {
     this.props.actions.fetchTechKeywords(value);
+  }
+
+  renderJobs(jobs) {
+    if (jobs.length === 0) { return }
+    return <JobTable jobs={jobs} handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus} />
   }
 
   render() {
@@ -168,7 +182,7 @@ class JobIndexContainer extends Component {
           handleResetTechKeyword={this.handleResetTechKeyword}
           handleAutoSuggest={this.handleAutoSuggest}
         />
-        {jobs.length === 0 ? null : <JobTable jobs={jobs} />}
+        {this.renderJobs(jobs)}
       </article>
     )
   }

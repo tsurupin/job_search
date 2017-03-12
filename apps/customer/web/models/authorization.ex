@@ -28,6 +28,10 @@ defmodule Customer.Authorization do
      last(from a in __MODULE__, where: a.user_id == ^user_id)
   end
 
+  def get_by(%{uid: uid, provider: provider} = params) do
+    (from a in __MODULE__, where: a.uid == ^uid and a.provider == ^provider, preload: [:user])
+  end
+
   def expired?(authorization) do
      authorization.expired_at && authorization.expired_at < Guardian.Utils.timestamp
   end
