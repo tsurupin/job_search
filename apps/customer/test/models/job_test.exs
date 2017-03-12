@@ -1,5 +1,5 @@
-defmodule Customer.JobTest do
-  use Customer.TestWithEcto, async: true
+defmodule Customer.Web.JobTest do
+  use Customer.Web.TestWithEcto, async: true
 
   alias Customer.Job
 

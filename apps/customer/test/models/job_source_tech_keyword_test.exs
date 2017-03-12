@@ -1,7 +1,7 @@
-defmodule Customer.JobSourceTechKeywordTest do
-  use Customer.TestWithEcto, async: true
+defmodule Customer.Web.JobSourceTechKeywordTest do
+  use Customer.Web.TestWithEcto, async: true
 
-  alias Customer.JobSourceTechKeyword
+  alias Customer.Web.JobSourceTechKeyword
 
   test "user fetches tech_keyword_ids_by" do
     job_source = insert(:job_source)

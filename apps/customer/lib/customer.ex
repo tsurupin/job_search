@@ -11,7 +11,7 @@ defmodule Customer do
       # Start the Ecto repository
       supervisor(Customer.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(Customer.Endpoint, []),
+      supervisor(Customer.Web.Endpoint, []),
       worker(Customer.Ets, [])
       # Start your own worker by calling: Customer.Worker.start_link(arg1, arg2, arg3)
       # worker(Customer.Worker, [arg1, arg2, arg3]),
@@ -23,10 +23,5 @@ defmodule Customer do
     Supervisor.start_link(children, opts)
   end
 
-  # Tell Phoenix to update the endpoint configuration
-  # whenever the application is updated.
-  def config_change(changed, _new, removed) do
-    Customer.Endpoint.config_change(changed, removed)
-    :ok
-  end
+
 end

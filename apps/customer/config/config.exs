@@ -10,10 +10,10 @@ config :customer,
   ecto_repos: [Customer.Repo]
 
 # Configures the endpoint
-config :customer, Customer.Endpoint,
+config :customer, Customer.Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "o9lvpFUXHXMtN6kFpZuHDVqEIYSqyYPK1nQoxQZ5g6QKyFHVZbp3BVPEqHDBIo1U",
-  render_errors: [view: Customer.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: Customer.Web.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Customer.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

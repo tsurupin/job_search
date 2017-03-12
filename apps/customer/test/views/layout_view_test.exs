@@ -1,3 +1,3 @@
-defmodule Customer.LayoutViewTest do
-  use Customer.ConnCase, async: true
+defmodule Customer.Web.LayoutViewTest do
+  use Customer.Web.ConnCase, async: true
 end

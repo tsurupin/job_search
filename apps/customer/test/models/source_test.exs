@@ -1,4 +1,4 @@
-defmodule Customer.SourceTest do
+defmodule Customer.Web.SourceTest do
   use Customer.ModelCase
 
   alias Customer.Source

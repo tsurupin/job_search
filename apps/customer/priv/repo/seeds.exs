@@ -11,7 +11,7 @@
 # and so on) as they will fail if something goes wrong.
 Application.load(:tzdata)
 :ok = Application.ensure_started(:tzdata)
-alias Customer.{TechKeyword, Area, State}
+alias Customer.Web.{TechKeyword, Area, State}
 alias Customer.Repo
 
 infra = ~w(Docker Ansible Chef AWS Amazonwebservice Pupet)

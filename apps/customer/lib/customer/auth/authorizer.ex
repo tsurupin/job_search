@@ -3,7 +3,7 @@ defmodule Customer.Auth.Authorizer do
   Retrieve the user information from a auth request
   """
   alias Customer.Repo
-  alias Customer.{User, Authorization, Authorizations}
+  alias Customer.Web.{User, Authorization, Authorizations}
   alias Ueberauth.Auth
 
   def get_or_create(auth, current_user \\ nil) do

@@ -1,7 +1,7 @@
-defmodule Customer.JobTitleAliasTest do
-  use Customer.TestWithEcto, async: true
+defmodule Customer.Web.JobTitleAliasTest do
+  use Customer.Web.TestWithEcto, async: true
 
-    alias Customer.JobTitleAlias
+    alias Customer.Web.JobTitleAlias
 
     describe "get_or_find_approximate_job_title" do
       test "return existing job_title_alias's job_title_id" do

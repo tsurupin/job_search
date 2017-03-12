@@ -1,7 +1,7 @@
-defmodule Customer.UserTest do
-  use Customer.ModelCase
+defmodule Customer.Web.UserTest do
+  use Customer.Web.ModelCase
 
-  alias Customer.User
+  alias Customer.Web.User
 
   @valid_attrs %{email: "some content", first_name: "some content", last_name: "some content", passowrd_hash: "some content"}
   @invalid_attrs %{}
