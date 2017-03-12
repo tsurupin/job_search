@@ -8,7 +8,7 @@ defmodule Customer.Web.Authorization do
     field :provider, :string, null: false
     field :uid, :string
     field :token, :string, null: false
-    field :refresh_token, :integer
+    field :refresh_token, :string
     field :expired_at, :integer
 
     timestamps
@@ -49,6 +49,10 @@ defmodule Customer.Web.Authorization do
       refresh_token: auth.credentials.refresh_token,
       expired_at: auth.credentials.expires_at
     }
+  end
+
+  def update(authorization, %{refresh_token: refresh_token, expired_at: expired_at} = params) do
+   changeset(authorization, params)
   end
 
 end

@@ -26,7 +26,10 @@ export function logout() {
   const request = createAuthorizeRequest('delete', LOGOUT_PATH);
   return dispatch => {
     return request
-    .then(() => dispatch(logoutSuccess()))
+    .then(() => {
+      dispatch(logoutSuccess());
+      browserHistory.push('/');
+    })
     .catch((error) => dispatch(logoutFailure("Failed to logout")))
   }
 }

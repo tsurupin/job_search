@@ -6,6 +6,7 @@ defmodule Customer.Web.Authorizations do
   end
 
   def get_user_by(authorization, current_user) do
+
     case Repo.one(Ecto.assoc(authorization, :user)) do
       nil -> {:error, :user_not_found}
       user ->
@@ -26,10 +27,20 @@ defmodule Customer.Web.Authorizations do
      |> Multi.insert(:user, Authorization.build_with_auth(user, auth))
   end
 
-  def reset_authorization(authorization, user, auth) do
+  def refresh_authorization(user, authorization) do
+    {:ok, jwt, full_claims} = Guardian.encode_and_sign(user)
+
     Multi.new
-    |> Multi.delete(:delete, authorization)
-    |> Multi.merge(fn _ -> __MODULE__.create_by(user, auth) end)
+    |> Multi.run(:guardian, fn _ ->
+      case Guardian.refresh!(jwt, full_claims) do
+        {:ok, access_jwt, new_claims} -> {:ok, %{refresh_token: access_jwt, expired_at: new_claims["exp"] }}
+        {error, reason} -> {:error, Atom.to_string(reason)}
+      end
+    end)
+    |> Multi.merge(fn %{guardian: guardian} ->
+      Multi.update(Multi.new, :authorization, Authorization.update(authorization, guardian))
+    end)
+
   end
 
 end

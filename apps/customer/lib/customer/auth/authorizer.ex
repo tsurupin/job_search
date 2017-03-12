@@ -34,19 +34,17 @@ defmodule Customer.Auth.Authorizer do
     case Authorizations.get_user_by(authorization, current_user) do
       {:error, reason} -> {:error, reason}
       {:ok, user} ->
-        case Authorizations.reset_authorization(authorization, user, auth) |> Repo.transaction do
+        case Authorizations.refresh_authorization(user, authorization) |> Repo.transaction do
           {:ok, _authorization} -> {:ok, user}
-          {:error, reason} -> {:error, reason}
+          _ -> {:error, "Failed to replace authorization"}
         end
     end
   end
 
   defp validate_auth(%{provider: provider, uid: auth_uid} = auth) when provider in [:google] do
-    IO.inspect auth_uid
-    case Authorizations.get_by(%{uid: auth_uid, provider: to_string(provider)}) do
 
-      authorization when is_nil(authorization) ->
-        {:error, :not_found}
+    case Authorizations.get_by(%{uid: auth_uid, provider: to_string(provider)}) do
+      nil -> {:error, :not_found}
       authorization ->
         if authorization.uid == auth_uid do
           authorization
