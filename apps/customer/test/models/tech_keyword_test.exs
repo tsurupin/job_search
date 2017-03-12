@@ -1,7 +1,7 @@
-defmodule Customer.TechKeywordTest do
-  use Customer.TestWithEcto, async: true
+defmodule Customer.Web.TechKeywordTest do
+  use Customer.Web.TestWithEcto, async: true
 
-  alias Customer.TechKeyword
+  alias Customer.Web.TechKeyword
 
   @valid_attrs %{name: "some content", url: "some content"}
   @invalid_attrs %{}

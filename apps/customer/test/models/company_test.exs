@@ -1,7 +1,7 @@
-defmodule Customer.CompanyTest do
-  use Customer.ModelCase
+defmodule Customer.Web.CompanyTest do
+  use Customer.Web.ModelCase
 
-  alias Customer.Company
+  alias Customer.Web.Company
 
   @valid_attrs %{name: "some content", url: "some content"}
   @invalid_attrs %{}

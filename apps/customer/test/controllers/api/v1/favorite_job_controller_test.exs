@@ -1,7 +1,7 @@
-defmodule Customer.FavoriteJobControllerTest do
-  use Customer.ConnCase, async: true
+defmodule Customer.Web.FavoriteJobControllerTest do
+  use Customer.Web.ConnCase, async: true
 
-  alias Customer.{FavoriteJob, JobApplication}
+  alias Customer.Web.{FavoriteJob, JobApplication}
 
   setup [:login]
 

@@ -1,4 +1,4 @@
-defmodule Customer.Api.V1.AuthControllerTest do
+defmodule Customer.Web.Api.V1.AuthControllerTest do
 
   test "DELETE /api/v1/auth revokes token and returns status code 200" do
     #conn = guardian_login(user, :token, key: :admin)

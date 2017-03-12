@@ -1,7 +1,7 @@
-defmodule Customer.Api.V1.TechKeywordControllerTest do
-  use Customer.ConnCase, async: true
+defmodule Customer.Web.Api.V1.TechKeywordControllerTest do
+  use Customer.Web.ConnCase, async: true
 
-  alias Customer.TechKeyword
+  alias Customer.Web.TechKeyword
 
   setup do
     insert(:tech_keyword, name: "rails")

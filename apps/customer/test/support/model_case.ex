@@ -1,4 +1,4 @@
-defmodule Customer.ModelCase do
+defmodule Customer.Web.ModelCase do
   @moduledoc """
   This module defines the test case to be used by
   model tests.
@@ -21,7 +21,6 @@ defmodule Customer.ModelCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      #import Customer.Factory
       import Customer.ModelCase
     end
   end
@@ -60,7 +59,7 @@ defmodule Customer.ModelCase do
   """
   def errors_on(struct, data) do
     struct.__struct__.changeset(struct, data)
-    |> Ecto.Changeset.traverse_errors(&Customer.ErrorHelpers.translate_error/1)
+    |> Ecto.Changeset.traverse_errors(&Customer.Web.ErrorHelpers.translate_error/1)
     |> Enum.flat_map(fn {key, errors} -> for msg <- errors, do: {key, msg} end)
   end
 end

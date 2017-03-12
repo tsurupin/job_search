@@ -1,7 +1,7 @@
-defmodule Customer.JobTechKeywordTest do
-  use Customer.TestWithEcto, async: true
+defmodule Customer.Web.JobTechKeywordTest do
+  use Customer.Web.TestWithEcto, async: true
 
-  alias Customer.{JobTechKeywords, JobTechKeyword}
+  alias Customer.Web.{JobTechKeywords, JobTechKeyword}
   alias Customer.Repo
 
   test "user bulk_upserts" do

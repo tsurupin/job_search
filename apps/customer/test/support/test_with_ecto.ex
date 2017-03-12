@@ -1,4 +1,4 @@
-defmodule Customer.TestWithEcto do
+defmodule Customer.Web.TestWithEcto do
   use ExUnit.CaseTemplate
 
   using do

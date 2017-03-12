@@ -1,7 +1,7 @@
-defmodule Customer.Api.V1.JobControllerTest do
-  use Customer.ConnCase, async: true
+defmodule Customer.Web.Api.V1.JobControllerTest do
+  use Customer.Web.ConnCase, async: true
 
-  alias Customer.{Job, FavoriteJobs, Repo}
+  alias Customer.Web.{Job, FavoriteJobs, Repo}
 
   describe "index with login" do
     setup [:login, :first_page_setup]

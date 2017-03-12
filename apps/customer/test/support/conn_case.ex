@@ -1,4 +1,4 @@
-defmodule Customer.ConnCase do
+defmodule Customer.Web.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -26,10 +26,10 @@ defmodule Customer.ConnCase do
       import Ecto.Query
       import Customer.Factory
 
-      import Customer.Router.Helpers
+      import Customer.Web.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint Customer.Endpoint
+      @endpoint Customer.Web.Endpoint
 
       # def guardian_login(%Plug.Conn{} = conn, user, token, opts) do
       #   user = create(:user)
