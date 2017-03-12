@@ -9,7 +9,11 @@ defmodule Customer.Web.FavoriteJobs do
   end
 
   def get_by(%{user_id: user_id, job_id: job_id} = params) do
-    Repo.one(FavoriteJob.get_by(%{user_id: user_id, job_id: job_id}))
+    if favorite_job = Repo.one(FavoriteJob.get_by(%{user_id: user_id, job_id: job_id})) do
+      {:ok, favorite_job}
+    else
+      {:error, :not_found}
+    end
   end
 
   def exists?(params) do
@@ -30,7 +34,7 @@ defmodule Customer.Web.FavoriteJobs do
         {:error, changeset} -> {:error, changeset}
       end
     else
-      {:error, "Not Found"}
+      {:error, :not_found}
     end
   end
 
@@ -39,7 +43,6 @@ defmodule Customer.Web.FavoriteJobs do
         Multi.new
         |> update_favorite_job(favorite_job, Map.take(params, @favorite_job_attributes))
         |> update_job_application(favorite_job, Map.take(params, @job_application_attributes))
-      IO.inspect multi
       case Repo.transaction(multi) do
         {:ok, _} -> {:ok, nil}
         {:error, _, reason, _} -> {:error, reason}
@@ -49,7 +52,7 @@ defmodule Customer.Web.FavoriteJobs do
   def update(%{job_id: job_id, user_id: user_id} = required_params, params) do
     if favorite_job = get_favorite_job(required_params) do
       update(favorite_job, params)
-    else {:error, "Not Found"}
+    else {:error, :not_found}
     end
   end
 
@@ -63,7 +66,7 @@ defmodule Customer.Web.FavoriteJobs do
       Multi.update(multi, :job_application, JobApplication.update(job_application, %{comment: comment}))
     else
 
-      Multi.run(multi, :job_application, fn _ -> {:error, "Not Found"} end)
+      Multi.run(multi, :job_application, fn _ -> {:error, :not_found} end)
     end
   end
 

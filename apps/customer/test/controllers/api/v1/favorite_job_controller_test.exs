@@ -47,8 +47,8 @@ defmodule Customer.Web.FavoriteJobControllerTest do
          |> get(favorite_job_path(conn, :show, job.id))
        assert conn.status == 200
        body = Poison.decode!(conn.resp_body)
-       result = %{"favoriteId" => favorite_job.id}
-       assert body = result
+       result = %{"favoriteJobId" => favorite_job.id}
+       assert body == result
     end
 
     test "get an error message", %{jwt: jwt} do
@@ -56,9 +56,9 @@ defmodule Customer.Web.FavoriteJobControllerTest do
         |> put_req_header("authorization", "Bearer #{jwt}")
         |> get(favorite_job_path(conn, :show, 2))
       assert conn.status == 404
+      body = Poison.decode!(conn.resp_body)
 
-      result = %{"error" => "Not Found"}
-      assert body = result
+      assert body == %{"errorMessage" =>"Not Found"}
     end
   end
 
@@ -91,7 +91,9 @@ defmodule Customer.Web.FavoriteJobControllerTest do
        conn = build_conn()
          |> put_req_header("authorization", "Bearer #{jwt}")
          |> post(favorite_job_path(conn, :create, %{"id" => job.id}))
-       assert conn.status == 404
+       body = Poison.decode!(conn.resp_body)
+       assert conn.status == 422
+       assert body == %{"errorMessage" => "job_id: has already been taken"}
     end
   end
 
@@ -159,14 +161,14 @@ defmodule Customer.Web.FavoriteJobControllerTest do
       assert conn.status == 404
     end
 
-    test "fail to update an existing job and get 400", %{user: user, jwt: jwt} do
+    test "fail to update an existing job and get 422", %{user: user, jwt: jwt} do
       job = insert(:job)
       favorite_job = insert(:favorite_job, user: user, job: job)
 
       conn = build_conn()
         |> put_req_header("authorization", "Bearer #{jwt}")
         |> put(favorite_job_path(conn, :update, job.id, %{interest: 10}))
-      assert conn.status == 404
+      assert conn.status == 422
       Repo.one(FavoriteJob).interest == 3
     end
   end

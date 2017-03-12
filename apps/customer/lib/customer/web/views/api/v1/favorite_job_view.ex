@@ -14,10 +14,6 @@ defmodule Customer.Web.Api.V1.FavoriteJobView do
     %{favoriteJobId: favorite_job_id}
   end
 
-  def render("error.json", %{error: error}) do
-    %{error => error}
-  end
-
   defp parse(%{interest: interest, job_id: job_id, job: job, status: status}) do
     %{
       interest: interest,
