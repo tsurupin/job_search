@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router';
 import * as AuthenticationActionCreators from '../AuthenticationContainer/action';
 import styles from './styles.css';
 
@@ -48,7 +49,13 @@ class HeaderContainer extends Component {
   }
 
   render() {
-    return (this.renderButton())
+    return (
+      <header>
+        <Link to="/"> Jobs</Link>
+        <Link to="/favorite-jobs">Favorite Job</Link>
+        {this.renderButton()}
+      </header>
+    )
   }
 }
 

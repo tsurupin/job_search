@@ -7,11 +7,6 @@ defmodule Customer.Web.Api.V1.FavoriteJobView do
 
   def render("show.json", %{favorite_job_id: favorite_job_id} = param) do
     %{favoriteJobId: favorite_job_id}
-
-  end
-
-  def render("create.json", %{favorite_job: favorite_job_id} = param) do
-    %{favoriteJobId: favorite_job_id}
   end
 
   defp parse(%{interest: interest, job_id: job_id, job: job, status: status}) do

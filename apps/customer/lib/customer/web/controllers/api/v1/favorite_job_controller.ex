@@ -5,6 +5,7 @@ defmodule Customer.Web.Api.V1.FavoriteJobController do
 
   def index(conn, _params, current_user, _claims) do
     favorite_jobs = FavoriteJobs.all_by(%{user_id: current_user.id})
+    IO.inspect favorite_jobs
     render(conn, "index.json", %{favorite_jobs: favorite_jobs})
   end
 

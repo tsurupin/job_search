@@ -11,7 +11,7 @@ config :customer, Customer.Web.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: [node: ["node_modules/webpack/bin/webpack.js",  "--watch-stdin --progress --color",
+  watchers: [node: ["node_modules/webpack/bin/webpack.js",  "--watch", "--color",
                      cd: Path.expand("../assets", __DIR__)]]
 
 
