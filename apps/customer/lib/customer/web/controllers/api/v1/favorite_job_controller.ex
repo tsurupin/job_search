@@ -19,7 +19,6 @@ defmodule Customer.Web.Api.V1.FavoriteJobController do
     with {:ok, _} <- FavoriteJobs.favorite(favorite_job_params(current_user.id, job_id)) do
       send_resp(conn, 201, "")
     end
-
   end
 
   def update(conn, %{"id" => job_id} = params, current_user, _claims) do

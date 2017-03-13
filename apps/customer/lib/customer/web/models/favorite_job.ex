@@ -40,7 +40,8 @@ defmodule Customer.Web.FavoriteJob do
   def get_by(%{user_id: user_id} = params) when params == %{user_id: user_id} do
     from f in __MODULE__,
     where: f.user_id == ^user_id,
-    preload: [job: [:company, :job_title, :area]]
+    preload: [job: [:company, :job_title, :area]],
+    order: [:interest, :desc]
   end
 
   def get_by(%{user_id: user_id, job_id: job_id}) do

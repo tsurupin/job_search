@@ -9,14 +9,15 @@ defmodule Customer.Web.Api.V1.FavoriteJobView do
     %{favoriteJobId: favorite_job_id}
   end
 
-  defp parse(%{interest: interest, job_id: job_id, job: job, status: status}) do
+  defp parse(%FavoriteJob{interest: interest, job_id: job_id, job: job, status: status, remarks: remarks}) do
     %{
       interest: interest,
       jobId: job_id,
       jobTitle: job.job_title.name,
       area: job.area.name,
       status: status,
-      company: job.company.name
+      company: job.company.name,
+      remarks: remakrs
     }
   end
 
