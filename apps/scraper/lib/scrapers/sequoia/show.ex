@@ -1,6 +1,6 @@
 defmodule Scrapers.Sequoia.Show do
   alias Scrapers.Helpers.TechKeywordsFinder
-  alias Customer.Services.JobSourceCreator
+  alias Customer.Web.Services.JobSourceCreator
 
   @defaultTimeout 10000
 

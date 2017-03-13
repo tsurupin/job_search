@@ -1,5 +1,5 @@
 defmodule Scrapers.A16z.Show do
-  alias Customer.Services.JobSourceCreator
+  alias Customer.Web.Services.JobSourceCreator
   alias Scrapers.Helpers.TechKeywordsFinder
 
   @body '''
