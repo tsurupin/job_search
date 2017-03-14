@@ -26,6 +26,7 @@ export default(
       <IndexRoute component={ Pages.JobIndexPage } />
       <Route path="/jobs/:id" component={ Pages.JobShowPage } />
       <Route path="/auth/:provider/callback" component={ AuthenticationContainer(Pages.AuthCallbackPage) } />
+      <Route path="/favorite-jobs" component= { Pages.FavoriteJobIndexPage } />
     </Route>
     </Router>
   </Provider>

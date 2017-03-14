@@ -5,6 +5,7 @@ defmodule Customer.Web.Api.V1.FavoriteJobController do
 
   def index(conn, _params, current_user, _claims) do
     favorite_jobs = FavoriteJobs.all_by(%{user_id: current_user.id})
+    IO.inspect favorite_jobs
     render(conn, "index.json", %{favorite_jobs: favorite_jobs})
   end
 
@@ -18,10 +19,12 @@ defmodule Customer.Web.Api.V1.FavoriteJobController do
     with {:ok, _} <- FavoriteJobs.favorite(favorite_job_params(current_user.id, job_id)) do
       send_resp(conn, 201, "")
     end
-
   end
 
   def update(conn, %{"id" => job_id} = params, current_user, _claims) do
+    IO.puts "---------------------"
+    IO.inspect params
+
     with {:ok, _ } <- FavoriteJobs.update(%{user_id: current_user.id, job_id: job_id}, Converter.convert_key_to_atom(Map.delete(params, "id"))) do
       send_resp(conn, 200, "")
     end
