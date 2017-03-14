@@ -16,10 +16,10 @@ const FavoriteJobTable = ({favoriteJobs, handleRemove, handleUpdate}) =>{
   )
 };
 
-function renderFavoriteJobRows(jobs, remove, update) {
-  return jobs.map((job, index) => {
-    const property = {...job, index, handleRemove: remove, handleUpdate: update};
-    return <FavoriteJobRow key={job.id} {...property} />
+function renderFavoriteJobRows(favoriteJobs, remove, update) {
+  return favoriteJobs.map((favoriteJob, index) => {
+    const property = {...favoriteJob, index, handleRemove: remove, handleUpdate: update};
+    return <FavoriteJobRow key={favoriteJob.jobId} {...property} />
   })
 }
 

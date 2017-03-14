@@ -17,7 +17,7 @@ defmodule Customer.Web.Api.V1.FavoriteJobView do
       area: job.area.name,
       status: status,
       company: job.company.name,
-      remarks: remakrs
+      remarks: remarks
     }
   end
 

@@ -41,7 +41,7 @@ defmodule Customer.Web.FavoriteJob do
     from f in __MODULE__,
     where: f.user_id == ^user_id,
     preload: [job: [:company, :job_title, :area]],
-    order: [:interest, :desc]
+    order_by: [desc: f.interest]
   end
 
   def get_by(%{user_id: user_id, job_id: job_id}) do

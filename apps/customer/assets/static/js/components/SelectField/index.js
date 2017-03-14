@@ -5,7 +5,7 @@ const propTypes = {
   name: PropTypes.string.isRequired,
   tabIndex: PropTypes.number.isRequired,
   options: PropTypes.object,
-  handleUpdate: PropTypes.func.isRequired
+  handleChange: PropTypes.func.isRequired
 };
 
 class SelectField extends Component {
@@ -19,14 +19,14 @@ class SelectField extends Component {
 
   getOptions() {
     let options = [];
-    for (let [k, v]  of Object.entries(this.props.options)) {
+    for (let [k, v] of Object.entries(this.props.options)) {
       options.push(<option key={k} value={v}>{k}</option>);
     }
     return options;
   }
 
   render() {
-    const { value, name, tabIndex, handleUpdate } = this.props;
+    const { value, name, tabIndex, handleChange } = this.props;
     return (
       <div className="form-component">
         <label htmlFor={this.getLabelId()} className="label">{name}</label>
@@ -36,7 +36,7 @@ class SelectField extends Component {
           defaultValue={value}
           name={name}
           tabIndex={tabIndex}
-          onBlur={(event) => handleUpdate(name, event.target.value)}
+          onBlur={(event) => handleChange(name, event.target.value)}
         >
           {this.getOptions()}
         </select>

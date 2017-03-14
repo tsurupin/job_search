@@ -20,8 +20,10 @@ export function createAuthorizeRequest(method, path, params = {}) {
       return axios.get(path, config());
     case 'post':
       return axios.post(path, params, config());
-    case 'patch' :
+    case 'patch':
       return axios.patch(path, params, config());
+    case 'put' :
+      return axios.put(path, params, config());
     case 'delete' :
       return axios.delete(path, config());
   }

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import { SelectField } from 'components';
 
@@ -6,7 +6,7 @@ const propTypes = {
   jobId: PropTypes.number.isRequired,
   jobTitle: PropTypes.string.isRequired,
   area: PropTypes.string.isRequired,
-  status: PropTypes.number.isRequired,
+  status: PropTypes.number,
   company: PropTypes.string.isRequired,
   remarks: PropTypes.string,
   index: PropTypes.number.isRequired,
@@ -25,7 +25,7 @@ class FavoriteJobRow extends Component {
     this.state = {
       interest,
       remarks,
-      status,
+      status: status || 0,
       canSubmit: false
     };
 
@@ -42,10 +42,10 @@ class FavoriteJobRow extends Component {
     this.props.handleRemove(this.props.jobId, this.props.sortRank);
   }
 
-  handleChange(e) {
-    e.preventDefault();
+  handleChange(key, value) {
     let updatedAttribute = {};
-    updatedAttribute[e.target.name] = e.target.value;
+    updatedAttribute[key] = value;
+    updatedAttribute['canSubmit'] = true;
     this.setState(updatedAttribute);
   }
 
@@ -66,47 +66,48 @@ class FavoriteJobRow extends Component {
   }
 
   render() {
-    <form onSubmit={this.handleSubmit}>
-      <div>
-        <h3>{this.props.jobTitle}</h3>
-        <p>{this.props.company}</p>
-        <p>{this.props.area}</p>
-      </div>
-      <SelectField
-        name="interest"
-        tabIndex={2}
-        value={this.state.interest}
-        options={interestOptions}
-        handleUpdate={this.handleUpdate}
-      />
-      <SelectField
-        name="status"
-        tabIndex={3}
-        value={this.state.status}
-        options={statusOptions}
-        handleUpdate={this.handleUpdate}
-      />
-      <div className="form-control">
-        <label htmlFor={this.labelId("remarks")} className="label">Remakrs</label>
-        <textarea
-          id={this.labelId("remarks")}
-          name="remarks"
-          defaultValue={this.props.remarks}
-          rows={3}
-          onBlur={this.handleChange}
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div>
+          <h3>{this.props.jobTitle}</h3>
+          <p>{this.props.company}</p>
+          <p>{this.props.area}</p>
+        </div>
+        <SelectField
+          name="interest"
+          tabIndex={2}
+          value={parseInt(this.state.interest)}
+          options={interestOptions}
+          handleChange={this.handleChange}
         />
-      </div>
-      <div className="actionBox">
-        <input
-          type="submit"
-          disabled={!this.canSubmit()}
-          tabIndex={4}
-          value="Update"
+        <SelectField
+          name="status"
+          tabIndex={3}
+          value={parseInt(this.state.status)}
+          options={statusOptions}
+          handleChange={this.handleChange}
         />
-        <button type="button" onClick={this.handleRemove}>UnFavorite</button>
-      </div>
-    </form>
-
+        <div className="form-control">
+          <label htmlFor={this.labelId("remarks")} className="label">Remakrs</label>
+          <textarea
+            id={this.labelId("remarks")}
+            name="remarks"
+            defaultValue={this.props.remarks}
+            rows={3}
+            onBlur={(e) => this.handleChange(e.target.name, e.target.value)}
+          />
+        </div>
+        <div className="actionBox">
+          <input
+            type="submit"
+            disabled={!this.canSubmit()}
+            tabIndex={4}
+            value="Update"
+          />
+          <button type="button" onClick={this.handleRemove}>UnFavorite</button>
+        </div>
+      </form>
+    )
   }
 }
 

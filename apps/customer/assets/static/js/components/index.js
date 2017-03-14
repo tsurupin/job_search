@@ -8,5 +8,8 @@ export JobFilterBox from './JobFilterBox';
 export SingleSelectField from './SingleSelectField';
 export TextField from './TextField';
 export FavoriteButton from './FavoriteButton';
-import SelectField from './SelectField';
+export FavoriteJobTable from './FavoriteJobTable';
+export FavoriteJobRow from './FavoriteJobRow';
+export SelectField from './SelectField';
+
 
