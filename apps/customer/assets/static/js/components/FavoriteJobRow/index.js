@@ -15,11 +15,12 @@ const propTypes = {
 };
 
 const statusOptions = {"interesting": 0, "applying": 1};
-const interestOptions = {"interesting": 0, "very interesting": 2, "my dream": 3}
+const interestOptions = {"interesting": 1, "very interesting": 2, "my dream": 3}
 
 class FavoriteJobRow extends Component {
   constructor(props) {
     super(props);
+
     const { interest, remarks, status } = props;
 
     this.state = {
@@ -31,15 +32,16 @@ class FavoriteJobRow extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.handleUpdate(this.props.jobId, this.props.sortRank, this.getUpdatedAttributes())
+    this.props.handleUpdate(this.props.jobId, this.getUpdatedAttributes())
   }
 
   handleRemove() {
-    this.props.handleRemove(this.props.jobId, this.props.sortRank);
+    this.props.handleRemove(this.props.jobId, this.props.index);
   }
 
   handleChange(key, value) {
@@ -49,15 +51,13 @@ class FavoriteJobRow extends Component {
     this.setState(updatedAttribute);
   }
 
-  canSubmit() {
-    return this.state.canSubmit && !this.props.submitting
-  }
 
   getUpdatedAttributes() {
     let attributes = {};
     if (this.props.interest !== this.state.interest) { attributes["interest"] = this.state.interest }
     if (this.props.status !== this.state.status) { attributes["status"] = this.state.status }
     if (this.props.remarks !== this.state.remarks) { attributes["remarks"] = this.state.remarks }
+
     return attributes;
   }
 
@@ -100,7 +100,7 @@ class FavoriteJobRow extends Component {
         <div className="actionBox">
           <input
             type="submit"
-            disabled={!this.canSubmit()}
+            disabled={!this.state.canSubmit}
             tabIndex={4}
             value="Update"
           />

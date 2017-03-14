@@ -40,8 +40,8 @@ class FavoriteJobIndexContainer extends Component {
     this.props.actions.fetchFavoriteJobs()
   }
 
-  handleUpdate(jobId, sortRank, params) {
-    this.props.actions.updateFavoriteJob(jobId, sortRank, params)
+  handleUpdate(jobId, params) {
+    this.props.actions.updateFavoriteJob(jobId, params)
   }
 
   handleRemove(jobId, sortRank) {
@@ -50,7 +50,6 @@ class FavoriteJobIndexContainer extends Component {
 
   renderFavoriteJobs(favoriteJobs) {
     if (favoriteJobs.length === 0) { return }
-    console.log(favoriteJobs)
     return (
       <FavoriteJobTable
         favoriteJobs={favoriteJobs}

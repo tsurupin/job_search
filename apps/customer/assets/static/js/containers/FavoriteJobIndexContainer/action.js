@@ -48,23 +48,24 @@ export function updateFavoriteJob(jobId, params) {
 }
 
 
-export function removeFavoriteJob(sortRank, jobId) {
+export function removeFavoriteJob(jobId, sortRank) {
   const request = createAuthorizeRequest('delete', `${FAVORITE_JOB_PATH}/${jobId}`);
   return dispatch => {
     return request
       .then(() => dispatch(removeFavoriteJobSuccess(sortRank)))
-      .catch((error) => dispatch(removeFavoriteJobFailure(sortRank, error.data)))
+      .catch((error) => dispatch(removeFavoriteJobFailure(error)))
   }
 }
 
 function removeFavoriteJobSuccess(sortRank) {
   return {
-    type: REMOVEFAVORITE_JOB.SUCCESS,
+    type: REMOVE_FAVORITE_JOB.SUCCESS,
     payload: { sortRank }
   }
 }
 
 function removeFavoriteJobFailure(errorMessage) {
+  console.log(errorMessage)
   return {
     type: REMOVE_FAVORITE_JOB.FAILURE,
     payload: { errorMessage }
