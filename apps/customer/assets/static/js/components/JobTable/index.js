@@ -16,7 +16,6 @@ const JobTable = ({jobs, handleSwitchFavoriteStatus}) =>{
 };
 
 function renderJobRows(jobs, fnc) {
-  console.log(jobs)
   return jobs.map((job, index) => {
     const property = {...job, index, handleSwitchFavoriteStatus: fnc};
     return <JobRow key={job.id} {...property} />
