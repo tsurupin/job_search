@@ -1,12 +1,16 @@
-defmodule ScraperCaller do
+defmodule Scraper.Caller do
+  require Logger
 
+  alias Scraper.Sites.{A16z, Accel, FirstRound,YCombinator,Sequoia}
   @sites ~w(A16z Accel Sequoia)
+
   def perform do
+    Logger.info("start calling!")
     call(@sites)
   end
 
   defp call([]) do
-    IO.puts "done!"
+    Logger.info("finish calling!")
   end
 
   defp call([head | tail]) do
@@ -15,23 +19,23 @@ defmodule ScraperCaller do
   end
 
   defp scrape("A16z") do
-    Scrapers.A16z.Index.perform()
+    A16z.Index.perform()
   end
 
   defp scrape("Accel") do
-    Scrapers.Accel.Index.perform()
+    Accel.Index.perform()
   end
 
   defp scrape("FirstRound") do
-    Scrapers.FirstRound.perform()
+    FirstRound.perform()
   end
 
   defp scrape("YCombinator") do
-    Scrapers.YCombinator.Index.perform()
+    YCombinator.Index.perform()
   end
 
   defp scrape("Sequoia") do
-    Scrapers.Sequoia.Index.perform()
+    Sequoia.Index.perform()
   end
 
 end

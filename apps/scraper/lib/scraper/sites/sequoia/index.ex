@@ -1,6 +1,6 @@
-defmodule Scrapers.Sequoia.Index do
+defmodule Scraper.Sites.Sequoia.Index do
   use Hound.Helpers
-  alias Scrapers.Sequoia.Show
+  alias Scraper.Sites.Sequoia.Show
 
   @indexURL "https://www.sequoiacap.com/jobs/?filters=19+13+15+12+sanfrancisco+peninsula+southbay+eastbay"
   @rootURL "https://www.sequoiacap.com"

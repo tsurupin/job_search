@@ -5,7 +5,7 @@ defmodule Scraper do
     import Supervisor.Spec, warn: false
 
     children = [
-      # worker(Scraper.Worker, [arg1, arg2, arg3])
+      worker(Scraper.Cron, [])
     ]
 
     opts = [strategy: :one_for_one, name: Scraper.Supervisor]

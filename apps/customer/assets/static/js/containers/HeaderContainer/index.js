@@ -48,11 +48,16 @@ class HeaderContainer extends Component {
     return <a href={AUTH_GOOGLE_PATH}>LogIn</a>
   }
 
+  renderFavoriteJobLink() {
+    if (!this.authenticated()){ return }
+    return <Link to="/favorite-jobs">Favorite Job</Link>;
+  }
+
   render() {
     return (
       <header>
         <Link to="/"> Jobs</Link>
-        <Link to="/favorite-jobs">Favorite Job</Link>
+        {this.renderFavoriteJobLink()}
         {this.renderButton()}
       </header>
     )

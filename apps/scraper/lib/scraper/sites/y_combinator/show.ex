@@ -1,4 +1,4 @@
-defmodule Scrapers.YCombinator.Show do
+defmodule Scraper.Sites.YCombinator.Show do
   alias Customer.Services.JobSourceCreator
 
   @body '''

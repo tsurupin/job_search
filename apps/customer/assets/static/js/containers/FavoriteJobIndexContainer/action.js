@@ -24,7 +24,6 @@ function fetchFavoriteJobsRequest() {
 }
 
 function fetchFavoriteJobsSuccess({favoriteJobs}) {
-  console.log(favoriteJobs)
   return {
     type: FETCH_FAVORITE_JOBS.SUCCESS,
     payload: { favoriteJobs }
@@ -41,10 +40,9 @@ function fetchFavoriteJobsFailure({errorMessage}) {
 
 export function updateFavoriteJob(jobId, params) {
   const request = createAuthorizeRequest('put', `${FAVORITE_JOB_PATH}/${jobId}`, params);
-  return dispatch => {
-    request.then(() => console.log("success"))
-      .catch(error => console.error(error))
-  }
+  return request
+    .then(() => console.log("success"))
+    .catch(error => console.error(error))
 }
 
 

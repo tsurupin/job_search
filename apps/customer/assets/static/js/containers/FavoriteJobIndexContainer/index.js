@@ -60,6 +60,7 @@ class FavoriteJobIndexContainer extends Component {
   }
 
   render() {
+    if (this.props.loading) return <p>loading</p>
     return (
       <div>
         {this.renderFavoriteJobs(this.props.favoriteJobs)}
