@@ -1,4 +1,4 @@
-defmodule Scrapers.Helpers.TechKeywordsFinder do
+defmodule Scraper.Sites.Helpers.TechKeywordsFinder do
   @infra ~w(Docker Ansible Chef AWS Amazonwebservice Pupet)
   @datastore ~w(MySQL PostgreSQL Redis Memcache MongoDB Cassandra Elasticsearch elastic-search spark hadoop)
   @frontend ~w(HTML CSS ES6 ES7 Javascript React Angular Ember Elm Redux)
