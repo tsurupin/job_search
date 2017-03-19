@@ -1,13 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router';
+
 import * as AuthenticationActionCreators from '../AuthenticationContainer/action';
-import styles from './styles.css';
+import Link from './Link';
+import Wrapper from './Wrapper';
+import BrandLink  from './BrandLink';
+import HeaderLinkList from './HeaderLinkList';
+import Button from './Button';
+import { A } from 'components';
+import GoSignIn from 'react-icons/lib/go/sign-in';
+import GoSignOut from 'react-icons/lib/go/sign-out';
+import GoStar from 'react-icons/lib/go/star';
+
 
 const propTypes = {
 
 }
+
+const TITLE = 'STARTUP JOB';
 
 const AUTH_GOOGLE_PATH = '/auth/google?scope=email';
 
@@ -33,33 +44,40 @@ class HeaderContainer extends Component {
   constructor(props) {
     super(props);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   authenticated() {
-    return !!localStorage.getItem("token");
+    return !!localStorage.getItem('token');
   }
 
   handleLogout() {
     this.props.actions.logout();
   }
 
+  handleLogin() {
+    window.location = AUTH_GOOGLE_PATH;
+  }
+
   renderButton() {
-    if (this.authenticated()) return <button type='submit' onClick={this.handleLogout}>Logout</button>
-    return <a href={AUTH_GOOGLE_PATH}>LogIn</a>
+    if (this.authenticated()) return <Button type='button' onClick={this.handleLogout}><GoSignOut/></Button>
+    return <Button type='button' onClick={this.handleLogin} ><GoSignIn/></Button>
   }
 
   renderFavoriteJobLink() {
     if (!this.authenticated()){ return }
-    return <Link to="/favorite-jobs">Favorite Job</Link>;
+    return <Link to='/favorite-jobs'><GoStar/></Link>;
   }
 
   render() {
     return (
-      <header>
-        <Link to="/"> Jobs</Link>
-        {this.renderFavoriteJobLink()}
-        {this.renderButton()}
-      </header>
+      <Wrapper>
+        <BrandLink to='/'>{TITLE}</BrandLink>
+        <HeaderLinkList>
+          {this.renderFavoriteJobLink()}
+          {this.renderButton()}
+        </HeaderLinkList>
+      </Wrapper>
     )
   }
 }

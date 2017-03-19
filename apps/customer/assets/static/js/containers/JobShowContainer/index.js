@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as JobShowActionCreators from './action';
+import { FavoriteButton } from 'components';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -61,13 +62,12 @@ class JobShowContainer extends Component {
   }
 
   renderFavoriteButton() {
-    const {id, favorited, submitting } = this.props.job;
+    const {id, favorited } = this.props.job;
     if (favorited === undefined) { return }
     return (
       <FavoriteButton
         jobId={id}
         favorited={favorited}
-        submitting={submitting}
         handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus}
       />
     );

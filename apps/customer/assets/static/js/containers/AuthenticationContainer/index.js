@@ -41,11 +41,11 @@ export default function(ComposedComponent) {
     componentDidMount() {
       const token = this.getToken();
       if (token) return this.props.actions.fetchToken(token);
-      this.redirectRootOrLogoutIfNeccessary(this.props.authenticated);
+      this.redirectRootOrLogoutIfNecessary(this.props.authenticated);
     }
 
     componentWillUpdate({ authenticated }) {
-      this.redirectRootOrLogoutIfNeccessary(authenticated);
+      this.redirectRootOrLogoutIfNecessary(authenticated);
     }
 
     getToken() {
@@ -53,7 +53,7 @@ export default function(ComposedComponent) {
     }
 
 
-    redirectRootOrLogoutIfNeccessary(authenticated) {
+    redirectRootOrLogoutIfNecessary(authenticated) {
       if (!authenticated) return this.context.router.push('/');
 
       if (typeof localStorage.getItem('token') === 'undefined') {

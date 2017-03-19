@@ -8,6 +8,11 @@ const propTypes = {
   handleSwitchFavoriteStatus: PropTypes.func.isRequired
 };
 
+const defaultProps = {
+  index: 0,
+  submitting: false
+}
+
 const FavoriteJobButton = ({jobId, favorited, submitting, index, handleSwitchFavoriteStatus}) => {
 
     return(
@@ -28,4 +33,5 @@ function renderText(favorited) {
 }
 
 FavoriteJobButton.propTypes = propTypes;
+FavoriteJobButton.defaultProps = defaultProps;
 export default FavoriteJobButton;
