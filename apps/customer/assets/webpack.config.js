@@ -87,13 +87,14 @@ const base = {
     },
     resolve: {
       modules: [path.resolve(__dirname, '/static/js'), 'node_modules'],
-      extensions: ['.js', '.jsx', 'css'],
+      extensions: ['.js', '.jsx', '.css'],
       alias: {
         components: path.resolve(ROOT_PATH, 'static/js/components'),
         containers: path.resolve(ROOT_PATH, 'static/js/containers'),
         pages: path.resolve(ROOT_PATH, 'static/js/pages'),
         constants: path.resolve(ROOT_PATH, 'static/js/constants'),
-        utils: path.resolve(ROOT_PATH, 'static/js/utils')
+        utils: path.resolve(ROOT_PATH, 'static/js/utils'),
+        styles: path.resolve(ROOT_PATH, 'static/js/styles')
       }
     },
     devServer: {
