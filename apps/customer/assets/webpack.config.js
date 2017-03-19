@@ -61,8 +61,7 @@ const base = {
           // they will be a part of our compilation either way.
           // So, no need for ExtractTextPlugin here.
           test: /\.css$/,
-          include: /node_modules/,
-          use: ['style-loader', 'css-loader'],
+          use: [ 'style-loader', 'css-loader' ]
         }, {
           test: /\.(eot|svg|ttf|woff|woff2)$/,
           use: 'file-loader',
@@ -101,7 +100,12 @@ const base = {
       historyApiFallback: {
         index: '../lib/customer/web/templates/layout/app.html.eex'
       }
-    }
+    },
+    plugins: [
+    new webpack.LoaderOptionsPlugin({
+      debug: true
+    })
+    ]
   };
 
   const developmentConfig = {

@@ -34,6 +34,7 @@ class SingleSelectField extends Component {
 
     return(
       <Wrapper
+        className="form-control"
         name={name}
         defaultValue={currentValue}
         onBlur={e => handleSelect(e.target.name, e.target.value)}
