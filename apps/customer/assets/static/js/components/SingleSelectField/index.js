@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Wrapper from './Wrapper';
 
 
 const propTypes = {
@@ -32,13 +33,13 @@ class SingleSelectField extends Component {
     const { name, currentValue, handleSelect } = this.props;
 
     return(
-      <select
+      <Wrapper
         name={name}
         defaultValue={currentValue}
         onBlur={e => handleSelect(e.target.name, e.target.value)}
       >
         {this.getOptions()}
-      </select>
+      </Wrapper>
     )
   }
 
