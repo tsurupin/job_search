@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import styles from './styles.css';
 import {
-  HeaderContainer,
   JobShowContainer
 } from 'containers';
 
@@ -18,7 +17,6 @@ class JobShowPage extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <HeaderContainer />
         <JobShowContainer id={this.props.params.id} />
       </div>
     )

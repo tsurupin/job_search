@@ -9,9 +9,8 @@ import thunk from 'redux-thunk';
 import reducers from './reducers';
 
 const store = createStore(reducers,applyMiddleware(thunk));
-import App from './components/App';
 import * as Pages from 'pages';
-import { AuthenticationContainer } from 'containers';
+import { AuthenticationContainer, App } from 'containers';
 
 export default(
   <Provider store={store}>

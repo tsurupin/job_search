@@ -1,4 +1,3 @@
-export App from './App';
 export JobTable from './JobTable';
 export JobRow from './JobRow';
 export AutoSuggestTextField from './AutoSuggestTextField';
@@ -12,4 +11,5 @@ export FavoriteJobTable from './FavoriteJobTable';
 export FavoriteJobRow from './FavoriteJobRow';
 export SelectField from './SelectField';
 export A from './A';
+export Footer from './Footer';
 

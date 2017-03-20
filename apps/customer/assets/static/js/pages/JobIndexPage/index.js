@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import styles from './styles.css';
 import {
-  HeaderContainer,
   JobIndexContainer
 } from 'containers';
 
@@ -13,7 +12,6 @@ class JobIndexPage extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <HeaderContainer />
         <JobIndexContainer />
       </div>
     )

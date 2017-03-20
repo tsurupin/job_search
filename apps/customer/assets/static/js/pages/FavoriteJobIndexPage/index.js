@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 
 import {
-  HeaderContainer,
+
   FavoriteJobIndexContainer
 } from 'containers';
 
@@ -14,7 +14,6 @@ class FavoriteJobIndexPage extends Component {
   render() {
     return (
       <article>
-        <HeaderContainer />
         <FavoriteJobIndexContainer />
       </article>
     )
