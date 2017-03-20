@@ -1,4 +1,7 @@
 import React, { PropTypes, Component } from 'react';
+import Wrapper from './Wrapper';
+import Input from './Input';
+import { Label } from 'components';
 
 const propTypes = {
   name: PropTypes.string.isRequired,
@@ -42,13 +45,9 @@ class TextField extends Component {
     const { currentValue } = this.state;
 
     return(
-      <div>
-        <label
-          htmlFor={this.getLabelId()}
-        >
-          {name}
-        </label>
-        <input
+      <Wrapper>
+        <Label htmlFor={this.getLabelId()}>{name}</Label>
+        <Input
           id={this.getLabelId()}
           type='text'
           name={name}
@@ -59,7 +58,7 @@ class TextField extends Component {
           onChange={e => this.setState({currentValue: e.target.value})}
           onKeyPress={this.handleSelect}
         />
-      </div>
+      </Wrapper>
     )
   }
 }

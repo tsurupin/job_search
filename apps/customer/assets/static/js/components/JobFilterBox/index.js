@@ -5,8 +5,8 @@ import {
   AutoSuggestTextField,
   TextField
 } from 'components';
-import styles from './styles.css';
-
+import Wrapper from './Wrapper'
+import FilterForm from './FilterForm'
 
 const propTypes = {
   jobTitles: PropTypes.array.isRequired,
@@ -54,13 +54,13 @@ class JobFilterBox extends Component {
 
 
     return(
-      <article className={styles.filterBox}>
+      <Wrapper>
         <CurrentFilterBox
           items={this.getSelectedItems()}
           handleReset={handleReset}
           handleResetTechKeyword={handleResetTechKeyword}
         />
-        <section className={styles.filterBox}>
+        <FilterForm>
           <SingleSelectField
             name='jobTitle'
             items={jobTitles}
@@ -93,8 +93,8 @@ class JobFilterBox extends Component {
             autoComplete='on'
             handleSelect={handleSelect}
           />
-        </section>
-      </article>
+        </FilterForm>
+      </Wrapper>
     )
   }
 

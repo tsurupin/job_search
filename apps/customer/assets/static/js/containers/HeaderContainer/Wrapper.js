@@ -11,5 +11,5 @@ export default styled.nav`
   height: 56px;
   min-height: 56px;
   padding: 4px 10%;
-  border: '1px solid #f3f3f3';
+  border: 1px solid #f3f3f3;
  `;

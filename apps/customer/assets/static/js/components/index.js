@@ -2,6 +2,7 @@ export JobTable from './JobTable';
 export JobRow from './JobRow';
 export AutoSuggestTextField from './AutoSuggestTextField';
 export CurrentFilterItem from './CurrentFilterItem';
+export CurrentFilterList from './CurrentFilterList';
 export CurrentFilterBox from './CurrentFilterBox';
 export JobFilterBox from './JobFilterBox';
 export SingleSelectField from './SingleSelectField';
@@ -11,5 +12,6 @@ export FavoriteJobTable from './FavoriteJobTable';
 export FavoriteJobRow from './FavoriteJobRow';
 export SelectField from './SelectField';
 export A from './A';
+export Label from './Label';
 export Footer from './Footer';
-
+export SuggestedItemList from './SuggestedItemList';

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import styles from './styles.css';
 import { TECH_KEYWORD } from 'constants';
+import Wrapper from './Wrapper';
+import Icon from './Icon';
+import FaClose from 'react-icons/lib/fa/close';
 
 const propTypes = {
   name: PropTypes.string.isRequired,
@@ -29,10 +31,10 @@ class CurrentFilterItem extends Component {
   render() {
     const { value } = this.props;
     return (
-      <div className={styles.root}>
-        <p className={styles.deleteIcon} onClick={this.handleReset} >Delete</p>
-        <p className={styles.text}>{value}</p>
-      </div>
+      <Wrapper>
+        <span>{value}</span>
+        <Icon onClick={this.handleReset} ><FaClose /></Icon>
+      </Wrapper>
     )
   }
 

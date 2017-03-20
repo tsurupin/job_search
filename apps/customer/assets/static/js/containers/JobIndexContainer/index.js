@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as JobIndexActionCreators from './action';
 import { JobTable, JobFilterBox } from 'components';
 import { TECH_KEYWORD } from 'constants';
-
+import Wrapper from './Wrapper'
 const propTypes = {
   jobTitles: PropTypes.array.isRequired,
   jobTitle: PropTypes.string.isRequired,
@@ -131,7 +131,7 @@ class JobIndexContainer extends Component {
     }
   }
 
-  handleResetTechKeyword(key, value) {
+  handleResetTechKeyword(_key, value) {
     const newValue = this.props.techKeywords.filter(techKeyword => techKeyword !== value)
     this.props.actions.selectItem(TECH_KEYWORDS, newValue);
   }
@@ -168,7 +168,7 @@ class JobIndexContainer extends Component {
     } = this.props;
 
     return (
-      <article>
+      <Wrapper>
         <JobFilterBox
           jobTitle={jobTitle}
           area={area}
@@ -183,7 +183,7 @@ class JobIndexContainer extends Component {
           handleAutoSuggest={this.handleAutoSuggest}
         />
         {this.renderJobs(jobs)}
-      </article>
+      </Wrapper>
     )
   }
 }

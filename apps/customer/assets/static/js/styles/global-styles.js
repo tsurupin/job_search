@@ -24,7 +24,18 @@ injectGlobal`
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-
+  }
+  
+  input {
+     margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
   }
   
   input[type="button"] {
@@ -40,5 +51,17 @@ injectGlobal`
     &::focus {
       outline-offset: -2px;
     }
+  }
+  
+  select {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
   }
 `;

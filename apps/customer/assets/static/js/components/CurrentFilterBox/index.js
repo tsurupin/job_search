@@ -1,5 +1,8 @@
-import React, { Component, PropTypes } from 'react';
-import { CurrentFilterItem } from 'components';
+import React, { PropTypes } from 'react';
+import { CurrentFilterList, CurrentFilterItem } from 'components';
+import Wrapper from './Wrapper';
+import Icon from './Icon';
+import GoSearch from 'react-icons/lib/go/search';
 
 const propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape.isRequired).isRequired,
@@ -7,36 +10,17 @@ const propTypes = {
   handleResetTechKeyword: PropTypes.func.isRequired
 };
 
-class CurrentFilterBox extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const {
-      items,
-      handleReset,
-      handleResetTechKeyword
-    } = this.props;
-
-    return(
-      <section className='root'>
-        {items.map((item, index) => {
-          let name =Object.keys(item)[0];
-          let value = item[name];
-          return(
-            <CurrentFilterItem
-              key={index}
-              name={name}
-              value={value}
-              handleReset={handleReset}
-              handleResetTechKeyword={handleResetTechKeyword}
-            />
-          );
-        })}
-      </section>
-    )
-  }
+const CurrentFilterBox = ({items, handleReset, handleResetTechKeyword}) => {
+  return(
+    <Wrapper>
+      <Icon><GoSearch /></Icon>
+      <CurrentFilterList
+        items={items}
+        handleReset={handleReset}
+        handleResetTechKeyword={handleResetTechKeyword}
+      />
+    </Wrapper>
+  )
 }
 
 CurrentFilterBox.propTypes = propTypes;

@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-
+import Wrapper from './Wrapper';
+import Input from './Input';
+import { Label, SuggestedItemList } from 'components';
 
 const propTypes = {
   name: PropTypes.string.isRequired,
@@ -35,20 +37,27 @@ class AutoSuggestTextField extends Component {
     return `${this.props.name}-suggested-text`;
   }
 
+  renderSuggestedItemList() {
+    const { suggestedItems, name } = this.props;
+    if (suggestedItems.length === 0) return;
+    return(
+      <SuggestedItemList name={name} suggestedItems={suggestedItems} handleSelect={this.props.handleSelect} />
+    )
+  }
+
 
   render() {
     const {
       name,
-      suggestedItems,
       tabIndex,
       placeholder
     } = this.props;
     const { currentValue } = this.state;
 
     return(
-      <div>
-      <label htmlFor={this.getLabelId()} >{name}</label>
-        <input
+      <Wrapper>
+        <Label htmlFor={this.getLabelId()} >{name}</Label>
+        <Input
           id={this.getLabelId()}
           type='text'
           name={name}
@@ -58,17 +67,8 @@ class AutoSuggestTextField extends Component {
           onKeyPress={this.handleSelect}
           defaultValue={currentValue}
         />
-        <ul>
-          {suggestedItems.map((suggestedItem) => {
-            return(
-              <li key={suggestedItem} onClick={() => this.props.handleSelect(name, suggestedItem)} >
-                {suggestedItem}
-              </li>
-            )
-          })
-          }
-        </ul>
-      </div>
+        {this.renderSuggestedItemList()}
+      </Wrapper>
     )
   }
 }
