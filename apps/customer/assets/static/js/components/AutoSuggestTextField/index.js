@@ -11,6 +11,7 @@ const propTypes = {
   placeholder: PropTypes.string.isRequired,
   handleAutoSuggest: PropTypes.func.isRequired,
   handleSelect: PropTypes.func.isRequired,
+  handleResetTechKeywords: PropTypes.func.isRequired,
 };
 
 class AutoSuggestTextField extends Component {
@@ -21,6 +22,7 @@ class AutoSuggestTextField extends Component {
     this.state = { currentValue: '' };
     this.handleAutoSuggest = this.handleAutoSuggest.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleReset = this.handleReset.bind(this);
   }
 
   handleAutoSuggest(e) {
@@ -33,12 +35,17 @@ class AutoSuggestTextField extends Component {
     this.props.handleSelect(e.target.name, e.target.value);
   }
 
+  handleReset() {
+    this.props.handleResetTechKeywords();
+  }
+
   getLabelId() {
     return `${this.props.name}-suggested-text`;
   }
 
   renderSuggestedItemList() {
     const { suggestedItems, name } = this.props;
+
     if (suggestedItems.length === 0) return;
     return(
       <SuggestedItemList name={name} suggestedItems={suggestedItems} handleSelect={this.props.handleSelect} />
@@ -46,11 +53,14 @@ class AutoSuggestTextField extends Component {
   }
 
 
+
+
   render() {
     const {
       name,
       tabIndex,
-      placeholder
+      placeholder,
+      handleResetTechKeywords
     } = this.props;
     const { currentValue } = this.state;
 
@@ -63,6 +73,7 @@ class AutoSuggestTextField extends Component {
           name={name}
           placeholder={placeholder}
           tabIndex={tabIndex}
+          onBlur={this.handleReset}
           onChange={this.handleAutoSuggest}
           onKeyPress={this.handleSelect}
           defaultValue={currentValue}

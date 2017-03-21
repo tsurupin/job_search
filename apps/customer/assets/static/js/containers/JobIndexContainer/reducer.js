@@ -3,6 +3,7 @@ import {
   FETCH_TECH_KEYWORDS,
   RESET_ITEM,
   SELECT_ITEM,
+  RESET_TECH_KEYWORDS,
   FAVORITE_JOB_INDEX,
   UNFAVORITE_JOB_INDEX
 } from './constants';
@@ -47,6 +48,10 @@ export default function(state = INITIAL_STATE, action) {
     case FETCH_TECH_KEYWORDS.SUCCESS:
       const { suggestedTechKeywords } = action.payload;
       return { ...state, suggestedTechKeywords };
+
+    case RESET_TECH_KEYWORDS:
+      console.log("aaaaaaaaa")
+      return { ...state, suggestedTechKeywords: [] };
 
     case FAVORITE_JOB_INDEX.REQUEST, UNFAVORITE_JOB_INDEX.REQUEST:
       return {...state, jobs: update_favorite_job(state.jobs, action.payload.sortRank, true)};

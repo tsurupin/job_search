@@ -19,6 +19,7 @@ const propTypes = {
   handleSelect: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleResetTechKeyword: PropTypes.func.isRequired,
+  handleResetTechKeywords: PropTypes.func.isRequired,
   handleAutoSuggest: PropTypes.func.isRequired
 };
 
@@ -38,6 +39,7 @@ class JobFilterBox extends Component {
     return items;
   }
 
+
   render() {
     const {
       jobTitles,
@@ -48,6 +50,7 @@ class JobFilterBox extends Component {
       detail,
       handleReset,
       handleResetTechKeyword,
+      handleResetTechKeywords,
       handleSelect,
       handleAutoSuggest
     } = this.props;
@@ -83,6 +86,7 @@ class JobFilterBox extends Component {
             tabIndex={3}
             placeholder="Enter Techs"
             handleSelect={handleSelect}
+            handleResetTechKeywords={handleResetTechKeywords}
             handleAutoSuggest={handleAutoSuggest}
           />
           <TextField

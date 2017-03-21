@@ -21,7 +21,8 @@ const propTypes = {
   actions: PropTypes.shape({
     selectItem: PropTypes.func.isRequired,
     resetItem: PropTypes.func.isRequired,
-    fetchTechKeywords: PropTypes.func.isRequired
+    fetchTechKeywords: PropTypes.func.isRequired,
+    resetTechKeywords: PropTypes.func.isRequired
   }).isRequired
 };
 
@@ -79,6 +80,7 @@ class JobIndexContainer extends Component {
     this.handleSelect = this.handleSelect.bind(this);
     this.handleAutoSuggest = this.handleAutoSuggest.bind(this);
     this.handleSwitchFavoriteStatus = this.handleSwitchFavoriteStatus.bind(this);
+    this.handleResetTechKeywords = this.handleResetTechKeywords.bind(this);
   }
 
   componentWillMount() {
@@ -136,10 +138,16 @@ class JobIndexContainer extends Component {
     this.props.actions.selectItem(TECH_KEYWORDS, newValue);
   }
 
+  handleResetTechKeywords() {
+    console.info("Hohaohdada")
+    this.props.actions.resetTechKeywords();
+  }
+
   handleSelect(key, value) {
     if (key === TECH_KEYWORD) {
       value = [...this.props.techKeywords, value];
       this.props.actions.selectItem(TECH_KEYWORDS, value);
+      this.props.actions.resetTechKeywords();
     } else {
       this.props.actions.selectItem(key, value);
     }
@@ -181,6 +189,7 @@ class JobIndexContainer extends Component {
           handleReset={this.handleReset}
           handleResetTechKeyword={this.handleResetTechKeyword}
           handleAutoSuggest={this.handleAutoSuggest}
+          handleResetTechKeywords={this.handleResetTechKeywords}
         />
         {this.renderJobs(jobs)}
       </Wrapper>

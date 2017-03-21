@@ -5,6 +5,7 @@ import {
   TECH_KEYWORDS_PATH,
   RESET_ITEM,
   SELECT_ITEM,
+  RESET_TECH_KEYWORDS,
   FAVORITE_JOB_INDEX,
   UNFAVORITE_JOB_INDEX,
 } from './constants';
@@ -84,6 +85,10 @@ function fetchTechKeywordsFailure(errorMessage) {
     type: FETCH_TECH_KEYWORDS.FAILURE,
     payload: { errorMessage }
   }
+}
+
+export function resetTechKeywords() {
+  return { type: RESET_TECH_KEYWORDS };
 }
 
 export function favoriteJob(sortRank, jobId) {
