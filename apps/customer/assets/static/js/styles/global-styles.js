@@ -14,6 +14,22 @@ injectGlobal`
     color: black;
   }
   
+  h1,h2,h3 {
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+  }
+  p {
+    margin: 0
+  }
+  
+  ul {
+    -webkit-padding-start: 0;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    list-style: none;
+  }
+  
   button {
     margin: 0;
     padding: 0;

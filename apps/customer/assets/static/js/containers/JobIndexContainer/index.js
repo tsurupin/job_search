@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as JobIndexActionCreators from './action';
-import { JobTable, JobFilterBox } from 'components';
+import { JobList, JobFilterBox } from 'components';
 import { TECH_KEYWORD } from 'constants';
 import Wrapper from './Wrapper'
 const propTypes = {
@@ -160,7 +160,7 @@ class JobIndexContainer extends Component {
 
   renderJobs(jobs) {
     if (jobs.length === 0) { return }
-    return <JobTable jobs={jobs} handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus} />
+    return <JobList jobs={jobs} handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus} />
   }
 
   render() {

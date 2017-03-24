@@ -1,5 +1,5 @@
-export JobTable from './JobTable';
-export JobRow from './JobRow';
+export JobList from './JobList';
+export JobItem from './JobItem';
 export AutoSuggestTextField from './AutoSuggestTextField';
 export CurrentFilterItem from './CurrentFilterItem';
 export CurrentFilterList from './CurrentFilterList';
@@ -11,7 +11,11 @@ export FavoriteButton from './FavoriteButton';
 export FavoriteJobTable from './FavoriteJobTable';
 export FavoriteJobRow from './FavoriteJobRow';
 export SelectField from './SelectField';
-export A from './A';
-export Label from './Label';
 export Footer from './Footer';
 export SuggestedItemList from './SuggestedItemList';
+export TagList from './TagList';
+
+
+export A from './A';
+export Label from './Label';
+export SubHeading from './SubHeading';

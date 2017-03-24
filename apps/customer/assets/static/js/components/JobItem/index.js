@@ -1,6 +1,10 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import { FavoriteButton } from 'components';
+import { FavoriteButton, TagList } from 'components';
+import Wrapper from './Wrapper';
+import Title from './Title';
+import Caption from './Caption'
+import DateTime from './DateTime';
 
 const propTypes = {
   id: PropTypes.number.isRequired,
@@ -12,17 +16,17 @@ const propTypes = {
   handleSwitchFavoriteStatus: PropTypes.func.isRequired
 };
 
-const JobRow = ({id, jobTitle, area, updatedAt, techs, index, favorited, submitting, handleSwitchFavoriteStatus}) =>{
+const JobItem = ({id, jobTitle, area, updatedAt, techs, index, favorited, submitting, handleSwitchFavoriteStatus}) =>{
   return (
-    <div>
+    <Wrapper>
       <Link to={`/jobs/${id}`} >
-        {jobTitle}
+        <Title>{jobTitle}</Title>
+        <Caption>{area}</Caption>
       </Link>
-      <p>{area}</p>
-      <p>{updatedAt}</p>
-      <p>{techs.join(",")}</p>
+      <TagList tags={techs} />
       {renderFavoriteButton(id, favorited, submitting, index, handleSwitchFavoriteStatus)}
-    </div>
+      <DateTime>{updatedAt}</DateTime>
+    </Wrapper>
   )
 };
 
@@ -39,5 +43,5 @@ function renderFavoriteButton(id, favorited, submitting = false, index, fnc) {
   );
 }
 
-JobRow.propTypes = propTypes;
-export default JobRow;
+JobItem.propTypes = propTypes;
+export default JobItem;
