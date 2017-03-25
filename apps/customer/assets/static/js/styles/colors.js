@@ -9,5 +9,6 @@ export default {
   errorColor: '#CE4844',
   whiteColor: '#fff',
   labelColor: 'rgba(0, 0, 0, 0.498039)',
-  linkColor: '#307EA9'
+  linkColor: '#307EA9',
+  tagColor: '#009E5D'
 };

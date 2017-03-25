@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { JobItem, SubHeading } from 'components';
 import Wrapper from './Wrapper';
+import List from './List';
 
 const propTypes = {
   jobs: PropTypes.array.isRequired,
@@ -18,10 +19,16 @@ const JobList = ({jobs, handleSwitchFavoriteStatus}) =>{
 };
 
 function renderJobRows(jobs, fnc) {
-  return jobs.map((job, index) => {
-    const property = {...job, index, handleSwitchFavoriteStatus: fnc};
-    return <JobItem key={job.id} {...property} />
-  })
+  return (
+    <List>
+      {
+        jobs.map((job, index) => {
+          const property = {...job, index, handleSwitchFavoriteStatus: fnc};
+          return <JobItem key={job.id} {...property} />
+        })
+      }
+    </List>
+  )
 }
 
 JobList.propTypes = propTypes;
