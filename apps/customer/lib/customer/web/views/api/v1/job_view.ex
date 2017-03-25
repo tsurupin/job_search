@@ -14,14 +14,13 @@ defmodule Customer.Web.Api.V1.JobView do
     }
   end
 
-  def render("show.json", %{job: %Job{id: id, job_title: job_title, area: area, tech_keywords: tech_keywords, company: company, updated_at: updated_at, detail: detail, favorited: favorited} }) do
+  def render("show.json", %{job: %Job{id: id, job_title: job_title, area: area, tech_keywords: tech_keywords, company: company, detail: detail, favorited: favorited} }) do
     %{
         id: id,
         jobTitle: job_title.name,
         area: area.name,
         techKeywords: fetch(tech_keywords),
         company: fetch(company),
-        updatedAt: updated_at,
         detail: detail["value"]
     }
     |> add_favorite_if_existed(favorited)

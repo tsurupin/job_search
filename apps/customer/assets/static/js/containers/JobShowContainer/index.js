@@ -3,13 +3,18 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as JobShowActionCreators from './action';
 import { FavoriteButton } from 'components';
-
-const propTypes = {
-  id: PropTypes.string.isRequired,
-  job: PropTypes.object,
-  errorMessage: PropTypes.string,
-  loading: PropTypes.bool.isRequired
-}
+import MdLocationCity from 'react-icons/lib/md/location-city';
+import MdLocationOn from 'react-icons/lib/md/location-on';
+import {
+  Wrapper,
+  Heading,
+  CompanyWrapper,
+  CompanyItem,
+  Detail,
+  FavoriteButtonWrapper
+} from './Styles';
+import colors from 'styles/colors';
+import { TagList, Title, ErrorMessage } from 'components';
 
 function mapStateToProps({jobShow}) {
   const { job, loading, errorMessage } = jobShow;
@@ -50,48 +55,71 @@ class JobShowContainer extends Component {
   }
 
 
-  renderTechKeyword() {
+  renderTechKeywords() {
     const { techKeywords } = this.props.job;
-    return (
-      <ul>
-          {techKeywords.map(techKeyword => {
-            return <li key={techKeyword.id}><p>{techKeyword.name}</p></li>
-        })}
-      </ul>
-    )
+    if (techKeywords.length === 0) return;
+
+    return <TagList tags={techKeywords.map(techKeyword => techKeyword.name)} />;
   }
 
   renderFavoriteButton() {
-    const {id, favorited } = this.props.job;
-    if (favorited === undefined) { return }
+    // const {id, favorited } = this.props.job;
+    // if (!favorited) { return }
     return (
-      <FavoriteButton
-        jobId={id}
-        favorited={favorited}
-        handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus}
-      />
+      <FavoriteButtonWrapper>
+        <FavoriteButton
+          size='large'
+          jobId={1}
+          favorited={true}
+          handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus}
+        />
+      </FavoriteButtonWrapper>
     );
   }
 
   render() {
 
     const { loading, errorMessage, job} = this.props;
-    const {jobTitle, company, detail, updatedAt} = job;
+    const { jobTitle, company, detail, area } = job;
     if(loading) { return(<div></div>) }
 
-    return (
-      <article>
-        <h2>{jobTitle}</h2>
-        <h4>{company.name}</h4>
-        <span>{updatedAt}</span>
-          {this.renderTechKeyword()}
-        <p>{detail}</p>
-        {this.renderFavoriteButton()}
-      </article>
+    const iconStyle = {
+      color: colors.leadSentenceColor,
+      marginRight: 5
+    }
+
+    if(errorMessage) return <ErrorMessage>{errorMessage}</ErrorMessage>;
+
+    return(
+      <Wrapper>
+        <Heading>
+          <Title>{jobTitle}</Title>
+          <CompanyWrapper>
+            <CompanyItem>
+              <MdLocationCity style={iconStyle} />
+              <span>{company.name}</span>
+            </CompanyItem>
+            <CompanyItem>
+              <MdLocationOn style={iconStyle}  />
+              <span>{area}</span>
+            </CompanyItem>
+          </CompanyWrapper>
+          {this.renderTechKeywords()}
+          {this.renderFavoriteButton()}
+        </Heading>
+        <Detail>{detail}</Detail>
+      </Wrapper>
 
     )
   }
 
+}
+
+const propTypes = {
+  id: PropTypes.string.isRequired,
+  job: PropTypes.object,
+  errorMessage: PropTypes.string,
+  loading: PropTypes.bool.isRequired
 }
 
 JobShowContainer.propTypes = propTypes;

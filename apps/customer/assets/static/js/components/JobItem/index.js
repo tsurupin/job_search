@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import { FavoriteButton, TagList } from 'components';
+import { FavoriteButton, TagList, Title } from 'components';
 import Wrapper from './Wrapper';
-import Title from './Title';
 import Caption from './Caption'
 import DateTime from './DateTime';
 

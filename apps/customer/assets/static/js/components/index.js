@@ -19,3 +19,5 @@ export TagList from './TagList';
 export A from './A';
 export Label from './Label';
 export SubHeading from './SubHeading';
+export Title from './Title';
+export ErrorMessage from './ErrorMessage';
