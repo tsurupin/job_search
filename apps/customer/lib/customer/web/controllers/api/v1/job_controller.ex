@@ -23,7 +23,8 @@ defmodule Customer.Web.Api.V1.JobController do
 
     if job do
       job = add_favorite(job, current_user)
-      render(conn, "show.json", %{job: job})
+      related_jobs = Jobs.by_company_id(job.company_id)
+      render(conn, "show.json", %{job: job, related_jobs: related_jobs})
     else
       conn
       |> put_status(:not_found)

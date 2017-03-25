@@ -27,6 +27,11 @@ defmodule Customer.Web.Jobs do
     |> Repo.one
   end
 
+  def by_company_id(company_id) do
+    Job.by_company_id(company_id)
+    |> Repo.all
+  end
+
 
 
 end

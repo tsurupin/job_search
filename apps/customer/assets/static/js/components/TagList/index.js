@@ -1,8 +1,7 @@
 import React from 'react';
-import Wrapper from './Wrapper';
-import Icon from './Icon';
-import Tag from './Tag';
+import { Wrapper, Icon, Tag } from './styles';
 import MdLabelOutline from 'react-icons/lib/md/label-outline';
+
 const TagList = ({tags}) => {
   return(
     <Wrapper>

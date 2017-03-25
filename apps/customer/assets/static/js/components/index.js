@@ -14,10 +14,12 @@ export SelectField from './SelectField';
 export Footer from './Footer';
 export SuggestedItemList from './SuggestedItemList';
 export TagList from './TagList';
+export RelatedJobList from './RelatedJobList';
 
-
+// style components //
 export A from './A';
 export Label from './Label';
 export SubHeading from './SubHeading';
 export Title from './Title';
 export ErrorMessage from './ErrorMessage';
+export SubText from './SubText';

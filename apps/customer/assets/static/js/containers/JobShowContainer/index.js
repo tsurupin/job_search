@@ -10,11 +10,12 @@ import {
   Heading,
   CompanyWrapper,
   CompanyItem,
-  Detail,
+  Content,
+  Description,
   FavoriteButtonWrapper
 } from './Styles';
 import colors from 'styles/colors';
-import { TagList, Title, ErrorMessage } from 'components';
+import { TagList, Title, ErrorMessage, RelatedJobList } from 'components';
 
 function mapStateToProps({jobShow}) {
   const { job, loading, errorMessage } = jobShow;
@@ -77,6 +78,12 @@ class JobShowContainer extends Component {
     );
   }
 
+  renderRelatedJobs() {
+    const { relatedJobs } = this.props.job;
+    if (relatedJobs.length === 0) return;
+    return <RelatedJobList jobs={relatedJobs} />
+  }
+
   render() {
 
     const { loading, errorMessage, job} = this.props;
@@ -107,7 +114,10 @@ class JobShowContainer extends Component {
           {this.renderTechKeywords()}
           {this.renderFavoriteButton()}
         </Heading>
-        <Detail>{detail}</Detail>
+        <Content>
+          <Description>{detail}</Description>
+          {this.renderRelatedJobs()}
+        </Content>
       </Wrapper>
 
     )

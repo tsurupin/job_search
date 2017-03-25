@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { JobItem, SubHeading } from 'components';
-import Wrapper from './Wrapper';
-import List from './List';
+import { Wrapper, List} from './styles';
 
 const propTypes = {
   jobs: PropTypes.array.isRequired,

@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import { FavoriteButton, TagList, Title } from 'components';
-import Wrapper from './Wrapper';
-import Caption from './Caption'
-import DateTime from './DateTime';
+import { FavoriteButton, TagList, Title, SubText } from 'components';
+import { Wrapper, DateTime } from './styles';
 
 const propTypes = {
   id: PropTypes.number.isRequired,
@@ -20,7 +18,7 @@ const JobItem = ({id, jobTitle, area, updatedAt, techs, index, favorited, submit
     <Wrapper>
       <Link to={`/jobs/${id}`} >
         <Title>{jobTitle}</Title>
-        <Caption>{area}</Caption>
+        <SubText>{area}</SubText>
       </Link>
       <TagList tags={techs} />
       {renderFavoriteButton(id, favorited, submitting, index, handleSwitchFavoriteStatus)}

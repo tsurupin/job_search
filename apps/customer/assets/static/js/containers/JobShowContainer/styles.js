@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import fonts from 'styles/fonts';
 import colors from 'styles/colors';
 
-
 export const Wrapper = styled.article`
 
 `;
@@ -27,7 +26,14 @@ export const CompanyItem = styled.div`
   margin-right: 10px;
 `;
 
-export const Detail = styled.div`
+export const Content = styled.div`
+  
+`;
+
+
+export const Description = styled.div`
+  padding-bottom: 30px;
+  border-bottom: 1px solid #f3f3f3;
   font-size: 1.8rem;
   font-family: Georgia,Cambria,Times New Roman,Times,serif;
   font-size: 2.1rem;

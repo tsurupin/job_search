@@ -14,14 +14,15 @@ defmodule Customer.Web.Api.V1.JobView do
     }
   end
 
-  def render("show.json", %{job: %Job{id: id, job_title: job_title, area: area, tech_keywords: tech_keywords, company: company, detail: detail, favorited: favorited} }) do
+  def render("show.json", %{job: %Job{id: id, job_title: job_title, area: area, tech_keywords: tech_keywords, company: company, detail: detail, favorited: favorited}, related_jobs: related_jobs }) do
     %{
         id: id,
         jobTitle: job_title.name,
         area: area.name,
         techKeywords: fetch(tech_keywords),
         company: fetch(company),
-        detail: detail["value"]
+        detail: detail["value"],
+        relatedJobs: parse_related_jobs(related_jobs)
     }
     |> add_favorite_if_existed(favorited)
   end
@@ -54,6 +55,23 @@ defmodule Customer.Web.Api.V1.JobView do
         detail: detail
     }
   end
+
+  defp parse_related_jobs(related_jobs \\ [], job \\ [])
+  defp parse_related_jobs([], jobs), do: jobs
+
+  defp parse_related_jobs([current|remaining], jobs) do
+    parse_related_jobs(remaining, jobs ++ [parse_related_job(current)])
+  end
+
+  defp parse_related_job(job) do
+    %{
+      id: job.id,
+      jobTitle: job.job_title.name,
+      area: job.area.name
+    }
+  end
+
+
 
   defp fetch(records, columns \\ @default_attributes)
 
