@@ -4,6 +4,6 @@ import fonts from 'styles/fonts';
 
 export default styled.span`
   margin-left: 5px;
-  ${fonts('small')}
+  ${fonts('font-small')}
   color: ${colors.primaryColor};
 `;
