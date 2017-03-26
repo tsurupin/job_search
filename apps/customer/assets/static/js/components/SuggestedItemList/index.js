@@ -7,7 +7,10 @@ const SuggestedItemList = ({name, suggestedItems, handleSelect}) => {
       {suggestedItems.map((suggestedItem) => {
         return(
           <Item key={suggestedItem} >
-            <div onClick={() => handleSelect(name, suggestedItem)} >
+            <div onMouseDown={() => {
+              console.log("select")
+              handleSelect(name, suggestedItem)
+            }} >
               {suggestedItem}
             </div>
           </Item>

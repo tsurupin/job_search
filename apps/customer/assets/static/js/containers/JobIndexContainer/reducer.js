@@ -50,7 +50,6 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, suggestedTechKeywords };
 
     case RESET_TECH_KEYWORDS:
-      console.log("aaaaaaaaa")
       return { ...state, suggestedTechKeywords: [] };
 
     case FAVORITE_JOB_INDEX.REQUEST, UNFAVORITE_JOB_INDEX.REQUEST:

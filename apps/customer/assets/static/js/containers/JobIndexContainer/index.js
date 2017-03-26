@@ -139,15 +139,11 @@ class JobIndexContainer extends Component {
   }
 
   handleResetTechKeywords() {
-    console.info("Hohaohdada")
     this.props.actions.resetTechKeywords();
   }
 
   handleSelect(key, value) {
-    console.error(key)
-    console.log(value)
     if (key === TECH_KEYWORD) {
-      console.info("bbbbb")
       value = [...this.props.techKeywords, value];
       this.props.actions.selectItem(TECH_KEYWORDS, value);
       this.props.actions.resetTechKeywords();

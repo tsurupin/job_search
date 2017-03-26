@@ -80,7 +80,6 @@ function fetchTechKeywordsSuccess(suggestedTechKeywords) {
 }
 
 function fetchTechKeywordsFailure(errorMessage) {
-  console.log(errorMessage)
   return {
     type: FETCH_TECH_KEYWORDS.FAILURE,
     payload: { errorMessage }
@@ -167,7 +166,6 @@ export function resetItem(key) {
 }
 
 export function selectItem(key, value) {
-  console.log('select', key, value)
   return {
     type: SELECT_ITEM,
     payload: { key, value }

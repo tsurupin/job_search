@@ -43,8 +43,9 @@ class AutoSuggestTextField extends Component {
   }
 
   renderSuggestedItemList() {
-    const { suggestedItems, name } = this.props;
 
+
+    const { suggestedItems, name } = this.props;
     if (suggestedItems.length === 0) return;
     return(
       <SuggestedItemList name={name} suggestedItems={suggestedItems} handleSelect={this.props.handleSelect} />
@@ -71,6 +72,7 @@ class AutoSuggestTextField extends Component {
           tabIndex={tabIndex}
           onChange={this.handleAutoSuggest}
           onKeyPress={this.handleEnter}
+          onBlur={this.handleReset}
           defaultValue={currentValue}
         />
         {this.renderSuggestedItemList()}
