@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.div`
+export const Wrapper = styled.div`
   display: inline-block;
   padding: 5px 10px;
   border-radius: 3px;
@@ -12,4 +12,8 @@ export default styled.div`
   background: rgba(0,0,0,0.05);
   margin-right: 10px;
   align-self: center;
+`;
+
+export const Icon = styled.span`
+  margin-left: 10px;
 `;

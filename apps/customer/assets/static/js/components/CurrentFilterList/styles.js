@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
-export default styled.div`
+const Wrapper = styled.div`
   width: 95%;
   display: flex;
   flex-flow: row;
 `;
+
+export default Wrapper;

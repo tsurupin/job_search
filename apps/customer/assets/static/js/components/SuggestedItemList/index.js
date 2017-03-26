@@ -1,6 +1,5 @@
 import React from 'react';
-import Wrapper from './Wrapper';
-import Item from './Item';
+import { Wrapper, Item } from './styles';
 
 const SuggestedItemList = ({name, suggestedItems, handleSelect}) => {
   return (
@@ -8,7 +7,7 @@ const SuggestedItemList = ({name, suggestedItems, handleSelect}) => {
       {suggestedItems.map((suggestedItem) => {
         return(
           <Item key={suggestedItem} >
-            <div onClick={() => handleSelect(name, suggestedItem)}>
+            <div onClick={() => handleSelect(name, suggestedItem)} >
               {suggestedItem}
             </div>
           </Item>

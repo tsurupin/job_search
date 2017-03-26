@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   width: 40%;
   position: absolute;
   list-style: none;
@@ -10,4 +10,8 @@ const Wrapper = styled.div`
   padding: 10px;
 `;
 
-export default Wrapper;
+export const Item  = styled.li`
+  height: 30px;
+  width: 30%;
+  font-size: 12px;
+`;

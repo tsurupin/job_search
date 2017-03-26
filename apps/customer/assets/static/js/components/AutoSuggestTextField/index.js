@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Wrapper from './Wrapper';
-import Input from './Input';
+import { Wrapper, Input } from './styles';
 import { Label, SuggestedItemList } from 'components';
 
 const propTypes = {
@@ -21,7 +20,7 @@ class AutoSuggestTextField extends Component {
 
     this.state = { currentValue: '' };
     this.handleAutoSuggest = this.handleAutoSuggest.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
+    this.handleEnter = this.handleEnter.bind(this);
     this.handleReset = this.handleReset.bind(this);
   }
 
@@ -30,7 +29,7 @@ class AutoSuggestTextField extends Component {
     this.props.handleAutoSuggest(value);
   }
 
-  handleSelect(e) {
+  handleEnter(e) {
     if (e.key !== 'Enter') return;
     this.props.handleSelect(e.target.name, e.target.value);
   }
@@ -53,14 +52,11 @@ class AutoSuggestTextField extends Component {
   }
 
 
-
-
   render() {
     const {
       name,
       tabIndex,
-      placeholder,
-      handleResetTechKeywords
+      placeholder
     } = this.props;
     const { currentValue } = this.state;
 
@@ -73,9 +69,8 @@ class AutoSuggestTextField extends Component {
           name={name}
           placeholder={placeholder}
           tabIndex={tabIndex}
-          onBlur={this.handleReset}
           onChange={this.handleAutoSuggest}
-          onKeyPress={this.handleSelect}
+          onKeyPress={this.handleEnter}
           defaultValue={currentValue}
         />
         {this.renderSuggestedItemList()}

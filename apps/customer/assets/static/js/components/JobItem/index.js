@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { FavoriteButton, TagList, Title, SubText } from 'components';
-import { Wrapper, DateTime } from './styles';
+import { Wrapper, DateTime, JobWrapper, JobInfo, FavoriteButtonWrapper } from './styles';
 
 const propTypes = {
   id: PropTypes.number.isRequired,
@@ -16,12 +16,16 @@ const propTypes = {
 const JobItem = ({id, jobTitle, area, updatedAt, techs, index, favorited, submitting, handleSwitchFavoriteStatus}) =>{
   return (
     <Wrapper>
-      <Link to={`/jobs/${id}`} >
-        <Title>{jobTitle}</Title>
-        <SubText>{area}</SubText>
-      </Link>
-      <TagList tags={techs} />
-      {renderFavoriteButton(id, favorited, submitting, index, handleSwitchFavoriteStatus)}
+      <JobWrapper>
+        <JobInfo>
+          <Link to={`/jobs/${id}`} >
+            <Title>{jobTitle}</Title>
+            <SubText>{area}</SubText>
+          </Link>
+          <TagList tags={techs} />
+        </JobInfo>
+        {renderFavoriteButton(id, favorited, submitting, index, handleSwitchFavoriteStatus)}
+      </JobWrapper>
       <DateTime>{updatedAt}</DateTime>
     </Wrapper>
   )
@@ -30,13 +34,15 @@ const JobItem = ({id, jobTitle, area, updatedAt, techs, index, favorited, submit
 function renderFavoriteButton(id, favorited, submitting = false, index, fnc) {
   if (favorited === undefined) { return }
   return (
-    <FavoriteButton
-      jobId={id}
-      favorited={favorited}
-      submitting={submitting}
-      index={index}
-      handleSwitchFavoriteStatus={fnc}
-    />
+    <FavoriteButtonWrapper>
+      <FavoriteButton
+        jobId={id}
+        favorited={favorited}
+        submitting={submitting}
+        index={index}
+        handleSwitchFavoriteStatus={fnc}
+      />
+    </FavoriteButtonWrapper>
   );
 }
 

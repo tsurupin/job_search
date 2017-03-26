@@ -1,9 +1,7 @@
 import React from 'react';
 import config from '../../config';
 import GoMarkGithub from 'react-icons/lib/go/mark-github';
-import Wrapper from './Wrapper';
-import Text from './Text';
-import FooterLink from './FooterLink';
+import { Wrapper, Text, FooterLink } from './styles';
 
 
 const Footer = () => {

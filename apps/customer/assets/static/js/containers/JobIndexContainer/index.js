@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as JobIndexActionCreators from './action';
 import { JobList, JobFilterBox } from 'components';
 import { TECH_KEYWORD } from 'constants';
-import Wrapper from './Wrapper'
+import Wrapper from './styles'
 const propTypes = {
   jobTitles: PropTypes.array.isRequired,
   jobTitle: PropTypes.string.isRequired,
@@ -144,7 +144,10 @@ class JobIndexContainer extends Component {
   }
 
   handleSelect(key, value) {
+    console.error(key)
+    console.log(value)
     if (key === TECH_KEYWORD) {
+      console.info("bbbbb")
       value = [...this.props.techKeywords, value];
       this.props.actions.selectItem(TECH_KEYWORDS, value);
       this.props.actions.resetTechKeywords();

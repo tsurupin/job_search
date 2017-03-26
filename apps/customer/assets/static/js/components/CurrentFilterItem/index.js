@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { TECH_KEYWORD } from 'constants';
-import Wrapper from './Wrapper';
-import Icon from './Icon';
+import { Wrapper, Icon } from './styles';
 import FaClose from 'react-icons/lib/fa/close';
 
 const propTypes = {

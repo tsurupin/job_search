@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { CurrentFilterItem } from 'components';
-import Wrapper from './Wrapper';
+import Wrapper from './styles';
 
 const propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape.isRequired).isRequired,

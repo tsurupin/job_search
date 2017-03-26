@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { CurrentFilterList, CurrentFilterItem } from 'components';
-import Wrapper from './Wrapper';
-import Icon from './Icon';
+import { Wrapper, Icon } from './styles';
 import GoSearch from 'react-icons/lib/go/search';
 
 const propTypes = {

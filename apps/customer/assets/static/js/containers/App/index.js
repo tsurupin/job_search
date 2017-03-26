@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import Helmet from 'react-helmet';
 import  { Footer } from 'components';
 import { HeaderContainer } from 'containers';
-import Wrapper from './Wrapper';
+import Wrapper from './styles';
 
 class App extends Component {
   constructor(props) {

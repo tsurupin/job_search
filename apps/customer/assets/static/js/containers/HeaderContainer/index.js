@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as AuthenticationActionCreators from '../AuthenticationContainer/action';
-import Link from './Link';
-import Wrapper from './Wrapper';
-import BrandLink  from './BrandLink';
-import HeaderLinkList from './HeaderLinkList';
-import Button from './Button';
+import {
+  Wrapper,
+  FavoriteJobLink,
+  BrandLink,
+  HeaderLinkList,
+  Button
+} from './styles';
 import { A } from 'components';
 import GoSignIn from 'react-icons/lib/go/sign-in';
 import GoSignOut from 'react-icons/lib/go/sign-out';
@@ -66,7 +68,7 @@ class HeaderContainer extends Component {
 
   renderFavoriteJobLink() {
     if (!this.authenticated()){ return }
-    return <Link to='/favorite-jobs'><GoStar/></Link>;
+    return <FavoriteJobLink to='/favorite-jobs'><GoStar/></FavoriteJobLink>;
   }
 
   render() {

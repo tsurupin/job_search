@@ -167,6 +167,7 @@ export function resetItem(key) {
 }
 
 export function selectItem(key, value) {
+  console.log('select', key, value)
   return {
     type: SELECT_ITEM,
     payload: { key, value }

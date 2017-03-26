@@ -5,8 +5,7 @@ import {
   AutoSuggestTextField,
   TextField
 } from 'components';
-import Wrapper from './Wrapper'
-import FilterForm from './FilterForm'
+import { Wrapper, FilterForm }  from './styles';
 
 const propTypes = {
   jobTitles: PropTypes.array.isRequired,
