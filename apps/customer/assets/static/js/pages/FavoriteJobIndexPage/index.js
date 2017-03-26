@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 
 import {
-
   FavoriteJobIndexContainer
 } from 'containers';
 

@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import { SelectField } from 'components';
+import { Wrapper, Form, Row } from './styles';
 
 const propTypes = {
   jobId: PropTypes.number.isRequired,
@@ -17,7 +18,7 @@ const propTypes = {
 const statusOptions = {"interesting": 0, "applying": 1};
 const interestOptions = {"interesting": 1, "very interesting": 2, "my dream": 3}
 
-class FavoriteJobRow extends Component {
+class FavoriteJobFormItem extends Component {
   constructor(props) {
     super(props);
 
@@ -67,49 +68,55 @@ class FavoriteJobRow extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div>
-          <h3>{this.props.jobTitle}</h3>
-          <p>{this.props.company}</p>
-          <p>{this.props.area}</p>
-        </div>
-        <SelectField
-          name="interest"
-          tabIndex={2}
-          value={parseInt(this.state.interest)}
-          options={interestOptions}
-          handleChange={this.handleChange}
-        />
-        <SelectField
-          name="status"
-          tabIndex={3}
-          value={parseInt(this.state.status)}
-          options={statusOptions}
-          handleChange={this.handleChange}
-        />
-        <div className="form-control">
-          <label htmlFor={this.labelId("remarks")} className="label">Remakrs</label>
-          <textarea
-            id={this.labelId("remarks")}
-            name="remarks"
-            defaultValue={this.props.remarks}
-            rows={3}
-            onBlur={(e) => this.handleChange(e.target.name, e.target.value)}
-          />
-        </div>
-        <div className="actionBox">
-          <input
-            type="submit"
-            disabled={!this.state.canSubmit}
-            tabIndex={4}
-            value="Update"
-          />
-          <button type="button" onClick={this.handleRemove}>UnFavorite</button>
-        </div>
-      </form>
+      <Wrapper>
+        <Form onSubmit={this.handleSubmit}>
+          <Row size="3">
+            <h3>{this.props.jobTitle}</h3>
+            <p>{this.props.company}</p>
+            <p>{this.props.area}</p>
+          </Row>
+          <Row size="1">
+            <SelectField
+              name="interest"
+              tabIndex={2}
+              value={parseInt(this.state.interest)}
+              options={interestOptions}
+              handleChange={this.handleChange}
+            />
+          </Row>
+          <Row size="1">
+            <SelectField
+              name="status"
+              tabIndex={3}
+              value={parseInt(this.state.status)}
+              options={statusOptions}
+              handleChange={this.handleChange}
+            />
+          </Row>
+          <Row size="3">
+            <label htmlFor={this.labelId("remarks")} className="label">Remakrs</label>
+            <textarea
+              id={this.labelId("remarks")}
+              name="remarks"
+              defaultValue={this.props.remarks}
+              rows={3}
+              onBlur={(e) => this.handleChange(e.target.name, e.target.value)}
+            />
+          </Row>
+          <Row size="2">
+            <input
+              type="submit"
+              disabled={!this.state.canSubmit}
+              tabIndex={4}
+              value="Update"
+            />
+            <button type="button" onClick={this.handleRemove}>UnFavorite</button>
+          </Row>
+        </Form>
+      </Wrapper>
     )
   }
 }
 
-FavoriteJobRow.propTypes = propTypes;
-export default FavoriteJobRow;
+FavoriteJobFormItem.propTypes = propTypes;
+export default FavoriteJobFormItem;

@@ -8,13 +8,14 @@ export JobFilterBox from './JobFilterBox';
 export SingleSelectField from './SingleSelectField';
 export TextField from './TextField';
 export FavoriteButton from './FavoriteButton';
-export FavoriteJobTable from './FavoriteJobTable';
-export FavoriteJobRow from './FavoriteJobRow';
+export FavoriteJobList from './FavoriteJobList';
+export FavoriteJobFormItem from './FavoriteJobFormItem';
 export SelectField from './SelectField';
 export Footer from './Footer';
 export SuggestedItemList from './SuggestedItemList';
 export TagList from './TagList';
 export RelatedJobList from './RelatedJobList';
+export LoadingMessage from './LoadingMessage';
 
 // style components //
 export A from './A';

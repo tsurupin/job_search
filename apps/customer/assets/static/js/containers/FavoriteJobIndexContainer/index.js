@@ -2,12 +2,14 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as FavoriteJobsActionCreators from './action';
-import { FavoriteJobTable } from 'components';
+import { FavoriteJobList, LoadingMessage, Title } from 'components';
 const propTypes = {
   favoriteJobs: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string
 }
+
+import { Wrapper} from './styles';
 
 function mapStateToProps({ favoriteJobIndex }) {
   const { favoriteJobs, loading, errorMessage } = favoriteJobIndex;
@@ -49,9 +51,9 @@ class FavoriteJobIndexContainer extends Component {
   }
 
   renderFavoriteJobs(favoriteJobs) {
-    if (favoriteJobs.length === 0) { return }
+    if (favoriteJobs.length === 0) { return <p>You didn't favorite any jobs.</p> }
     return (
-      <FavoriteJobTable
+      <FavoriteJobList
         favoriteJobs={favoriteJobs}
         handleUpdate={this.handleUpdate}
         handleRemove={this.handleRemove}
@@ -60,11 +62,12 @@ class FavoriteJobIndexContainer extends Component {
   }
 
   render() {
-    if (this.props.loading) return <p>loading</p>
+    if (this.props.loading) return <LoadingMessage />;
     return (
-      <div>
+      <Wrapper>
+        <Title>Favorite Jobs</Title>
         {this.renderFavoriteJobs(this.props.favoriteJobs)}
-      </div>
+      </Wrapper>
     )
   }
 
