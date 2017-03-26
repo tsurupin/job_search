@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as FavoriteJobsActionCreators from './action';
 import { FavoriteJobList, LoadingMessage, Title } from 'components';
+
 const propTypes = {
   favoriteJobs: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -62,7 +63,7 @@ class FavoriteJobIndexContainer extends Component {
   }
 
   render() {
-    if (this.props.loading) return <LoadingMessage />;
+    if (this.props.loading) { return <LoadingMessage />; }
     return (
       <Wrapper>
         <Title>Favorite Jobs</Title>

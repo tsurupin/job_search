@@ -9,6 +9,7 @@ export const Header = styles.li`
   display: flex;
   width: 100%;
   padding-bottom: 10px;
+  list-style: none;
   border-bottom: 1px solid ${colors.listBorderColor};
   
 `;

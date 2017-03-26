@@ -24,3 +24,4 @@ export SubHeading from './SubHeading';
 export Title from './Title';
 export ErrorMessage from './ErrorMessage';
 export SubText from './SubText';
+export Textarea from './Textarea';

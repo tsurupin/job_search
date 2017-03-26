@@ -14,10 +14,10 @@ const FavoriteJobList = ({favoriteJobs, handleRemove, handleUpdate}) =>{
       <ul>
         <Header>
           <HeaderRow size='3'>Job Summary</HeaderRow>
-          <HeaderRow size='1'>Interest</HeaderRow>
+          <HeaderRow size='2'>Interest</HeaderRow>
           <HeaderRow size='2'>Status</HeaderRow>
           <HeaderRow size='2'>Remarks</HeaderRow>
-          <HeaderRow size='2'>Action</HeaderRow>
+          <HeaderRow size='1'>Action</HeaderRow>
         </Header>
       </ul>
       {renderFavoriteJobRows(favoriteJobs, handleRemove, handleUpdate)}
@@ -28,11 +28,7 @@ const FavoriteJobList = ({favoriteJobs, handleRemove, handleUpdate}) =>{
 function renderFavoriteJobRows(favoriteJobs, remove, update) {
   return favoriteJobs.map((favoriteJob, index) => {
     const property = {...favoriteJob, index, handleRemove: remove, handleUpdate: update};
-    return (
-      <ContentWrapper>
-        <FavoriteJobFormItem key={favoriteJob.jobId} {...property} />
-      </ContentWrapper>
-    )
+    return <FavoriteJobFormItem key={favoriteJob.jobId} {...property} />
   })
 }
 

@@ -64,14 +64,14 @@ class JobShowContainer extends Component {
   }
 
   renderFavoriteButton() {
-    // const {id, favorited } = this.props.job;
-    // if (!favorited) { return }
+    const {id, favorited } = this.props.job;
+    if (!favorited) { return }
     return (
       <FavoriteButtonWrapper>
         <FavoriteButton
           size='large'
-          jobId={1}
-          favorited={true}
+          jobId={id}
+          favorited={favorited}
           handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus}
         />
       </FavoriteButtonWrapper>

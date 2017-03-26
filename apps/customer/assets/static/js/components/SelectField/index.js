@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { Wrapper } from './styles';
 
 const propTypes = {
   value: PropTypes.number.isRequired,
@@ -8,13 +9,10 @@ const propTypes = {
   handleChange: PropTypes.func.isRequired
 };
 
+
 class SelectField extends Component {
   constructor(props) {
     super(props);
-  }
-
-  getLabelId() {
-    return `select-field-${this.props.name}`;
   }
 
   getOptions() {
@@ -28,19 +26,14 @@ class SelectField extends Component {
   render() {
     const { value, name, tabIndex, handleChange } = this.props;
     return (
-      <div className="form-component">
-        <label htmlFor={this.getLabelId()} className="label">{name}</label>
-        <select
-          id={this.getLabelId()}
-          className="form-field"
-          defaultValue={value}
-          name={name}
-          tabIndex={tabIndex}
-          onBlur={(event) => handleChange(name, event.target.value)}
-        >
-          {this.getOptions()}
-        </select>
-      </div>
+      <Wrapper
+        defaultValue={value}
+        name={name}
+        tabIndex={tabIndex}
+        onBlur={(event) => handleChange(name, event.target.value)}
+      >
+        {this.getOptions()}
+      </Wrapper>
     );
   }
 }

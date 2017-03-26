@@ -1,7 +1,22 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
-import { SelectField } from 'components';
-import { Wrapper, Form, Row } from './styles';
+import { SelectField, Textarea } from 'components';
+import MdLocationCity from 'react-icons/lib/md/location-city';
+import MdLocationOn from 'react-icons/lib/md/location-on';
+import MdSave from 'react-icons/lib/md/save';
+
+import {
+  Wrapper,
+  Icon,
+  CompanyWrapper,
+  CompanyInfo,
+  Title,
+  Info,
+  Form,
+  Row,
+  UpdateButton
+} from './styles';
+import GoStar from 'react-icons/lib/go/star';
 
 const propTypes = {
   jobId: PropTypes.number.isRequired,
@@ -71,46 +86,53 @@ class FavoriteJobFormItem extends Component {
       <Wrapper>
         <Form onSubmit={this.handleSubmit}>
           <Row size="3">
-            <h3>{this.props.jobTitle}</h3>
-            <p>{this.props.company}</p>
-            <p>{this.props.area}</p>
+            <CompanyWrapper>
+              <Icon onClick={this.handleRemove}>
+                <GoStar style={{width: '100%', height: '100%'}}/>
+              </Icon>
+              <CompanyInfo>
+                <Title>{this.props.jobTitle}</Title>
+                <Info><MdLocationOn style={{marginRight: '3px'}}/>{this.props.company}</Info>
+                <Info><MdLocationCity style={{marginRight: '3px'}}/>{this.props.area}</Info>
+              </CompanyInfo>
+            </CompanyWrapper>
           </Row>
-          <Row size="1">
+          <Row size="2">
             <SelectField
               name="interest"
+              needLabel={false}
               tabIndex={2}
               value={parseInt(this.state.interest)}
               options={interestOptions}
               handleChange={this.handleChange}
             />
           </Row>
-          <Row size="1">
+          <Row size="2">
             <SelectField
               name="status"
               tabIndex={3}
+              needLabel={false}
               value={parseInt(this.state.status)}
               options={statusOptions}
               handleChange={this.handleChange}
             />
           </Row>
-          <Row size="3">
-            <label htmlFor={this.labelId("remarks")} className="label">Remakrs</label>
-            <textarea
-              id={this.labelId("remarks")}
+          <Row size="2">
+            <Textarea
               name="remarks"
               defaultValue={this.props.remarks}
               rows={3}
               onBlur={(e) => this.handleChange(e.target.name, e.target.value)}
             />
           </Row>
-          <Row size="2">
-            <input
+          <Row size="1">
+            <UpdateButton
               type="submit"
               disabled={!this.state.canSubmit}
               tabIndex={4}
-              value="Update"
-            />
-            <button type="button" onClick={this.handleRemove}>UnFavorite</button>
+            >
+              <MdSave style={{width: '100%', height: '100%'}} />
+            </UpdateButton>
           </Row>
         </Form>
       </Wrapper>

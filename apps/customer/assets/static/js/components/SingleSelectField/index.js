@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Wrapper from './Wrapper';
-import Select from './Select';
+import { Wrapper, Select } from './styles';
 import { Label } from 'components';
 
 const propTypes = {

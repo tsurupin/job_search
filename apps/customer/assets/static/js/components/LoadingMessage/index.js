@@ -1,9 +1,12 @@
 import React from 'react';
+import {Wrapper } from './styles';
 
-export const LoadingMessage = () => {
+const LoadingMessage = () => {
   return (
     <Wrapper>
       <p>Loading...</p>
     </Wrapper>
   );
 };
+
+export default LoadingMessage;

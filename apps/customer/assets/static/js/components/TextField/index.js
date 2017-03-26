@@ -3,6 +3,7 @@ import { Wrapper, Input } from './styles';
 import { Label } from 'components';
 
 const propTypes = {
+  needLabel: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   currentValue: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
@@ -10,6 +11,11 @@ const propTypes = {
   autoComplete: PropTypes.string.isRequired,
   handleSelect: PropTypes.func.isRequired
 };
+
+const defaultProps = {
+  needLabel: true
+}
+
 
 class TextField extends Component {
   constructor(props) {
@@ -34,6 +40,12 @@ class TextField extends Component {
     return `${this.props.name}-text-field`;
   }
 
+  renderLabel() {
+    if(!this.props.needLabel) return;
+    return (<label htmlFor={this.getLabelId()} className="label">{this.props.name}</label>)
+  }
+
+
   render() {
     const {
       name,
@@ -45,7 +57,7 @@ class TextField extends Component {
 
     return(
       <Wrapper>
-        <Label htmlFor={this.getLabelId()}>{name}</Label>
+        {this.renderLabel()}
         <Input
           id={this.getLabelId()}
           type='text'
@@ -63,5 +75,5 @@ class TextField extends Component {
 }
 
 TextField.propTypes = propTypes;
-
+TextField.defaultProps = defaultProps;
 export default TextField;
