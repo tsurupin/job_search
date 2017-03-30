@@ -15,6 +15,7 @@ STAGING_HOSTS="52.9.46.84"
 STAGING_USER="ec2-user"
 DELIVER_TO="/home/$STAGING_USER"
 
+USING_DISTILLERY=true
 # For *Phoenix* projects, symlink prod.secret.exs to our tmp source
 <!-- pre_erlang_get_and_update_deps() {
   local _prod_secret_path="/home/$PRODUCTION_USER/prod.secret.exs"
