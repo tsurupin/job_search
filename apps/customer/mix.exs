@@ -42,23 +42,20 @@ defmodule Customer.Mixfile do
       :phoenix_html,
       :cowboy,
       :edeliver,
-      :honeybadger,
       :logger,
       :gettext,
       :phoenix_ecto,
       :postgrex,
       :ueberauth_google,
       :ex_aws,
-      :hackney,
       :poison,
       :tirexs,
-      :bamboo,
+      #:bamboo,
       :quantum,
       :tzdata,
       :timex,
       :exsentry,
       :timex_ecto,
-      :comeonin,
       :ex_machina
     ]
   end
@@ -75,11 +72,9 @@ defmodule Customer.Mixfile do
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 3.2"},
      {:postgrex, ">= 0.0.0"},
-     {:comeonin, "~> 3.0"},
      {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
-     {:honeybadger, "~> 0.6"}, # exception and uptime monitoring
      {:good_times, "~> 1.1"}, # extended wrapper for time
      {:cowboy, "~> 1.0"},
      {:dialyxir, "~> 0.3", only: :dev},
@@ -91,7 +86,6 @@ defmodule Customer.Mixfile do
      {:ueberauth_google, "~> 0.4"},
      {:arc, "~> 0.6.0-rc3"}, # carrierwave for elixir
      {:ex_aws, "~> 1.0.0-rc3"},
-     {:hackney, "~> 1.5"},
      {:edeliver, "~> 1.4.2"},
      {:distillery, ">= 0.8.0", warn_missing: false},
      {:poison, "~> 2.0"},
@@ -105,7 +99,7 @@ defmodule Customer.Mixfile do
      {:guardian_db, "~> 0.7"},
      {:tirexs, "~> 0.8"}, # for elastic search,
      {:exsentry, "~> 0.7"}, # error report,
-     {:bamboo, github: "thoughtbot/bamboo"},  # for mailer
+     #{:bamboo, github: "thoughtbot/bamboo"},  # for mailer
      {:quantum, git: "https://github.com/c-rack/quantum-elixir" },  # for cron job,
      {:credo, "~> 0.5", only: [:dev, :test]} # rubocop for elixir
    ]

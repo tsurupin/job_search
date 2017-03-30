@@ -1,6 +1,6 @@
 APP="job_search"
 
-BUILD_HOST="54.153.69.177"
+BUILD_HOST="54.215.209.153"
 BUILD_USER="elixir_builder"
 BUILD_AT="/home/$BUILD_USER/$APP/builds"
 
