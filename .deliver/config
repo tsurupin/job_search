@@ -1,0 +1,26 @@
+APP="job_search"
+
+BUILD_HOST="54.153.69.177"
+BUILD_USER="elixir_builder"
+BUILD_AT="/home/$BUILD_USER/$APP/builds"
+
+# Used by umbrella projects only
+RELEASE_DIR="$BUILD_AT/apps/$APP/rel/$APP"
+
+PRODUCTION_HOSTS="52.9.46.84"
+PRODUCTION_USER="ec2-user"
+DELIVER_TO="/home/$PRODUCTION_USER"
+
+STAGING_HOSTS="52.9.46.84"
+STAGING_USER="ec2-user"
+DELIVER_TO="/home/$STAGING_USER"
+
+# For *Phoenix* projects, symlink prod.secret.exs to our tmp source
+<!-- pre_erlang_get_and_update_deps() {
+  local _prod_secret_path="/home/$PRODUCTION_USER/prod.secret.exs"
+  if [ "$TARGET_MIX_ENV" = "prod" ]; then
+    __sync_remote "
+      ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs'
+    "
+  fi
+} -->

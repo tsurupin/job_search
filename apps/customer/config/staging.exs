@@ -71,15 +71,4 @@ config :quantum,
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-# import_config "prod.secret.exs"
-
-config :customer, Customer.Web.Endpoint,
-  secret_key_base: System.get_env("SECRET_KEY_BASE")
-
-# Configure your database
-config :customer, Customer.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: System.get_env("DB_USERNAME"),
-  password: System.get_env("DB_PASSWORD"),
-  database: System.get_env("DB_DATABASE_NAME"),
-  pool_size: 20
+import_config "staging.secret.exs"
