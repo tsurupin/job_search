@@ -30,6 +30,7 @@ end
 environment :prod do
   set include_erts: true
   set include_src: false
+  set output_dir: "apps/job_search/rel/job_search"
   set cookie: :"<s9GW7$m9X4TN.ajYCugR^W.XSLA[@9*6!uQ.j7NVrHFnpGL4RnNEb<S;<9t^$42"
 end
 
@@ -46,4 +47,3 @@ release :job_search do
     scraper: :permanent
   ]
 end
-
