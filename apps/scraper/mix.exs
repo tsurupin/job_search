@@ -64,7 +64,7 @@ defmodule Scraper.Mixfile do
     [
       {:floki, "~> 0.11.0"}, # parser
       {:hound, "~> 1.0"},
-      {:httpoison, "~> 0.10.0"},
+      {:httpoison, "~> 0.10.0", override: true},
       {:quantum, git: "https://github.com/c-rack/quantum-elixir" },
       {:customer, in_umbrella: true}
     ]
