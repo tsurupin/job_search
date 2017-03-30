@@ -5,7 +5,7 @@ defmodule JobSearch.Mixfile do
     [apps_path: "apps",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps()]
   end
 
   # Dependencies can be Hex packages:
@@ -20,7 +20,10 @@ defmodule JobSearch.Mixfile do
   #
   # Dependencies listed here are available only for this project
   # and cannot be accessed from applications inside the apps folder
-  defp deps do
-    []
+  defp deps() do
+    [
+      {:edeliver, "~> 1.4.2"},
+      {:distillery, ">= 0.8.0", warn_missing: false}
+    ]
   end
 end

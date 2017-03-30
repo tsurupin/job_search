@@ -7,7 +7,7 @@ defmodule Customer.Mixfile do
      config_path: "../../config/config.exs",
      deps_path: "../../deps",
      lockfile: "../../mix.lock",
-     version: "0.0.1",
+     version: append_revision("0.1.0"),
      elixir: "~> 1.4",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
@@ -17,6 +17,15 @@ defmodule Customer.Mixfile do
      deps: deps()]
   end
 
+  def append_revision(version) do
+     "#{version}+#{revision()}"
+  end
+
+  defp revision() do
+    System.cmd("git", ["rev-parse", "--short", "HEAD"])
+    |> elem(0)
+    |> String.rstrip
+  end
   # Configuration for the OTP application.
   #
   # Type `mix help compile.app` for more information.
@@ -32,6 +41,7 @@ defmodule Customer.Mixfile do
       :phoenix_pubsub,
       :phoenix_html,
       :cowboy,
+      :edeliver,
       :honeybadger,
       :logger,
       :gettext,
@@ -82,6 +92,8 @@ defmodule Customer.Mixfile do
      {:arc, "~> 0.6.0-rc3"}, # carrierwave for elixir
      {:ex_aws, "~> 1.0.0-rc3"},
      {:hackney, "~> 1.5"},
+     {:edeliver, "~> 1.4.2"},
+     {:distillery, ">= 0.8.0", warn_missing: false},
      {:poison, "~> 2.0"},
      {:sweet_xml, "~> 0.5"},
      {:secure_random, "~> 0.1"},

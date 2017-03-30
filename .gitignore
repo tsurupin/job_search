@@ -17,9 +17,12 @@ erl_crash.dump
 
 *secret.exs
 
-
+.secret/prod.secret.exs
 
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
 .env
 .idea
+
+.deliver/releases/
+/rel/*/**
