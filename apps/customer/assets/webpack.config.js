@@ -37,12 +37,6 @@ const productionPlugin = new webpack.DefinePlugin({
   }
 });
 
-const copyWebpackPlugin = new CopyWebpackPlugin([
-  { from: './static/images', to: '../priv/static/images' }
-], {
-  copyUnmodified: true
-});
-
 const base = {
   entry: [
     PATHS.app
@@ -111,12 +105,12 @@ const base = {
 
   const developmentConfig = {
     devtool: 'cheap-module-inline-source-map',
-    plugins: [copyWebpackPlugin]
+    plugins: []
   };
 
   const productionConfig = {
     devtool: 'cheap-module-source-map',
-    plugins: [productionPlugin, copyWebpackPlugin, stopUglifyJSWarnings]
+    plugins: [productionPlugin, stopUglifyJSWarnings]
   };
 
   module.exports = Object.assign({}, base, isProduction ? productionConfig : developmentConfig );

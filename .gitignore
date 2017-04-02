@@ -14,6 +14,7 @@
 erl_crash.dump
 
 /node_modules
+npm-debug.log
 
 *secret.exs
 
