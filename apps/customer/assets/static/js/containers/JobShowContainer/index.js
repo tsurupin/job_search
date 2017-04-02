@@ -13,7 +13,7 @@ import {
   Content,
   Description,
   FavoriteButtonWrapper
-} from './Styles';
+} from './styles';
 import colors from 'styles/colors';
 import { TagList, Title, ErrorMessage, RelatedJobList } from 'components';
 

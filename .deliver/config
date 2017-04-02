@@ -3,6 +3,7 @@ APP="job_search"
 BUILD_HOST="54.183.145.101"
 BUILD_USER="elixir_builder"
 BUILD_AT="/home/$BUILD_USER/$APP/builds"
+CUSTOMER_APP_AT = "$BUILD_AT/apps/customer"
 
 # Used by umbrella projects only
 RELEASE_DIR="$BUILD_AT/apps/$APP/rel/$APP"
@@ -17,3 +18,17 @@ DELIVER_TO="/home/$STAGING_USER"
 
 USING_DISTILLERY=true
 # For *Phoenix* projects, symlink prod.secret.exs to our tmp source
+pre_erlang_get_and_update_deps() {
+  # copy int from the local machine to the build host when building
+  local _local_secret_config_file=".secret/prod.secret.exs"
+  if [ "$TARGET_MIX_ENV" = "prod" ]; then
+    status "Copying '$_local_secret_config_file' file to build host"
+    scp "$_local_secret_config_file" "$BUILD_USER@$BUILD_HOST:$CUSTOMER_APP_AT/config/prod.secret.exs"
+    cd $CUSTOMER_APP_AT
+    cd assets
+    npm install
+    npm run deploy
+    cd ../
+    MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD phoenix.digest
+  fi
+}
