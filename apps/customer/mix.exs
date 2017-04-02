@@ -92,7 +92,7 @@ defmodule Customer.Mixfile do
      {:sweet_xml, "~> 0.5"},
      {:secure_random, "~> 0.1"},
      {:scrivener_ecto, git: "https://github.com/drewolson/scrivener_ecto"},
-     {:wallaby, "~> 0.5", only: :test},
+     {:wallaby, "~> 0.16.1", only: :test},
      {:timex, "~> 3.0"},
      {:timex_ecto, "~> 3.0"},
      {:guardian, "~> 0.14.0"},
