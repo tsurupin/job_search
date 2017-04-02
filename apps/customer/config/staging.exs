@@ -71,4 +71,11 @@ config :quantum,
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "staging.secret.exs"
+config :customer, Customer.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: System.get_env("DB_USERNAME"),
+  password: System.get_env("DB_PASSWORD"),
+  database: System.get_env("DB_DATABASE_NAME"),
+  hostname: System.get_env("DB_HOSTNAME"),
+  port: System.get_env("DB_PORT") || 5432,
+  pool_size: 20

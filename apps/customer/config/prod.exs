@@ -82,4 +82,6 @@ config :customer, Customer.Repo,
   username: System.get_env("DB_USERNAME"),
   password: System.get_env("DB_PASSWORD"),
   database: System.get_env("DB_DATABASE_NAME"),
+  hostname: System.get_env("DB_HOSTNAME"),
+  port: System.get_env("DB_PORT") || 5432,
   pool_size: 20
