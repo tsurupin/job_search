@@ -74,7 +74,8 @@ config :quantum,
 # import_config "prod.secret.exs"
 
 config :customer, Customer.Web.Endpoint,
-  url: [host: "localhost"],
+  http: [port: 80],
+  url: [host: "localhost", port: 80],
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   debug_errors: false,
   server: true
