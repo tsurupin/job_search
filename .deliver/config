@@ -4,7 +4,7 @@ BUILD_HOST="54.183.145.101"
 BUILD_USER="elixir_builder"
 BUILD_AT="/home/$BUILD_USER/$APP/builds"
 CUSTOMER_APP_AT="$BUILD_AT/apps/customer"
-APP="customer"
+
 
 # Used by umbrella projects only
 RELEASE_DIR="$BUILD_AT/apps/$APP/rel/$APP"
