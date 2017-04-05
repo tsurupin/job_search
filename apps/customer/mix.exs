@@ -31,8 +31,7 @@ defmodule Customer.Mixfile do
   # Type `mix help compile.app` for more information.
 
   def application do
-    [mod: {Customer, []},
-     applications: applications(Mix.env)]
+    [mod: {Customer, []}]
   end
 
   defp applications(_) do
