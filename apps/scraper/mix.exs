@@ -28,18 +28,7 @@ defmodule Scraper.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: app_list(),
-     mod: {Scraper, []}]
-  end
-
-  defp app_list do
-    [
-      :httpoison,
-      :hound,
-      :logger,
-      :quantum,
-      :customer
-    ]
+    [mod: {Scraper, []}, extra_applications: [:logger]]
   end
 
   # Specifies which paths to compile per environment.

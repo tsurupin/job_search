@@ -31,34 +31,8 @@ defmodule Customer.Mixfile do
   # Type `mix help compile.app` for more information.
 
   def application do
-    [mod: {Customer, []}]
+    [mod: {Customer, []}, extra_applications: [:logger]]
   end
-
-  defp applications(_) do
-    [
-      :phoenix,
-      :phoenix_pubsub,
-      :phoenix_html,
-      :cowboy,
-      :edeliver,
-      :logger,
-      :gettext,
-      :phoenix_ecto,
-      :postgrex,
-      :ueberauth_google,
-      :ex_aws,
-      :poison,
-      :tirexs,
-      #:bamboo,
-      :quantum,
-      :tzdata,
-      :timex,
-      :exsentry,
-      :timex_ecto,
-      :ex_machina
-    ]
-  end
-
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_),     do: ["lib"]
