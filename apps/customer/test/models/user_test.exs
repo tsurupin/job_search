@@ -1,5 +1,5 @@
 defmodule Customer.Web.UserTest do
-  use Customer.Web.ModelCase
+  use Customer.Web.TestWithEcto, async: true
 
   alias Customer.Web.User
 

@@ -21,6 +21,10 @@ defmodule Customer.Web.JobSourceTechKeywords do
     |> Multi.delete_all(:job_source_tech_keyword, job_source_tech_keywords)
   end
 
+  def bulk_upsert(job_tech_keyword_ids, job_source_id) do
+    bulk_upsert(Multi.new, job_tech_keyword_ids, job_source_id)
+  end
+
   def bulk_upsert(multi, [], job_source_id), do: multi
 
   def bulk_upsert(multi, [current_job_tech_keyword_id | remainings], job_source_id) do

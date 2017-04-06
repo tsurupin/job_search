@@ -1,7 +1,7 @@
 defmodule Customer.Web.JobTest do
   use Customer.Web.TestWithEcto, async: true
 
-  alias Customer.Job
+  alias Customer.Web.Job
 
   test "find a persisted record" do
     job = insert(:job, job_title: "test")
