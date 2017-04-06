@@ -13,6 +13,10 @@ defmodule Customer.Ets do
      {:ok, ets}
    end
 
+   def reset() do
+     GenServer.call(@name, {:reset})
+   end
+
    def upsert(%{key: key, value: value} = cache) do
      GenServer.call(@name, {:upsert, cache})
    end
@@ -34,6 +38,12 @@ defmodule Customer.Ets do
      :ets.insert(@name, {key, value})
      value = fetch_value(key)
      {:reply, value, state}
+   end
+
+   def handle_call({:reset}, _from, _state) do
+     :ets.delete(@name)
+     ets = :ets.new(@name, [:named_table, :public])
+     {:reply, :ok, ets}
    end
 
    def handle_cast({:upsert, %{key: key, value: value}}, state) do

@@ -25,7 +25,8 @@ defmodule Customer.Web.FavoriteJobControllerTest do
           "jobTitle" => job_title.name,
           "status" => favorite_job.status,
           "area" => area.name,
-          "company" => company.name
+          "company" => company.name,
+          "remarks" => favorite_job.remarks
         }
        ]}
       assert body == result

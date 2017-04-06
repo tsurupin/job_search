@@ -1,10 +1,12 @@
 defmodule Customer.Web.Api.V1.JobControllerTest do
   use Customer.Web.ConnCase, async: true
 
-  alias Customer.Web.{Job, FavoriteJobs, Repo}
+  alias Customer.Web.{Job, FavoriteJobs}
+  alias Customer.Repo
 
   describe "index with login" do
     setup [:login, :first_page_setup]
+
     test "get jobs with favorited and job_titles and areas", j do
        job = Repo.get(Job, Keyword.get(Enum.at(j.jobs, 1), :job_id))
        insert(:favorite_job, user: j.user, job: job)
@@ -169,6 +171,8 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
   end
 
   defp first_page_setup(_context) do
+    Customer.Ets.reset()
+    IO.inspect "first_page!!!!"
     job_title1 = insert(:job_title, name: "test1")
     job_title2 = insert(:job_title, name: "test2")
     area1 = insert(:area, name: "San Francisco")

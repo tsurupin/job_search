@@ -14,6 +14,7 @@ defmodule Customer.Web.Api.V1.JobController do
 
     job_titles = fetch_from_ets("JobTitles", :names)
     areas = fetch_from_ets("Areas", :names)
+    IO.inspect areas
 
     render(conn, "index.json", %{jobs: jobs, job_titles: job_titles, areas: areas})
   end
@@ -51,8 +52,11 @@ defmodule Customer.Web.Api.V1.JobController do
 
   defp fetch_from_ets(key, action) do
     case Ets.fetch(key) do
-      {:ok, value} -> value
+      {:ok, value} ->
+        IO.inspect "fetch"
+        value
       {:error, _reason} ->
+        IO.inspect "initialize"
         upsert_ets(key, action)
         fetch_from_ets(key, action)
     end
