@@ -13,7 +13,8 @@ defmodule Customer.Web.Companies do
 
   def get_or_create_by(multi, %{name: name, url: url} = params) do
     case Repo.get_by(Company, name: name) do
-      nil -> Multi.insert(multi, :company, Company.build(params))
+      nil ->
+        Multi.insert(multi, :company, Company.build(params))
       company -> Multi.run(multi, :company, fn _ -> {:ok, company} end)
     end
   end

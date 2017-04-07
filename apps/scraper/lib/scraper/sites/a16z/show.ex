@@ -8,16 +8,18 @@ defmodule Scraper.Sites.A16z.Show do
 
   @defaultTimeout 10000
 
-  def perform(url, company_name, job_title, place) do
-    body(url)
-    |> params(url, company_name, job_title, place)
-    |> upsert
+  def perform(url, company_name, job_title, places) do
+    bulk_upsert(body(url), url, company_name, job_title, places)
   end
 
-  def perform(url, company_name, job_title, place, :test) do
-    @body
-    |> params(url, company_name, job_title, place)
-    |> upsert
+  def perform(url, company_name, job_title, places, :test) do
+    bulk_upsert(@body, url, company_name, job_title, places)
+  end
+
+  defp bulk_upsert(xml, url, company_name, job_title, []), do: nil
+  defp bulk_upsert(xml, url, company_name, job_title, [current_place | remaining]) do
+    upsert(xml, url, company_name, job_title, current_place)
+    bulk_upsert(xml, url, company_name, job_title, remaining)
   end
 
   defp body(url) do
@@ -25,6 +27,11 @@ defmodule Scraper.Sites.A16z.Show do
     body
   end
 
+
+  defp upsert(xml, url, company_name, job_title, place) do
+    params(xml, url, company_name, job_title, place)
+    |> JobSourceCreator.perform
+  end
 
   defp params(xml, url, company_name, job_title, place) do
     detail = build_detail(xml)
@@ -47,7 +54,5 @@ defmodule Scraper.Sites.A16z.Show do
     |> Floki.find(".wrap-job-description")
     |> Floki.text
   end
-
-  defp upsert(params), do: JobSourceCreator.perform(params)
 
 end
