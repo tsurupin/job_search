@@ -6,15 +6,19 @@ defmodule Customer.Web.Services.JobSourceCreator do
   @job_source_attributes [:title, :url, :job_title, :detail, :source]
 
   def perform(params) do
-    area = Areas.get_by!(params.place)
-    Multi.new
-    |> Companies.get_or_create_by(company_attributes(params))
-    |> upsert_job_source(params, area.id)
-    |> bulk_upsert_job_source_tech_keywords(params.keywords)
-    |> get_or_create_job_title(params.job_title)
-    |> upsert_job
-    |> bulk_upsert_job_tech_keywords_if_needed
-    |> Repo.transaction
+    case Areas.get_by!(params.place) do
+      nil -> IO.inspect params.place
+      area ->
+        Multi.new
+          |> Companies.get_or_create_by(company_attributes(params))
+          |> upsert_job_source(params, area.id)
+          |> bulk_upsert_job_source_tech_keywords(params.keywords)
+          |> get_or_create_job_title(params.job_title)
+          |> upsert_job
+          |> bulk_upsert_job_tech_keywords_if_needed
+          |> Repo.transaction
+    end
+
   end
 
   defp upsert_job_source(multi, params, area_id) do

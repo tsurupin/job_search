@@ -26,16 +26,18 @@ defmodule Scraper.Caller do
     Accel.Index.perform()
   end
 
-  defp scrape("FirstRound") do
-    FirstRound.perform()
-  end
-
-  defp scrape("YCombinator") do
-    YCombinator.Index.perform()
-  end
-
   defp scrape("Sequoia") do
     Sequoia.Index.perform()
   end
+
+#  defp scrape("FirstRound") do
+#    FirstRound.perform()
+#  end
+#
+#  defp scrape("YCombinator") do
+#    YCombinator.Index.perform()
+#  end
+
+
 
 end

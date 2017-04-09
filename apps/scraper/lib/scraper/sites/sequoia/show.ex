@@ -9,15 +9,10 @@ defmodule Scraper.Sites.Sequoia.Show do
   '''
 
   def perform(url) do
-    body(url)
+    @body # body(url)
     |> Floki.parse
     |> params(url)
     |> upsert
-    # body = @body
-    # xml =
-    #   body
-    #   |> Floki.parse
-    # upsert(params(xml, url))
   end
 
   def perform(url, :test) do

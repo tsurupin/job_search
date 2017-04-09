@@ -29,7 +29,7 @@ tech_keywords = [
 ]
 
 states = [
-  %{name: "California", abbreviation: "CA", areas: ["San Francisco", "Mountai View", "San Jose"]},
+  %{name: "California", abbreviation: "CA", areas: ["San Francisco", "Mountai View", "San Jose", "South San Francisco"]},
   %{name: "New York", abbreviation: "NY", areas: ["Manhattan"]}
 ]
 

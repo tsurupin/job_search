@@ -13,13 +13,15 @@ defmodule Customer.Web.Areas do
   end
 
   def get_by!(place) do
-    case area_and_state(place) do
-      [area_name, state_abbreviation, _country] ->
-        state = Repo.get_by!(State, %{abbreviation: state_abbreviation})
-          Repo.get_by!(Area, %{state_id: state.id, name: area_name})
+    with [area_name, state_abbreviation, _country] <- area_and_state(place),
+         state when state !== nil <- Repo.get_by(State, %{abbreviation: state_abbreviation}),
+          area when area !== nil <-  Repo.get_by(Area, %{state_id: state.id, name: area_name})
+    do
+      area
+    else
       _ ->
         IO.inspect "#{place}: This place is not in US"
-        raise ArgumentError
+        nil
     end
 
   end

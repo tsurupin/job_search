@@ -7,7 +7,7 @@ defmodule Scraper.Sites.Sequoia.Index do
 
   def perform(url \\ @indexURL) do
     scrape_links(url)
-    |> Enum.each(fn(link) -> parse_detail(link) end)
+    |> Enum.each(&(parse_detail(&1)))
   end
 
   defp scrape_links(url) do
