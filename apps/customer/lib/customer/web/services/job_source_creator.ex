@@ -33,7 +33,6 @@ defmodule Customer.Web.Services.JobSourceCreator do
     end)
   end
 
-
   defp get_or_create_job_title(multi, job_title) do
     case JobTitleAlias.get_or_find_approximate_job_title(job_title) do
       {:ok, job_title_id} -> Multi.run(multi, :job_title_id, fn _ -> {:ok, job_title_id} end)

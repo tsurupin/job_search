@@ -14,7 +14,6 @@ defmodule Customer.Web.Api.V1.JobController do
 
     job_titles = fetch_from_ets("JobTitles", :names)
     areas = fetch_from_ets("Areas", :names)
-    IO.inspect areas
 
     render(conn, "index.json", %{jobs: jobs, job_titles: job_titles, areas: areas})
   end

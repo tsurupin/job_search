@@ -54,6 +54,4 @@ defmodule Customer.Web.FavoriteJob do
     select: count(f.id)
   end
 
-
-
 end

@@ -46,4 +46,4 @@ config :customer, Customer.Repo,
 
 config :honeybadger, environment_name: :dev
 
-config :tirexs, :uri, "http://127.0.0.1:9200"
+config :tirexs, :uri, "http://localhost:9200"
