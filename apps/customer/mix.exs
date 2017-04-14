@@ -71,7 +71,6 @@ defmodule Customer.Mixfile do
      {:guardian_db, "~> 0.7"},
      {:tirexs, "~> 0.8"}, # for elastic search,
      {:exsentry, "~> 0.7"}, # error report,
-     #{:bamboo, github: "thoughtbot/bamboo"},  # for mailer
      {:quantum, git: "https://github.com/c-rack/quantum-elixir" },  # for cron job,
      {:credo, "~> 0.5", only: [:dev, :test]} # rubocop for elixir
    ]
