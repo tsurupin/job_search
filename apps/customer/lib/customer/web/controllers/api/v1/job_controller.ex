@@ -6,16 +6,29 @@ defmodule Customer.Web.Api.V1.JobController do
   def index(conn, params, current_user, _claims) do
     search_params = search_params(params)
     option_params = option_params(params)
+    IO.inspect search_params
+    IO.inspect "-----------search_params-------"
+    IO.inspect option_params
+    IO.inspect "-----------option_params-------"
+
 
     jobs =
        Job.es_search(search_params, option_params)
+       |> logging
        |> Es.Paginator.paginate(%{query: search_params, options: option_params})
+       |> logging
        |> add_favorite_if_needed(current_user)
+    IO.inspect jobs
 
     job_titles = fetch_from_ets("JobTitles", :names)
     areas = fetch_from_ets("Areas", :names)
 
     render(conn, "index.json", %{jobs: jobs, job_titles: job_titles, areas: areas})
+  end
+
+  defp logging(content) do
+    IO.inspect content
+    content
   end
 
   def show(conn, %{"id" => id}, current_user, _claims) do

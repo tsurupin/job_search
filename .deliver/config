@@ -1,6 +1,6 @@
 APP="job_search"
 
-BUILD_HOST="54.183.145.101"
+BUILD_HOST="52.53.128.113"
 BUILD_USER="elixir_builder"
 BUILD_AT="/home/$BUILD_USER/$APP/builds"
 CUSTOMER_APP_AT="$BUILD_AT/apps/customer"
@@ -9,11 +9,11 @@ CUSTOMER_APP_AT="$BUILD_AT/apps/customer"
 # Used by umbrella projects only
 RELEASE_DIR="$BUILD_AT/apps/$APP/rel/$APP"
 
-PRODUCTION_HOSTS="54.183.56.69"
+PRODUCTION_HOSTS="52.53.178.65"
 PRODUCTION_USER="ubuntu"
 DELIVER_TO="/home/$PRODUCTION_USER"
 
-STAGING_HOSTS="54.183.56.69"
+STAGING_HOSTS="52.53.178.65"
 STAGING_USER="ubuntu"
 DELIVER_TO="/home/$STAGING_USER"
 
@@ -31,6 +31,7 @@ pre_erlang_get_and_update_deps() {
     [ -f ~/.profile ] && source ~/.profile # load profile (optional)
     set -e # fail if any command fails (recommended)
     cd "$CUSTOMER_APP_AT"
+
     MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD deps.get
     cd assets
     npm install

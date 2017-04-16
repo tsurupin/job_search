@@ -7,7 +7,9 @@ defmodule Customer.Es.Suggester do
   end
 
   def completion(model, word) do
+
     word
+    |> String.trim
     |> String.split(~r/[,\.\s]/)
     |> List.first
     |> model.es_search
