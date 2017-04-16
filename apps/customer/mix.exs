@@ -59,8 +59,6 @@ defmodule Customer.Mixfile do
      {:ueberauth_google, "~> 0.4"},
      {:arc, "~> 0.6.0-rc3"}, # carrierwave for elixir
      {:ex_aws, "~> 1.0.0-rc3"},
-     {:edeliver, "~> 1.4.2"},
-     {:distillery, ">= 0.8.0", warn_missing: false},
      {:poison, "~> 2.0"},
      {:sweet_xml, "~> 0.5"},
      {:secure_random, "~> 0.1"},
