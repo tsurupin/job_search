@@ -6,24 +6,26 @@ defmodule Customer.Web.Services.JobSourceCreator do
   @job_source_attributes [:title, :url, :job_title, :detail, :source]
 
   def perform(params) do
-    case Areas.get_by!(params.place) do
-      nil -> IO.inspect params.place
-      area ->
-        Multi.new
-          |> Companies.get_or_create_by(company_attributes(params))
-          |> upsert_job_source(params, area.id)
-          |> bulk_upsert_job_source_tech_keywords(params.keywords)
-          |> get_or_create_job_title(params.job_title)
-          |> upsert_job
-          |> bulk_upsert_job_tech_keywords_if_needed
-          |> Repo.transaction
-    end
+    IO.inspect "job source------------"
+    IO.inspect params
+
+    result = Multi.new
+      |> Areas.get_or_create_by(params.place)
+      |> Companies.get_or_create_by(company_attributes(params))
+      |> upsert_job_source(params)
+      |> bulk_upsert_job_source_tech_keywords(params.keywords)
+      |> get_or_create_job_title(params.job_title)
+      |> upsert_job
+      |> bulk_upsert_job_tech_keywords_if_needed
+      |> Repo.transaction
+   IO.inspect "finish---------"
+   IO.inspect result
 
   end
 
-  defp upsert_job_source(multi, params, area_id) do
-    Multi.merge(multi, fn %{company: company} ->
-      JobSources.upsert(Multi.new, job_source_attributes(params, company.id, area_id))
+  defp upsert_job_source(multi, params) do
+    Multi.merge(multi, fn %{company: company, area: area} ->
+      JobSources.upsert(Multi.new, job_source_attributes(params, company.id, area.id))
     end)
   end
 
@@ -50,9 +52,11 @@ defmodule Customer.Web.Services.JobSourceCreator do
 
   defp bulk_upsert_job_source_tech_keywords(multi, keyword_names, _job_source_id) when is_nil(keyword_names), do: multi
   defp bulk_upsert_job_source_tech_keywords(multi, keyword_names, job_source_id) do
-    TechKeyword.by_names(keyword_names)
-    |> TechKeywords.pluck(:id)
-    |> JobSourceTechKeywords.bulk_delete_and_upsert(job_source_id)
+    tech_keyword_ids =
+      TechKeyword.by_names(keyword_names)
+      |> TechKeywords.pluck(:id)
+
+    JobSourceTechKeywords.bulk_delete_and_upsert(multi, tech_keyword_ids, job_source_id)
   end
 
   defp bulk_upsert_job_tech_keywords_if_needed(multi) do

@@ -7,6 +7,8 @@ defmodule Scraper.Sites.A16z.Show do
   '''
 
   @defaultTimeout 10000
+  @minimumSleepSeconds 5
+  @randomSleepSeconds 10
 
   def perform(url, company_name, job_title, places) do
     bulk_upsert(body(url), url, company_name, job_title, places)
@@ -29,8 +31,18 @@ defmodule Scraper.Sites.A16z.Show do
 
 
   defp upsert(xml, url, company_name, job_title, place) do
-    params(xml, url, company_name, job_title, place)
-    |> JobSourceCreator.perform
+    params = params(xml, url, company_name, job_title, place)
+
+    Task.start_link(fn ->
+
+      case JobSourceCreator.perform(params) do
+        {:ok, _} -> IO.inspect "ok"
+        {:error, _model, changeset, _} ->
+          IO.inspect "fail to upsert"
+          :timer.sleep(:timer.seconds(@minimumSleepSeconds + :rand.uniform(@randomSleepSeconds)))
+          JobSourceCreator.perform(params)
+      end
+    end)
   end
 
   defp params(xml, url, company_name, job_title, place) do

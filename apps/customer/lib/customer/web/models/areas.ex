@@ -12,25 +12,41 @@ defmodule Customer.Web.Areas do
     |> Multi.run(:delete_document, fn _ -> Es.Document.delete_document(area) end)
   end
 
-  def get_by!(place) do
-    with [area_name, state_abbreviation, _country] <- area_and_state(place),
-         state when state !== nil <- Repo.get_by(State, %{abbreviation: state_abbreviation}),
-          area when area !== nil <-  Repo.get_by(Area, %{state_id: state.id, name: area_name})
-    do
-      area
-    else
-      _ ->
-        IO.inspect "#{place}: This place is not in US"
-        nil
-    end
+  def get_or_create_by(place), do: get_or_create_by(Multi.new, place)
 
+
+  def get_or_create_by(multi, place) do
+    case area_name_and_state(place) do
+      {:ok, area_name, state} ->
+        params = %{name: area_name, state_id: state.id}
+        case Repo.get_by(Area, params) do
+          nil ->
+            Multi.insert(multi, :area, Area.build(params))
+          area -> Multi.run(multi, :area, fn _ -> {:ok, area} end)
+        end
+      {:error, reason} ->
+        Multi.run(multi, :area, fn _ -> {:error, reason} end)
+    end
   end
 
-  defp area_and_state(place) do
+  defp trim(place) do
     place
     |> String.split(",")
     |> Enum.map(&(String.trim(&1)))
   end
+
+  defp area_name_and_state(place) do
+    case trim(place) do
+      [_area_name, _state_abbreviation] -> {:error, "not in USA"}
+      [area_name, state_abbreviation, _country] ->
+        case Repo.get_by(State, %{abbreviation: state_abbreviation}) do
+          nil -> {:error, "not state"}
+          state -> {:ok, area_name, state}
+        end
+    end
+  end
+
+
 
 
 end

@@ -10,14 +10,13 @@ defmodule Scraper.Sites.A16z.Index do
   @defaultTimeout 10000
 
   def perform(url \\ @scrapeURL) do
-     @body
+    body(url)
     |> Floki.parse
     |> Floki.find(".job_listings")
     |> Floki.find("tr")
     |> Enum.slice(2..-2)
     |> Enum.filter(fn(content) -> Enum.any?(Floki.find(content, "a")) end)
     |> Enum.each(fn(xml) ->
-      IO.inspect xml
       parse_each(xml)
     end)
   end
@@ -29,8 +28,11 @@ defmodule Scraper.Sites.A16z.Index do
 
   defp parse_each({_tag, _css, [link, company, place, _date]}) do
     with {_, [{_, link_url}], [job_title]} <- parsed_link(link),
-      {_, [{_, company_url}], [company_name]} <- parsed_link(company),
-      do: Task.async(fn -> Show.perform(detail_url(link_url), company_name, job_title, parse_places(place)) end)
+      {_, [{_, company_url}], [company_name]} <- parsed_link(company)
+      do
+        Task.start_link(fn -> Show.perform(detail_url(link_url), company_name, job_title, parse_places(place)) end)
+      end
+
   end
 
   defp parsed_link(link) do

@@ -28,20 +28,36 @@ tech_keywords = [
   %{type: "mobile", names: mobile}
 ]
 
-states = [
-  %{name: "California", abbreviation: "CA", areas: ["San Francisco", "Mountai View", "San Jose", "South San Francisco"]},
-  %{name: "New York", abbreviation: "NY", areas: ["Manhattan"]}
-]
-
-Enum.each(states, fn(temp_state) ->
-  state =
-    State.changeset(%State{}, %{name: temp_state.name, abbreviation: temp_state.abbreviation})
-    |> Repo.insert!
-  Enum.each(temp_state.areas, fn(area) ->
-    Area.changeset(%Area{}, %{name: area, state_id: state.id})
-    |> Repo.insert!
-  end)
+states = ["Alabama,AL", "Alaska,AK", "Arizona,AZ", "Arkansas,AR", "California,CA",
+          "Colorado,CO", "Connecticut,CT", "Delaware,DE", "Florida,FL", "Georgia,GA",
+          "Hawaii,HI", "Idaho,ID", "Illinois,IL", "Indiana,IN", "Iowa,IA", "Kansas,KS",
+          "Kentucky,KY", "Louisiana,LA", "Maine,ME", "Maryland,MD", "Massachusetts,MA",
+          "Michigan,MI", "Minnesota,MN", "Mississippi,MS", "Missouri,MO", "Montana,MT",
+          "Nebraska,NE", "Nevada,NV", "New Hampshire,NH", "New Jersey,NJ",
+          "New Mexico,NM", "New York,NY", "North Carolina,NC", "North Dakota,ND",
+          "Ohio,OH", "Oklahoma,OK", "Oregon,OR", "Pennsylvania,PA", "Rhode,Island,RI",
+          "South Carolina,SC", "South Dakota,SD", "Tennessee,TN", "Texas,TX", "Utah,UT",
+          "Vermont,VT", "Virginia,VA", "Washington,WA", "West Virginia,WV",
+          "Wisconsin,WI", "Wyoming,WY"
+          ]
+states_with_abbreviation = Enum.map(states, &(String.split(&1, ",")))
+#states = [
+#  %{name: "California", abbreviation: "CA", areas: ["San Francisco", "Mountai View", "San Jose", "South San Francisco"]},
+#  %{name: "New York", abbreviation: "NY", areas: ["Manhattan"]}
+#]
+Enum.each(states_with_abbreviation, fn(state) ->
+  State.changeset(%State{}, %{name: Enum.at(state, 0), abbreviation: Enum.at(state, 1)})
+  |> Repo.insert
 end)
+#Enum.each(states, fn(temp_state) ->
+#  state =
+#    State.changeset(%State{}, %{name: temp_state.name, abbreviation: temp_state.abbreviation})
+#    |> Repo.insert!
+#  Enum.each(temp_state.areas, fn(area) ->
+#    Area.changeset(%Area{}, %{name: area, state_id: state.id})
+#    |> Repo.insert!
+#  end)
+#end)
 
 Enum.each(tech_keywords, fn(keyword) ->
   Enum.each(keyword.names, fn(name) ->

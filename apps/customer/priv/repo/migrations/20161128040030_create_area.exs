@@ -3,12 +3,12 @@ defmodule Customer.Repo.Migrations.CreateArea do
 
   def change do
     create table(:areas) do
-      add :name, :string, null: false, unique: true
-      add :state_id, references(:areas, on_delete: :delete_all)
+      add :name, :string, null: false
+      add :state_id, references(:states, on_delete: :delete_all)
 
       timestamps()
     end
-    create index(:areas, :name, unique: true)
 
+    create unique_index(:areas, [:name, :state_id], name: :area_name_state_id_unique_index)
   end
 end

@@ -13,12 +13,14 @@ defmodule Customer.Web.TechKeyword do
     has_many :job_tech_keywords, JobTechKeyword
   end
 
+  @required_fields ~w(type name)a
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(tech_keyword \\ %__MODULE__{}, params \\ %{}) do
-    cast(tech_keyword, params, [:type, :name])
-    |> validate_required([:type, :name])
+    cast(tech_keyword, params, @required_fields)
+    |> validate_required(@required_fields)
     |> unique_constraint(:name)
   end
 

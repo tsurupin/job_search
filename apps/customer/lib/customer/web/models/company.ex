@@ -11,12 +11,15 @@ defmodule Customer.Web.Company do
 
   end
 
+  @required_fields ~w(name url)a
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(company  \\ %__MODULE__{}, params \\ %{}) do
-    cast(company, params, ~w(name url))
-    |> validate_required(~w(name url)a)
+    cast(company, params, @required_fields)
+    |> validate_required(@required_fields)
+    |> unique_constraint(:name)
   end
 
   def build(%{name: name, url: url} = params) do
