@@ -31,7 +31,7 @@ defmodule Scraper.Sites.A16z.Show do
 
 
   defp upsert(xml, url, company_name, job_title, place) do
-    params = params(xml, url, company_name, job_title, place)
+    params = build_params(xml, url, company_name, job_title, place)
 
     Task.start_link(fn ->
 
@@ -45,7 +45,7 @@ defmodule Scraper.Sites.A16z.Show do
     end)
   end
 
-  defp params(xml, url, company_name, job_title, place) do
+  defp build_params(xml, url, company_name, job_title, place) do
     detail = build_detail(xml)
     keywords = TechKeywordsFinder.perform(detail)
     %{
