@@ -4,6 +4,7 @@ defmodule Customer.Command do
 
      quote location: :keep do
       alias Customer.Repo
+      alias Ecto.Multi
 
       def insert!(repo, params) do
         unquote(model).changeset(struct(unquote(model)), params)

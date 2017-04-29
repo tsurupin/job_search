@@ -1,5 +1,6 @@
 defmodule Customer.Web.Command.Area do
 	use Customer.Command, model: Customer.Web.Area
+	alias Customer.Web.{State, Area}
 	alias Customer.Web.Query
 	alias Customer.Es
 
@@ -25,9 +26,10 @@ defmodule Customer.Web.Command.Area do
       [_area_name, _state_abbreviation] -> {:error, "not in USA"}
       [area_name, state_abbreviation, _country] ->
         case Repo.get_by(State, %{abbreviation: state_abbreviation}) do
-          nil -> {:error, "not state"}
+          nil -> {:error, "state is not found"}
           state -> {:ok, area_name, state}
         end
+      _ -> {:error, "unexpected format"}
     end
   end
 
