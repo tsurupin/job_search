@@ -20,7 +20,7 @@ export const CompanyWrapper = styled.div`
   color: ${colors.leadSentenceColor};
   word-wrap: break-word;
   padding-bottom: 15px;
-`
+`;
 
 export const CompanyItem = styled.div`
   margin-right: 10px;

@@ -14,7 +14,7 @@ const propTypes = {
 
 const defaultProps = {
   needLabel: true
-}
+};
 
 
 class TextField extends Component {

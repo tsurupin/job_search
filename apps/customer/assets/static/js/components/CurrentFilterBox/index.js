@@ -20,7 +20,7 @@ const CurrentFilterBox = ({items, handleReset, handleResetTechKeyword}) => {
       />
     </Wrapper>
   )
-}
+};
 
 CurrentFilterBox.propTypes = propTypes;
 export default CurrentFilterBox;

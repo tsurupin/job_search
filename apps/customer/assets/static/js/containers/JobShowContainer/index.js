@@ -93,7 +93,7 @@ class JobShowContainer extends Component {
     const iconStyle = {
       color: colors.leadSentenceColor,
       marginRight: 5
-    }
+    };
 
     if(errorMessage) return <ErrorMessage>{errorMessage}</ErrorMessage>;
 
@@ -130,7 +130,7 @@ const propTypes = {
   job: PropTypes.object,
   errorMessage: PropTypes.string,
   loading: PropTypes.bool.isRequired
-}
+};
 
 JobShowContainer.propTypes = propTypes;
 

@@ -27,8 +27,7 @@ class App extends Component {
       </div>
     );
   }
-};
-
+}
 const propTypes = {
   children: PropTypes.node.isRequired
 };

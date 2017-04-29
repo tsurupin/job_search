@@ -1,6 +1,7 @@
 defmodule Customer.Web.Services.JobSourceCreator do
   use Customer.Web, :service
   alias Ecto.Multi
+  alias Customer.Web.Command
 
   @company_attributes [:name, :url]
   @job_source_attributes [:title, :url, :job_title, :detail, :source]
@@ -10,7 +11,7 @@ defmodule Customer.Web.Services.JobSourceCreator do
     IO.inspect params
 
     result = Multi.new
-      |> Areas.get_or_create_by(params.place)
+      |> Command.Areas.get_or_insert_by(params.place)
       |> Companies.get_or_create_by(company_attributes(params))
       |> upsert_job_source(params)
       |> bulk_upsert_job_source_tech_keywords(params.keywords)

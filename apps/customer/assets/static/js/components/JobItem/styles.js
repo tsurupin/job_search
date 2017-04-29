@@ -28,6 +28,6 @@ export const JobInfo = styled.div`
 
 export const FavoriteButtonWrapper = styled.div`
   margin-top: 15px;
-`
+`;
 
 

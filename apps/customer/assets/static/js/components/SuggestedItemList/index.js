@@ -8,7 +8,7 @@ const SuggestedItemList = ({name, suggestedItems, handleSelect}) => {
         return(
           <Item key={suggestedItem} >
             <div onMouseDown={() => {
-              console.log("select")
+              console.log("select");
               handleSelect(name, suggestedItem)
             }} >
               {suggestedItem}
@@ -19,6 +19,6 @@ const SuggestedItemList = ({name, suggestedItems, handleSelect}) => {
       }
     </Wrapper>
   )
-}
+};
 
 export default SuggestedItemList;

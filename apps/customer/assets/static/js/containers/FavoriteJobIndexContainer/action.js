@@ -63,7 +63,7 @@ function removeFavoriteJobSuccess(sortRank) {
 }
 
 function removeFavoriteJobFailure(errorMessage) {
-  console.log(errorMessage)
+  console.log(errorMessage);
   return {
     type: REMOVE_FAVORITE_JOB.FAILURE,
     payload: { errorMessage }

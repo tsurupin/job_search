@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   favoriteJobs: [],
   loading: false,
   errorMessage: undefined
-}
+};
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {

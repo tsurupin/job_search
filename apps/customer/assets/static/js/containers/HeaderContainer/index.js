@@ -18,7 +18,7 @@ import GoStar from 'react-icons/lib/go/star';
 
 const propTypes = {
 
-}
+};
 
 const TITLE = 'STARTUP JOB';
 
@@ -30,8 +30,7 @@ function mapStateToProps({authentication}) {
     authenticated,
     errorMessage
   }
-};
-
+}
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
@@ -39,9 +38,7 @@ function mapDispatchToProps(dispatch) {
       dispatch
     )
   }
-};
-
-
+}
 class HeaderContainer extends Component {
   constructor(props) {
     super(props);
@@ -62,7 +59,7 @@ class HeaderContainer extends Component {
   }
 
   renderButton() {
-    if (this.authenticated()) return <Button type='button' onClick={this.handleLogout}><GoSignOut/></Button>
+    if (this.authenticated()) return <Button type='button' onClick={this.handleLogout}><GoSignOut/></Button>;
     return <Button type='button' onClick={this.handleLogin} ><GoSignIn/></Button>
   }
 

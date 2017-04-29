@@ -60,7 +60,7 @@ defmodule Customer.Web.Api.V1.JobController do
   end
 
   defp upsert_ets(key, action) do
-    value = apply(Module.concat(Customer.Web, key), action, [])
+    value = apply(Module.concat(Customer.Web.Query, key), action, [])
     Ets.upsert(%{key: key, value: value})
   end
 

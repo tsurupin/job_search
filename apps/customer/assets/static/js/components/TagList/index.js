@@ -12,7 +12,7 @@ const TagList = ({tags}) => {
     </Wrapper>
   )
 
-}
+};
 
 
 export default TagList;

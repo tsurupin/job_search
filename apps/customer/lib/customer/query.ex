@@ -7,7 +7,7 @@ defmodule Customer.Query do
 
       defp by_id(id) do
         from m in unquote(model),
-        qhere: m.id == ^id
+        where: m.id == ^id
       end
 
       def get(repo, id) do

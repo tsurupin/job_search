@@ -101,7 +101,6 @@ class JobFilterBox extends Component {
     )
   }
 
-};
-
+}
 JobFilterBox.propTypes = propTypes;
 export default JobFilterBox;

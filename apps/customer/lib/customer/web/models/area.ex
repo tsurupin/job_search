@@ -26,9 +26,4 @@ defmodule Customer.Web.Area do
     changeset(%__MODULE__{}, params)
   end
 
-  def names do
-    (from a in __MODULE__, select: a.name)
-  end
-
-
 end
