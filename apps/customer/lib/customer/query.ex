@@ -2,7 +2,7 @@ defmodule Customer.Query do
   defmacro __using__([model: model]) do
     model = Macro.expand(model, __ENV__)
     quote location: :keep do
-
+      alias Customer.Repo
       import Ecto.Query
 
       defp by_id(id) do

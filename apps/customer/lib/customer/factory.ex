@@ -19,7 +19,7 @@ defmodule Customer.Factory do
     %Customer.Web.Authorization{
       provider: "google",
       token: "token",
-      uid: "uid",
+      uid: sequence(:uid, &"uid#{&1}"),
       user: build(:user)
     }
   end

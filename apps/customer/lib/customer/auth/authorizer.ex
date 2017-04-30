@@ -4,6 +4,7 @@ defmodule Customer.Auth.Authorizer do
   """
   alias Customer.Repo
   alias Customer.Web.{User, Authorization, Authorizations}
+  alias Customer.Web.Query,Authorization
   alias Ueberauth.Auth
 
   def get_or_create(auth, current_user \\ nil) do
@@ -15,7 +16,7 @@ defmodule Customer.Auth.Authorizer do
         if Authorization.expired?(authorization) do
           replace_authorization(authorization, auth, current_user || authorization.user)
         else
-          Authorizations.get_user_by(authorization, current_user || authorization.user)
+          Query.Authorization.user_by(authorization, current_user || authorization.user)
         end
     end
   end
@@ -31,7 +32,7 @@ defmodule Customer.Auth.Authorizer do
   end
 
   defp replace_authorization(authorization, auth, current_user) do
-    case Authorizations.get_user_by(authorization, current_user) do
+    case Query.Authorization.user_by(authorization, current_user) do
       {:error, reason} -> {:error, reason}
       {:ok, user} ->
         case Authorizations.refresh_authorization(user, authorization) |> Repo.transaction do
@@ -43,7 +44,7 @@ defmodule Customer.Auth.Authorizer do
 
   defp validate_auth(%{provider: provider, uid: auth_uid} = auth) when provider in [:google] do
 
-    case Authorizations.get_by(%{uid: auth_uid, provider: to_string(provider)}) do
+    case Query.Authorization.with_uid_and_provider(%{uid: auth_uid, provider: to_string(provider)}) do
       nil -> {:error, :not_found}
       authorization ->
         if authorization.uid == auth_uid do
