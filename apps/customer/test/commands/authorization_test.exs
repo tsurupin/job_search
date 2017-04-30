@@ -2,8 +2,9 @@ defmodule Customer.Web.Command.AuthorizationTest do
   use Customer.Web.TestWithEcto, async: true
   alias Customer.Web.Authorization
   alias Customer.Web.Command
+  alias Ecto.Multi
 
-  describe "create_by" do
+  describe "insert_by" do
     test "returns insert multi" do
       user = insert(:user)
       auth = %{
@@ -11,9 +12,9 @@ defmodule Customer.Web.Command.AuthorizationTest do
         uid: "uuid",
         credentials: %{token: "token", refresh_token: "refresh_token", expires_at: 1111 }
       }
-      multi = Command.Authorization.create_by(user, auth)
+      multi = Command.Authorization.insert_by(Multi.new, user, auth)
       changeset = Authorization.build_from_user_with_auth(user, auth)
-      assert multi.operations == [{:user, {:changeset, %{changeset | action: :insert}, []}}]
+      assert multi.operations == [{:authorization, {:changeset, %{changeset | action: :insert}, []}}]
     end
   end
 

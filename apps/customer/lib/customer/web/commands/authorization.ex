@@ -2,9 +2,12 @@ defmodule Customer.Web.Command.Authorization do
   use Customer.Command, model: Customer.Web.Authorization
   alias Customer.Web.Authorization
 
-  def create_by(user, auth), do: create_by(Multi.new, user, auth)
-  def create_by(multi, user, auth) do
-    Multi.insert(multi, :user, Authorization.build_from_user_with_auth(user, auth))
+  def insert_by(multi, auth) do
+    Multi.merge(multi, fn %{user: user} -> insert_by(Multi.new, user, auth) end)
+  end
+
+  def insert_by(multi, user, auth) do
+    Multi.insert(multi, :authorization, Authorization.build_from_user_with_auth(user, auth))
   end
 
   def refresh_authorization(user, authorization) do

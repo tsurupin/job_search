@@ -25,8 +25,10 @@ defmodule Customer.Web.Authorization do
     |> unique_constraint(:provider_uid)
   end
 
-  def expired?(authorization) do
-     authorization.expired_at && authorization.expired_at < Guardian.Utils.timestamp
+  def expired?(%__MODULE__{expired_at: expired_at}) when is_nil(expired_at), do: true
+
+  def expired?(%__MODULE__{expired_at: expired_at}) do
+     expired_at < Guardian.Utils.timestamp
   end
 
   def build_from_user_with_auth(user, auth) do
