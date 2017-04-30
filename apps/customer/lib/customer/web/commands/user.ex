@@ -3,16 +3,16 @@ defmodule Customer.Web.Command.User do
   alias Customer.Web.User
   alias Customer.Blank
 
-  def get_or_insert_by(multi, auth) do
-    case Repo.get_by(User, email: auth.info.email) do
-      nil -> insert_by(multi, auth)
+  def get_or_insert_by(multi, %{info: auth_info}) do
+    case Repo.get_by(User, email: auth_info.email) do
+      nil -> insert_by(multi, auth_info)
       user -> Multi.run(multi, :user, fn _ -> {:ok, user} end)
     end
   end
 
 
-  defp insert_by(multi, auth) do
-    Multi.insert(multi, :user, User.registration_changeset(%User{}, build_attributes(auth.info)))
+  defp insert_by(multi, auth_info) do
+    Multi.insert(multi, :user, User.registration_changeset(%User{}, build_attributes(auth_info)))
   end
 
   defp build_attributes(%{name: name, first_name: first_name, last_name: last_name, nickname: nickname, email: email} = _auth) do

@@ -1,6 +1,5 @@
 defmodule Customer.Web.User do
   use Customer.Web, :model
-  alias Customer.Blank
 
   schema "users" do
     field :name, :string, null: false
@@ -32,6 +31,5 @@ defmodule Customer.Web.User do
     |> validate_required(@required_fields)
     |> validate_format(:email, ~r/@/)
   end
-
 
 end
