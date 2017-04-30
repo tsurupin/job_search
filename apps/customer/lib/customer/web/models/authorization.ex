@@ -25,19 +25,11 @@ defmodule Customer.Web.Authorization do
     |> unique_constraint(:provider_uid)
   end
 
-#  def current_auth(user_id) do
-#     last(from a in __MODULE__, where: a.user_id == ^user_id)
-#  end
-#
-#  def get_by(%{uid: uid, provider: provider} = params) do
-#    (from a in __MODULE__, where: a.uid == ^uid and a.provider == ^provider, preload: [:user])
-#  end
-
   def expired?(authorization) do
      authorization.expired_at && authorization.expired_at < Guardian.Utils.timestamp
   end
 
-  def build_with_auth(user, auth) do
+  def build_from_user_with_auth(user, auth) do
     build_assoc(user, :authorizations)
     |> changeset(build_attributes(auth))
   end

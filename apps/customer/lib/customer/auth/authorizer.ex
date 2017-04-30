@@ -3,8 +3,9 @@ defmodule Customer.Auth.Authorizer do
   Retrieve the user information from a auth request
   """
   alias Customer.Repo
-  alias Customer.Web.{User, Authorization, Authorizations}
-  alias Customer.Web.Query,Authorization
+  alias Customer.Web.{User, Authorization}
+  alias Customer.Web.Query.Authorization
+  alias Customer.Web.Command.Authorization
   alias Ueberauth.Auth
 
   def get_or_create(auth, current_user \\ nil) do
@@ -24,7 +25,7 @@ defmodule Customer.Auth.Authorizer do
   defp register_user_from_auth(current_user, auth) do
     case Repo.transaction(fn ->
       user = current_user || User.get_or_create_by!(auth)
-      Authorizations.create_by(user, auth) |> Repo.transaction
+      Command.Authorization.create_by(user, auth) |> Repo.transaction
     end) do
       {:ok, user} -> {:ok, user}
       {:error, reason} -> {:error, reason}
@@ -35,7 +36,7 @@ defmodule Customer.Auth.Authorizer do
     case Query.Authorization.user_by(authorization, current_user) do
       {:error, reason} -> {:error, reason}
       {:ok, user} ->
-        case Authorizations.refresh_authorization(user, authorization) |> Repo.transaction do
+        case Command.Authorization.refresh_authorization(user, authorization) |> Repo.transaction do
           {:ok, _authorization} -> {:ok, user}
           _ -> {:error, "Failed to replace authorization"}
         end
