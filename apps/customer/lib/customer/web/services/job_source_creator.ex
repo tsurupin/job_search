@@ -12,7 +12,7 @@ defmodule Customer.Web.Services.JobSourceCreator do
 
     result = Multi.new
       |> Command.Areas.get_or_insert_by(params.place)
-      |> Companies.get_or_create_by(company_attributes(params))
+      |> Command.Company.get_or_insert_by(company_attributes(params))
       |> upsert_job_source(params)
       |> bulk_upsert_job_source_tech_keywords(params.keywords)
       |> get_or_create_job_title(params.job_title)
