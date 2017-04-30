@@ -14,7 +14,7 @@ defmodule Customer.Web.AuthController do
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params, current_user, _claims) do
 
-    case Authorizer.get_or_create(auth, current_user) do
+    case Authorizer.get_or_insert(auth, current_user) do
       {:ok, user} ->
         {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user, :api)
         conn
