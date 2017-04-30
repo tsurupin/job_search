@@ -17,11 +17,10 @@ defmodule Customer.Web.Command.UserTest do
           email: "test@sample.com"
         }
       }
-      changeset = User.registration_changeset(%User{}, %{name: "first last", email: "test@sample.com"})
+      changeset = User.registration_changeset(%User{}, auth.info)
       multi = Command.User.get_or_insert_by(Multi.new, auth)
       assert multi.names == MapSet.new([:user])
       assert multi.operations == [{:user, {:changeset, %{ changeset| action: :insert}, []}}]
-
     end
 
     test "returns multi with user if user is found" do
