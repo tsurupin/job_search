@@ -11,7 +11,7 @@ defmodule Customer.Web.Services.JobSourceCreator do
     IO.inspect params
 
     result = Multi.new
-      |> Command.Areas.get_or_insert_by(params.place)
+      |> Command.Area.get_or_insert_by(params.place)
       |> Command.Company.get_or_insert_by(company_attributes(params))
       |> upsert_job_source(params)
       |> bulk_upsert_job_source_tech_keywords(params.keywords)
@@ -40,7 +40,7 @@ defmodule Customer.Web.Services.JobSourceCreator do
     case JobTitleAlias.get_or_find_approximate_job_title(job_title) do
       {:ok, job_title_id} -> Multi.run(multi, :job_title_id, fn _ -> {:ok, job_title_id} end)
       {:error, _} ->
-        JobTitles.create_job_title_and_alias(multi, job_title)
+        Command.JobTitle.insert_job_title_and_alias(multi, job_title)
         |> Multi.run(:job_title_id, fn %{job_title: job_title} -> {:ok, job_title.id} end)
     end
   end
