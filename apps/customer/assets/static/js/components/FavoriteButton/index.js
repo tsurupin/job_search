@@ -14,7 +14,7 @@ const defaultProps = {
   index: 0,
   size: 'middle',
   submitting: false
-}
+};
 
 const FavoriteJobButton = ({jobId, favorited, submitting, index, size, handleSwitchFavoriteStatus}) => {
 

@@ -17,7 +17,7 @@ const RelatedJobList = ({jobs}) => {
       })}
     </Wrapper>
   )
-}
+};
 
 
 const propTypes = {

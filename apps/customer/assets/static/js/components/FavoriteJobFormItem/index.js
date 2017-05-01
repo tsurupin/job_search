@@ -31,7 +31,7 @@ const propTypes = {
 };
 
 const statusOptions = {"interesting": 0, "applying": 1};
-const interestOptions = {"interesting": 1, "very interesting": 2, "my dream": 3}
+const interestOptions = {"interesting": 1, "very interesting": 2, "my dream": 3};
 
 class FavoriteJobFormItem extends Component {
   constructor(props) {

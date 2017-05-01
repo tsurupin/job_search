@@ -1,6 +1,7 @@
 defmodule Customer.Web.Api.V1.JobController do
   use Customer.Web, :controller
   alias Customer.Ets
+  alias Customer.Web.Query
   @search_candidates [["job-title", :job_title], ["areas", :areas], ["techs", :techs], ["detail", :detail]]
 
   def index(conn, params, current_user, _claims) do
@@ -60,7 +61,7 @@ defmodule Customer.Web.Api.V1.JobController do
   end
 
   defp upsert_ets(key, action) do
-    value = apply(Module.concat(Customer.Web, key), action, [])
+    value = apply(Module.concat(Customer.Web.Query, key), action, [])
     Ets.upsert(%{key: key, value: value})
   end
 
@@ -76,11 +77,11 @@ defmodule Customer.Web.Api.V1.JobController do
   defp add_favorite(job, user) when is_nil(user), do: job
 
   defp add_favorite(%Job{} = job, user) do
-    %Job{ job | favorited: FavoriteJobs.exists?(%{user_id: user.id, job_id: job.id})}
+    %Job{ job | favorited: Query.FavoriteJob.exists?(Repo, %{user_id: user.id, job_id: job.id})}
   end
 
   defp add_favorite(job, user) when is_map(job) do
-    Enum.into(job, %{ favorited: FavoriteJobs.exists?(%{user_id: user.id, job_id: job.job_id})})
+    Enum.into(job, %{ favorited: Query.FavoriteJob.exists?(Repo, %{user_id: user.id, job_id: job.job_id})})
   end
 
 

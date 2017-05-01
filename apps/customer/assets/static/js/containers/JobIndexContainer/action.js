@@ -97,7 +97,7 @@ export function favoriteJob(sortRank, jobId) {
     return request
         .then(() => dispatch(favoriteJobSuccess(sortRank)))
         .catch((error) => {
-        console.log(error)
+        console.log(error);
         dispatch(favoriteJobFailure(sortRank, error.data))
         })
   }

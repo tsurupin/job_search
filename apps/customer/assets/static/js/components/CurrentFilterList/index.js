@@ -26,7 +26,7 @@ const CurrentFilterList= ({items, handleReset, handleResetTechKeyword}) => {
       })}
     </Wrapper>
   )
-}
+};
 
 CurrentFilterList.propTypes = propTypes;
 export default CurrentFilterList;

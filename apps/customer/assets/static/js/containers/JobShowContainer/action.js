@@ -25,7 +25,7 @@ export function fetchJob(id) {
       dispatch(fetchJobSuccess(response.data))
     })
     .catch(error => {
-      console.log(error)
+      console.log(error);
       dispatch(fetchJobFailure(error.data))
     })
   };
@@ -45,13 +45,12 @@ function fetchJobSuccess( job ) {
 }
 
 function fetchJobFailure(errorMessage ) {
-  console.log(errorMessage)
+  console.log(errorMessage);
   return {
     type: FETCH_JOB.FAILURE,
     paylaod: { errorMessage }
   }
-};
-
+}
 export function fetchFavoriteJob(id) {
   const request = createAuthorizeRequest('get',`${FAVORITE_JOB_PATH}/${id}` );
   return dispatch => {
@@ -89,7 +88,7 @@ export function favoriteJob(jobId) {
     return request
       .then(() => dispatch(favoriteJobSuccess()))
       .catch((error) => {
-      console.log(error)
+      console.log(error);
       dispatch(favoriteJobFailure(error.data))
       })
   }

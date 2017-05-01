@@ -19,15 +19,14 @@ export default function(ComposedComponent) {
         dispatch
       )
     }
-  };
-
+  }
   const propTypes = {
     actions: PropTypes.shape({
       fetchToken: PropTypes.func.isRequired,
       logout: PropTypes.func.isRequired
     }),
     authenticated: PropTypes.bool.isRequired
-  }
+  };
 
   class AuthenticationContainer extends Component {
     constructor(props) {

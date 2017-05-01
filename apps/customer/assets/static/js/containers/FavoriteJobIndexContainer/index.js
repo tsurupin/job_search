@@ -8,7 +8,7 @@ const propTypes = {
   favoriteJobs: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string
-}
+};
 
 import { Wrapper} from './styles';
 

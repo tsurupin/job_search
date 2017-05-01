@@ -3,6 +3,7 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
 
   alias Customer.Web.{Job, FavoriteJobs}
   alias Customer.Repo
+  alias Customr.Web.Query
 
   describe "index with login" do
     setup [:login, :first_page_setup]
@@ -159,7 +160,7 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
   end
 
   defp add_favorite_if_needed(map, user) do
-   favorited = FavoriteJobs.exists?(%{user_id: user.id, job_id: map["id"]})
+   favorited = Query.FavoriteJob.exists?(Repo, %{user_id: user.id, job_id: map["id"]})
    Enum.into(map, %{"favorited" => favorited})
   end
 

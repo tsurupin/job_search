@@ -134,7 +134,7 @@ class JobIndexContainer extends Component {
   }
 
   handleResetTechKeyword(_key, value) {
-    const newValue = this.props.techKeywords.filter(techKeyword => techKeyword !== value)
+    const newValue = this.props.techKeywords.filter(techKeyword => techKeyword !== value);
     this.props.actions.selectItem(TECH_KEYWORDS, newValue);
   }
 

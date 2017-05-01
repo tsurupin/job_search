@@ -28,47 +28,40 @@ defmodule Customer.Web.User do
 
   def registration_changeset(model \\ %__MODULE__{}, params \\ %{}) do
     model
-    |> cast(params, @required_fields)
+    |> cast(params_with_name(params), @required_fields)
     |> validate_required(@required_fields)
     |> validate_format(:email, ~r/@/)
   end
 
-  def get_or_create_by!(auth) do
-    case Repo.get_by(__MODULE__, email: auth.info.email) do
-      nil ->
-        case create_by!(auth) do
-          {:ok, user} -> user
-          {:error, error} -> error
-        end
-      user -> user
+  defp params_with_name(%{name: name, first_name: first_name, last_name: last_name, nickname: nickname, email: email} = _params) do
+    %{
+      name: name_from_auth(first_name, last_name, nickname, name),
+      email: email
+    }
+  end
+
+  defp name_from_auth(first_name, last_name, nickname, name) do
+    if Blank.blank?(name) do
+      name_from_auth([first_name, last_name], nickname)
+    else
+      name
     end
   end
 
-  def create_by!(auth) do
-    name = name_from_auth(auth)
-    user =
-      registration_changeset(%__MODULE__{}, %{email: auth.info.email, name: name})
-      |> Repo.insert!
-    {:ok, user}
+  defp name_from_auth(names, nickname) do
+    name = names |> Enum.filter(&(&1 != nil && &1 != ""))
+    if Enum.empty?(name) do
+      name_from_auth(nickname)
+    else
+      Enum.join(name, " ")
+    end
   end
 
-  defp name_from_auth(auth) do
-
-    if !Blank.blank?(auth.info.name) do
-      auth.info.name
+  defp name_from_auth(nickname) do
+    if Blank.blank?(nickname) do
+      "no name"
     else
-      name = [auth.info.first_name, auth.info.last_name]
-      |> Enum.filter(&(&1 != nil && &1 != ""))
-
-      if Enum.empty?(name) do
-        if Blank.blank?(auth.info.nickname) do
-          "no name"
-        else
-          auth.info.nickname
-        end
-      else
-        Enum.join(name, " ")
-      end
+      nickname
     end
   end
 
