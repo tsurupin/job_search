@@ -30,15 +30,4 @@ defmodule Customer.Web.JobApplication do
     changeset(job_application, params)
   end
 
-  def get_by(%{user_id: user_id, job_id: job_id, status: status}) do
-    from j in __MODULE__,
-    where: j.user_id == ^user_id and j.job_id == ^job_id and j.status == ^status
-  end
-
-  def latest(%{user_id: user_id, job_id: job_id}) do
-    from j in __MODULE__,
-    where: j.user_id == ^user_id and j.job_id == ^job_id,
-    order_by: [desc: j.updated_at]
-  end
-
 end

@@ -66,6 +66,8 @@ defmodule Customer.Web do
 
       alias Customer.Es
       alias Customer.Error
+      alias Customer.Repo
+
 
       Customer.Web.shared
     end
