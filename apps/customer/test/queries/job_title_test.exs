@@ -5,7 +5,7 @@ defmodule Customer.Web.Query.JobTitleTest do
 
   test "names" do
     job_title = insert(:job_title)
-    assert Query.JobTitle.names == [job_title.name]
+    assert Query.JobTitle.names(Repo) == [job_title.name]
   end
 
 

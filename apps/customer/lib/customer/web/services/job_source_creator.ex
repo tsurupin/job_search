@@ -2,6 +2,7 @@ defmodule Customer.Web.Services.JobSourceCreator do
   use Customer.Web, :service
   alias Ecto.Multi
   alias Customer.Web.Command
+  alias Customer.Web.Query
 
   @company_attributes [:name, :url]
   @job_source_attributes [:title, :url, :job_title, :detail, :source]
@@ -53,9 +54,7 @@ defmodule Customer.Web.Services.JobSourceCreator do
 
   defp bulk_upsert_job_source_tech_keywords(multi, keyword_names, _job_source_id) when is_nil(keyword_names), do: multi
   defp bulk_upsert_job_source_tech_keywords(multi, keyword_names, job_source_id) do
-    tech_keyword_ids =
-      TechKeyword.by_names(keyword_names)
-      |> TechKeywords.pluck(:id)
+    tech_keyword_ids = Query.JobTechKeyword.pluck_with_names(Repo, keyword_names, :id)
 
     JobSourceTechKeywords.bulk_delete_and_upsert(multi, tech_keyword_ids, job_source_id)
   end
