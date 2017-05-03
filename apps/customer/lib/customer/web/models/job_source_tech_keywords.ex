@@ -16,7 +16,7 @@ defmodule Customer.Web.JobSourceTechKeywords do
   end
 
   defp delete_if_needed(multi, tech_keyword_ids, job_source_id) do
-    job_source_tech_keywords = JobSourceTechKeyword.by_source_id_except_tech_keyword_ids(tech_keyword_ids, job_source_id)
+    job_source_tech_keywords = JobSourceTechKeyword.by_job_source_id_except_tech_keyword_ids(tech_keyword_ids, job_source_id)
     Multi.delete_all(multi, :job_source_tech_keyword, job_source_tech_keywords)
   end
 
