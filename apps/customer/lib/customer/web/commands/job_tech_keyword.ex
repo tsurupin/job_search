@@ -4,13 +4,13 @@ defmodule Customer.Web.Command.JobTechKeyword do
   alias Customer.Web.Query
 
 
-def bulk_delete_and_upsert(tech_keyword_ids, job_id) do
-    delete_if_needed(tech_keyword_ids, job_id)
+  def bulk_delete_and_upsert(tech_keyword_ids, job_id) do
+    bulk_delete_if_needed(tech_keyword_ids, job_id)
     |> bulk_upsert(tech_keyword_ids, job_id)
   end
 
-  defp delete_if_needed(tech_keyword_ids, job_id) do
-    job_tech_keywords = Query.JobTechKeyword.with_job_id_except_tech_keyword_ids(Repo, tech_keyword_ids, job_id)
+  defp bulk_delete_if_needed(tech_keyword_ids, job_id) do
+    job_tech_keywords = Query.JobTechKeyword.by_job_id_except_tech_keyword_ids(job_id, tech_keyword_ids)
     Multi.new
     |> Multi.delete_all(:job_tech_keyword, job_tech_keywords)
   end
