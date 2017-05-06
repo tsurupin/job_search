@@ -113,28 +113,18 @@ defmodule Customer.Web do
     quote do
       alias Customer.Web.{
         Area,
-        Areas,
         Authorization,
         Company,
-        Companies,
         Job,
-        Jobs,
         Company,
         JobSource,
-        JobSources,
         JobSourceTechKeyword,
-        JobSourceTechKeywords,
         JobTechKeyword,
-        JobTechKeywords,
         JobApplication,
-        JobApplications,
-        TechKeywords,
         TechKeyword,
         FavoriteJob,
-        FavoriteJobs,
         State,
         JobTitle,
-        JobTitles,
         JobTitleAlias,
         User
       }
