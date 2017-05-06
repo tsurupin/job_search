@@ -1,6 +1,6 @@
 defmodule Customer.Web.TechKeywords do
   use Customer.Web, :crud
-  alias Customer.Es
+  #alias Customer.Es
 
   @doc """
   Builds a changeset based on the `struct` and `params`.

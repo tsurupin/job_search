@@ -3,7 +3,7 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
 
   alias Customer.Web.{Job, FavoriteJobs}
   alias Customer.Repo
-  alias Customr.Web.Query
+  alias Customer.Web.Query
 
   describe "index with login" do
     setup [:login, :first_page_setup]

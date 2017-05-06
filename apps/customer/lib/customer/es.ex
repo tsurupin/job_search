@@ -6,8 +6,8 @@ defmodule Customer.Es do
 
       @__using_resource__ unquote(opts)
 
-      def estype(model), do: Es.Index.name_type(model)
-      def esindex(model, name \\ nil), do: name || Es.Index.name_index(model)
+      def estype, do: Es.Index.name_type(__MODULE__)
+      def esindex(name \\ nil), do: name || Es.Index.name_index(__MODULE__)
 
     end
   end

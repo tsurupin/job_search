@@ -1,6 +1,6 @@
 defmodule Customer.Web.Jobs do
   use Customer.Web, :crud
-  use Customer.Es
+  #use Customer.Es
 
   def upsert(%JobSource{company_id: company_id, job_title: job_title, area_id: area_id} = job_source, job_title_id) do
     upsert(Multi.new, job_source, job_title_id)

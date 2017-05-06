@@ -7,7 +7,7 @@ defmodule Customer.Web.Api.V1.TechKeywordControllerTest do
     insert(:tech_keyword, name: "rails")
     insert(:tech_keyword, name: "ruby")
     insert(:tech_keyword, name: "elixir")
-    TechKeyword.es_reindex
+    Customer.Web.TechKeyword.es_reindex
   end
 
   test "get tech keywords" do

@@ -41,7 +41,7 @@ defmodule Customer.Ets do
      {:reply, value, state}
    end
 
-   def handle_call({:reset, key}) do
+   def handle_call({:reset}, _from, _state) do
      :ets.delete(@ets_name)
      ets = :ets.new(@ets_name, [:named_table, :public])
      {:reply, :ok, ets}

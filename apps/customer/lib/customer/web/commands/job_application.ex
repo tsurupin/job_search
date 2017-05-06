@@ -7,7 +7,7 @@ defmodule Customer.Web.Command.JobApplication do
 
 
   def update_by(multi, %{comment: comment} = job_application_params, required_params) when job_application_params == %{comment: comment} do
-    if job_application = Query.JobApplication.by_user_and_job_and_status(Repo, required_params) do
+    if job_application = Query.JobApplication.get_by_user_and_job_and_status(Repo, required_params) do
       Multi.update(multi, :job_application, JobApplication.update(job_application, job_application_params))
     else
       Multi.run(multi, :job_application, fn _ -> {:error, :not_found} end)
