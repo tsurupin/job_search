@@ -46,19 +46,19 @@ defmodule Customer.Web.Job do
   def update(job, job_source) do
     changeset(job, update_attributes(job, job_source))
   end
-
-  def get(id) do
-    from(j in __MODULE__, where: j.id == ^id, preload: [:area, :company, :tech_keywords, :job_title])
-  end
-
-  def by_company_id(company_id) do
-    from(j in __MODULE__, where: j.company_id == ^company_id, preload: [:area, :job_title])
-  end
-
-  def query_all(:index) do
-    from j in __MODULE__,
-    preload: [:area, :company, :tech_keywords, :job_title]
-  end
+#
+#  def get(id) do
+#    from(j in __MODULE__, where: j.id == ^id, preload: [:area, :company, :tech_keywords, :job_title])
+#  end
+#
+#  def by_company_id(company_id) do
+#    from(j in __MODULE__, where: j.company_id == ^company_id, preload: [:area, :job_title])
+#  end
+#
+#  def query_all(:index) do
+#    from j in __MODULE__,
+#    preload: [:area, :company, :tech_keywords, :job_title]
+#  end
 
   defp update_attributes(%__MODULE__{area_id: area_id, company_id: company_id, job_title_id: job_title_id, url: url, title: title, detail: detail} = params, job_source) do
     Map.take(params, ~w(company_id area_id job_title_id)a)

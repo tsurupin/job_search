@@ -2,9 +2,10 @@ defmodule Customer.Web.Es.Job do
   use Customer.Es
   alias Customer.Es
   alias Customer.Web.Job
+  alias Customer.Web.Query
 
   def es_search_data(model) do
-    model = Jobs.get_with_associations(model.id)
+    model = Query.Job.get_with_associations(model.id)
     [
       job_id: model.id,
       job_title: String.downcase(model.job_title.name),

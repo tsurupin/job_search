@@ -20,11 +20,11 @@ defmodule Customer.Web.Api.V1.JobController do
   end
 
   def show(conn, %{"id" => id}, current_user, _claims) do
-    job = Jobs.get_with_associations(id)
+    job = Query.Job.get_with_associations(id)
 
     if job do
       job = add_favorite(job, current_user)
-      related_jobs = Jobs.by_company_id(job.company_id)
+      related_jobs = Query.Job.all_by_company_id(job.company_id)
       render(conn, "show.json", %{job: job, related_jobs: related_jobs})
     else
       conn
