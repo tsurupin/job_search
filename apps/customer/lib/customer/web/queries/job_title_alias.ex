@@ -2,6 +2,8 @@ defmodule Customer.Web.Query.JobTitleAlias do
   use Customer.Query, model: JobTitleAlias
   alias Customer.Web.JobTitleAlias
 
+  def get_or_find_approximate_job_title(repo, name) when is_nil(name), do: {:error, name}
+
   def get_or_find_approximate_job_title(repo, name) do
     case repo.get_by(JobTitleAlias, name: name) do
       %JobTitleAlias{job_title_id: job_title_id} -> {:ok, job_title_id}

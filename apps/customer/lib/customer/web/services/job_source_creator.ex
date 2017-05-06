@@ -12,11 +12,11 @@ defmodule Customer.Web.Services.JobSourceCreator do
     IO.inspect params
 
     result = Multi.new
-      |> Command.Area.get_or_insert_by(params.place)
+      |> Command.Area.get_or_insert_by(Map.get(params, :place))
       |> Command.Company.get_or_insert_by(company_attributes(params))
       |> upsert_job_source(params)
-      |> bulk_upsert_job_source_tech_keywords(params.keywords)
-      |> get_or_create_job_title(params.job_title)
+      |> bulk_upsert_job_source_tech_keywords(Map.get(params, :keywords))
+      |> get_or_create_job_title(Map.get(params, :job_title))
       |> upsert_job
       |> bulk_upsert_job_tech_keywords_if_needed
       |> Repo.transaction
@@ -54,7 +54,7 @@ defmodule Customer.Web.Services.JobSourceCreator do
 
   defp bulk_upsert_job_source_tech_keywords(multi, keyword_names, _job_source_id) when is_nil(keyword_names), do: multi
   defp bulk_upsert_job_source_tech_keywords(multi, keyword_names, job_source_id) do
-    tech_keyword_ids = Query.JobTechKeyword.pluck_with_names(Repo, keyword_names, :id)
+    tech_keyword_ids = Query.TechKeyword.pluck_by_names(Repo, keyword_names, :id)
 
     Command.JobSourceTechKeyword.bulk_delete_and_upsert(multi, tech_keyword_ids, job_source_id)
   end
@@ -67,7 +67,7 @@ defmodule Customer.Web.Services.JobSourceCreator do
 
   defp bulk_upsert_job_tech_keywords_if_needed(multi, %Job{detail: detail}) when is_nil(detail), do: multi
   defp bulk_upsert_job_tech_keywords_if_needed(multi, %Job{id: id, detail: detail}) do
-    Query.JobSourceTechKeyword.tech_keyword_ids_by(detail["job_source_id"])
+    Query.JobSourceTechKeyword.tech_keyword_ids_by(Repo, detail["job_source_id"])
     |> Command.JobTechKeyword.bulk_delete_and_upsert(id)
   end
 
