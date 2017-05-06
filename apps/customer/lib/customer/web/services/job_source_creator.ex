@@ -27,18 +27,18 @@ defmodule Customer.Web.Services.JobSourceCreator do
 
   defp upsert_job_source(multi, params) do
     Multi.merge(multi, fn %{company: company, area: area} ->
-      JobSources.upsert(Multi.new, job_source_attributes(params, company.id, area.id))
+      Command.JobSource.upsert(Multi.new, job_source_attributes(params, company.id, area.id))
     end)
   end
 
   defp upsert_job(multi) do
     Multi.merge(multi, fn %{job_source: job_source, job_title_id: job_title_id} ->
-      Jobs.upsert(Multi.new, job_source, job_title_id)
+      Command.Job.upsert(Multi.new, job_source, job_title_id)
     end)
   end
 
   defp get_or_create_job_title(multi, job_title) do
-    case JobTitleAlias.get_or_find_approximate_job_title(job_title) do
+    case Query.JobTitleAlias.get_or_find_approximate_job_title(Repo, job_title) do
       {:ok, job_title_id} -> Multi.run(multi, :job_title_id, fn _ -> {:ok, job_title_id} end)
       {:error, _} ->
         Command.JobTitle.insert_job_title_and_alias(multi, job_title)

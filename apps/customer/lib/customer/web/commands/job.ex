@@ -9,7 +9,6 @@ defmodule Customer.Web.Command.Job do
   def upsert(multi, %JobSource{company_id: company_id, job_title: job_title, area_id: area_id} = job_source, job_title_id) do
     job = Repo.get_by(Job, company_id: company_id, area_id: area_id, job_title_id: job_title_id)
     if job do
-      IO.inspect "hoasa"
       Multi.update(multi, :job, Job.update(job, job_source))
     else
       Multi.insert(multi, :job, Job.build(%{company_id: company_id, area_id: area_id, job_title_id: job_title_id}, job_source))
