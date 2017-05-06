@@ -56,7 +56,7 @@ defmodule Customer.Web.Services.JobSourceCreator do
   defp bulk_upsert_job_source_tech_keywords(multi, keyword_names, job_source_id) do
     tech_keyword_ids = Query.JobTechKeyword.pluck_with_names(Repo, keyword_names, :id)
 
-    JobSourceTechKeywords.bulk_delete_and_upsert(multi, tech_keyword_ids, job_source_id)
+    Command.JobSourceTechKeyword.bulk_delete_and_upsert(multi, tech_keyword_ids, job_source_id)
   end
 
   defp bulk_upsert_job_tech_keywords_if_needed(multi) do
@@ -67,8 +67,8 @@ defmodule Customer.Web.Services.JobSourceCreator do
 
   defp bulk_upsert_job_tech_keywords_if_needed(multi, %Job{detail: detail}) when is_nil(detail), do: multi
   defp bulk_upsert_job_tech_keywords_if_needed(multi, %Job{id: id, detail: detail}) do
-    JobSourceTechKeywords.tech_keyword_ids_by(detail["job_source_id"])
-    |> JobTechKeywords.bulk_delete_and_upsert(id)
+    Query.JobSourceTechKeyword.tech_keyword_ids_by(detail["job_source_id"])
+    |> Command.JobTechKeyword.bulk_delete_and_upsert(id)
   end
 
   defp company_attributes(params) do
