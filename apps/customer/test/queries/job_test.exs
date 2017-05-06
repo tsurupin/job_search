@@ -1,4 +1,4 @@
-defmodule Customer.Web.Query.JobTitleTest do
+defmodule Customer.Web.Query.JobTest do
   use Customer.Web.TestWithEcto, async: true
   alias Customer.Web.Query
   alias Customer.Repo

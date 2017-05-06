@@ -1,6 +1,6 @@
 defmodule Customer.Web.Command.FavoriteJobTest do
   use Customer.Web.TestWithEcto, async: true
-  alias Customer.Web.FavoriteJob
+  alias Customer.Web.{FavoriteJob, Area}
   alias Customer.Web.Command
 
   describe "get_or_insert_by" do
