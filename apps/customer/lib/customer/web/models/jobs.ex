@@ -20,18 +20,18 @@ defmodule Customer.Web.Jobs do
     |> Multi.delete(:delete, job)
     |> Multi.run(:delete_document, fn _ -> Es.Document.delete_document(job) end)
   end
-
-  def get_with_associations(id) do
-    Job.get(id)
-    |> first
-    |> Repo.one
-  end
-
-  def by_company_id(company_id) do
-    Job.by_company_id(company_id)
-    |> Repo.all
-  end
-
+#
+#  def get_with_associations(id) do
+#    Job.get(id)
+#    |> first
+#    |> Repo.one
+#  end
+#
+#  def by_company_id(company_id) do
+#    Job.by_company_id(company_id)
+#    |> Repo.all
+#  end
+#
 
 
 end
