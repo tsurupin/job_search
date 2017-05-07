@@ -14,7 +14,7 @@ defmodule Customer.Web.Api.V1.JobView do
     }
   end
 
-  def render("show.json", %{job: %Job{id: id, job_title: job_title, area: area, tech_keywords: tech_keywords, company: company, detail: detail, favorited: favorited}, related_jobs: related_jobs }) do
+  def render("show.json", %{job: %Job{id: id, job_title: job_title, area: area, tech_keywords: tech_keywords, company: company, detail: detail, favorited: favorited, url: url}, related_jobs: related_jobs }) do
     %{
         id: id,
         jobTitle: job_title.name,
@@ -22,6 +22,7 @@ defmodule Customer.Web.Api.V1.JobView do
         techKeywords: fetch(tech_keywords),
         company: fetch(company),
         detail: detail["value"],
+        url: url["value"],
         relatedJobs: parse_related_jobs(related_jobs)
     }
     |> add_favorite_if_existed(favorited)

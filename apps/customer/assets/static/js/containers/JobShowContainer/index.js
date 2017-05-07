@@ -12,7 +12,8 @@ import {
   CompanyItem,
   Content,
   Description,
-  FavoriteButtonWrapper
+  FavoriteButtonWrapper,
+  TitleLink
 } from './styles';
 import colors from 'styles/colors';
 import { TagList, Title, ErrorMessage, RelatedJobList } from 'components';
@@ -64,10 +65,7 @@ class JobShowContainer extends Component {
   }
 
   renderFavoriteButton() {
-    console.log("------------")
-    console.log(this.props.job)
     const {id, favorited } = this.props.job;
-    console.log(id)
     if (!favorited) { return }
     return (
       <FavoriteButtonWrapper>
@@ -89,8 +87,11 @@ class JobShowContainer extends Component {
 
   render() {
 
+
     const { loading, errorMessage, job} = this.props;
-    const { jobTitle, company, detail, area } = job;
+    const { jobTitle, company, detail, area, url } = job;
+    console.log(job);
+    console.log(url);
     if(loading) { return(<div></div>) }
 
     const iconStyle = {
@@ -103,7 +104,7 @@ class JobShowContainer extends Component {
     return(
       <Wrapper>
         <Heading>
-          <Title>{jobTitle}</Title>
+          <TitleLink target="_blank" href={url}>{jobTitle}</TitleLink>
           <CompanyWrapper>
             <CompanyItem>
               <MdLocationCity style={iconStyle} />

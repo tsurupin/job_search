@@ -127,20 +127,24 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
         "area" => area,
         "jobTitle" => jobTitle,
         "techKeywords" => techKeywords,
-        "company" => company
+        "company" => company,
+        "url" => url,
+        "detail" => detail
        } = body
       assert id == j.job.id
       assert area == j.area.name
       assert jobTitle == j.job_title.name
       assert techKeywords == Enum.map(j.tech_keywords, &(%{"id" => &1.id, "name" => &1.name}))
       assert company == %{"id" => j.company.id, "name" => j.company.name}
+      assert detail == j.job.detail["value"]
+      assert url == j.job.url["value"]
     end
 
     test "get an error message", j do
       conn = get build_conn(), "api/v1/jobs/#{j.job.id + 1}"
       assert conn.status == 404
       result = %{
-        "error" => "Not Found"
+        "errorMessage" => "Not Found"
        }
       body = Poison.decode!(conn.resp_body)
       assert body == result
@@ -204,7 +208,7 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
     area = insert(:area)
     company = insert(:company)
     tech_keyword = insert(:tech_keyword)
-    job = insert(:job, company: company, area: area, job_title: job_title, detail: %{"value": "detail"})
+    job = insert(:job, company: company, area: area, job_title: job_title, detail: %{"value" => "detail"}, url: %{"value" => "http://google.com"})
     insert(:job_tech_keyword, tech_keyword: tech_keyword, job: job)
     {:ok, job_title: job_title, area: area, tech_keywords: [tech_keyword], job: job, company: company}
   end

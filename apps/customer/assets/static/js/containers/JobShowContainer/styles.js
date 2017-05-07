@@ -26,6 +26,16 @@ export const CompanyItem = styled.div`
   margin-right: 10px;
 `;
 
+
+export const TitleLink = styled.a`
+  ${fonts('font-title')}
+  line-height: 1.12;
+  color: ${colors.textColor};
+  letter-spacing: -.022em;
+  font-weight: 700;
+  cursor: pointer
+`;
+
 export const Content = styled.div`
   
 `;
