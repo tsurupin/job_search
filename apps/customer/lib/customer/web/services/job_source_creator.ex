@@ -1,4 +1,4 @@
-defmodule Customer.Web.Services.JobSourceCreator do
+defmodule Customer.Web.Service.JobSourceCreator do
   use Customer.Web, :service
   alias Ecto.Multi
   alias Customer.Web.Command

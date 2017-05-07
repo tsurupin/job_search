@@ -1,4 +1,4 @@
-defmodule Customer.Builders.EsReindex do
+defmodule Customer.Builder.EsReindex do
 
   @models [:tech_keyword, :job]
   def perform do

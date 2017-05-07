@@ -54,6 +54,6 @@ Enum.each(tech_keywords, fn(keyword) ->
 end)
 
 # Circular dependencies.
-# Scraper.Sites.Accel.Show.perform("http://google/com", "Sample", "Software engineer", "San Francisco, CA, US", :test)
-# Scraper.Sites.A16z.Show.perform("http://google/com", "Sample", "Software engineer", ["San Francisco, CA, US"], :test)
-# Scraper.Sites.Sequoia.Show.perform("http://google/com", :test)
+# Scraper.Site.Accel.Show.perform("http://google/com", "Sample", "Software engineer", "San Francisco, CA, US", :test)
+# Scraper.Site.A16z.Show.perform("http://google/com", "Sample", "Software engineer", ["San Francisco, CA, US"], :test)
+# Scraper.Site.Sequoia.Show.perform("http://google/com", :test)

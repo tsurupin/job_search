@@ -1,4 +1,4 @@
-defmodule Scraper.Sites.Helpers.AttributeBuilder do
+defmodule Scraper.Site.Helper.AttributeBuilder do
   defmodule AttributeSource do
     defstruct [:index, :text, :label]
   end

@@ -1,6 +1,6 @@
 # TODO: Need to implement
 
-defmodule Scraper.Sites.FirstRound do
+defmodule Scraper.Site.FirstRound do
   use Hound.Helpers
 
   @html """

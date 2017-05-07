@@ -1,4 +1,4 @@
-defmodule Customer.Web.Services.EtsCaller do
+defmodule Customer.Web.Service.EtsCaller do
   alias Customer.Ets
   alias Customer.Web.Query
   alias Customer.Repo

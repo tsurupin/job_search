@@ -1,4 +1,4 @@
-defmodule Scraper.Sites.Sequoia.Index do
+defmodule Scraper.Site.Sequoia.Index do
   use Hound.Helpers
   alias Scraper.Sites.Sequoia.Show
 

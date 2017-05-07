@@ -1,6 +1,6 @@
 defmodule Customer.Web.Api.V1.JobController do
   use Customer.Web, :controller
-  alias Customer.Web.Services.EtsCaller
+  alias Customer.Web.Service.EtsCaller
   alias Customer.Web.Query
   action_fallback Customer.Web.Api.FallbackController
 

@@ -118,7 +118,7 @@ class JobShowContainer extends Component {
           {this.renderFavoriteButton()}
         </Heading>
         <Content>
-          <Description>{detail}</Description>
+          <Description dangerouslySetInnerHTML={{__html: detail}} />
           {this.renderRelatedJobs()}
         </Content>
       </Wrapper>

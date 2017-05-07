@@ -1,7 +1,7 @@
 defmodule Scraper.Caller do
   require Logger
 
-  alias Scraper.Sites.{A16z, Accel, FirstRound,YCombinator,Sequoia}
+  alias Scraper.Site.{A16z, Accel, FirstRound,YCombinator,Sequoia}
   @sites ~w(A16z Accel Sequoia)
 
   def perform do

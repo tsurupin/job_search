@@ -1,6 +1,6 @@
-defmodule Customer.Web.Services.JobSourceCreatorTest do
+defmodule Customer.Web.Service.JobSourceCreatorTest do
   use Customer.Web.TestWithEcto, async: true
-  alias Customer.Web.Services.JobSourceCreator
+  alias Customer.Web.Service.JobSourceCreator
   alias Customer.Web.{JobSource, Company, JobSourceTechKeyword, Job, JobTechKeyword, JobTitleAlias, JobTitle}
   alias Customer.Web.Query
   alias Customer.Web.Command

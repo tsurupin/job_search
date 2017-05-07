@@ -1,4 +1,4 @@
-defmodule Scraper.Sites.A16z.Index do
+defmodule Scraper.Site.A16z.Index do
   alias Scraper.Sites.A16z.Show
 
   @body '''
