@@ -2,7 +2,8 @@ defmodule Customer.Web.Services.JobSourceCreatorTest do
   use Customer.Web.TestWithEcto, async: true
   alias Customer.Web.Services.JobSourceCreator
   alias Customer.Web.{JobSource, Company, JobSourceTechKeyword, Job, JobTechKeyword, JobTitleAlias, JobTitle}
-
+  alias Customer.Web.Query
+  alias Customer.Web.Command
 
   test "creates a job source" do
     state = insert(:state, abbreviation: "CA")
@@ -71,7 +72,7 @@ defmodule Customer.Web.Services.JobSourceCreatorTest do
     job = Repo.get(Job, job.id)
 
     assert job.detail == %{"job_source_id" => job_source.id, "priority" => job_source.priority, "value" => job_source.detail}
-    job_tech_keywords = Repo.all(JobTechKeyword.by_job_id(job.id))
+    job_tech_keywords = Query.JobTechKeyword.all_by_job_id(Repo, job.id)
     assert Enum.map(job_tech_keywords, &(&1.tech_keyword_id)) == [keyword2.id]
   end
 
@@ -84,9 +85,9 @@ defmodule Customer.Web.Services.JobSourceCreatorTest do
       source: "Sequoia",
       keywords: []
     }
-    assert_raise Ecto.NoResultsError, fn ->
-      JobSourceCreator.perform(params)
-    end
+
+
+    JobSourceCreator.perform(params)
 
     assert_raise Ecto.NoResultsError, fn ->
       Repo.get_by!(Company, name: "new company")

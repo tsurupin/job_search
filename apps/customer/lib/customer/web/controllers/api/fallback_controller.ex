@@ -22,7 +22,6 @@ defmodule Customer.Web.Api.FallbackController do
   end
 
   def call(conn, {:error, reason}) do
-    IO.inspect "---------unexpected--------"
     IO.inspect reason
   end
 end

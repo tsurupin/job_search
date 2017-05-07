@@ -1,6 +1,6 @@
-defmodule Customer.Web.Jobs do
-  use Customer.Web, :crud
-  use Customer.Es
+defmodule Customer.Web.Command.Job do
+  use Customer.Command, model: Customer.Web.Job
+  alias Customer.Web.{Job, JobSource}
 
   def upsert(%JobSource{company_id: company_id, job_title: job_title, area_id: area_id} = job_source, job_title_id) do
     upsert(Multi.new, job_source, job_title_id)
@@ -20,18 +20,4 @@ defmodule Customer.Web.Jobs do
     |> Multi.delete(:delete, job)
     |> Multi.run(:delete_document, fn _ -> Es.Document.delete_document(job) end)
   end
-
-  def get_with_associations(id) do
-    Job.get(id)
-    |> first
-    |> Repo.one
-  end
-
-  def by_company_id(company_id) do
-    Job.by_company_id(company_id)
-    |> Repo.all
-  end
-
-
-
 end

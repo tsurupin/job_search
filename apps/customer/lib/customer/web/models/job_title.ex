@@ -25,8 +25,5 @@ defmodule Customer.Web.JobTitle do
     changeset(%__MODULE__{}, params)
   end
 
-  def names do
-    (from j in __MODULE__, select: j.name)
-  end
 
 end

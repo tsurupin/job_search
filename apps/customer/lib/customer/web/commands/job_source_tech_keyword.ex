@@ -1,22 +1,16 @@
-defmodule Customer.Web.JobSourceTechKeywords do
-  use Customer.Web, :crud
+defmodule Customer.Web.Command.JobSourceTechKeyword do
+  use Customer.Command, model: Customer.Web.JobSourceTechKeyword
+  alias Customer.Web.JobSourceTechKeyword
+  alias Customer.Web.Query
 
-  @doc """
-  Builds a changeset based on the `struct` and `params`.
-  """
-
-  def tech_keyword_ids_by(job_source_id) do
-    JobSourceTechKeyword.by_tech_keyword_ids(job_source_id)
-    |> Repo.all
-  end
-
+  def bulk_delete_and_upsert(tech_keyword_ids, job_source_id), do: bulk_delete_and_upsert(Multi.new, tech_keyword_ids, job_source_id)
   def bulk_delete_and_upsert(multi, tech_keyword_ids, job_source_id) do
-    delete_if_needed(multi, tech_keyword_ids, job_source_id)
+    bulk_delete_if_needed(multi, tech_keyword_ids, job_source_id)
     |> bulk_upsert(tech_keyword_ids, job_source_id)
   end
 
-  defp delete_if_needed(multi, tech_keyword_ids, job_source_id) do
-    job_source_tech_keywords = JobSourceTechKeyword.by_source_id_except_tech_keyword_ids(tech_keyword_ids, job_source_id)
+  defp bulk_delete_if_needed(multi, tech_keyword_ids, job_source_id) do
+    job_source_tech_keywords = Query.JobSourceTechKeyword.by_job_source_id_except_tech_keyword_ids(tech_keyword_ids, job_source_id)
     Multi.delete_all(multi, :job_source_tech_keyword, job_source_tech_keywords)
   end
 
@@ -41,5 +35,6 @@ defmodule Customer.Web.JobSourceTechKeywords do
       Multi.insert(multi, Ecto.UUID.generate, JobSourceTechKeyword.build(params))
     end
   end
+
 
 end

@@ -105,7 +105,7 @@ defmodule Customer.Es.Filter.Job do
     Tirexs.Query.Filter.filter do
       bool do
         must do
-          terms "techs",es_terms(techs(techs))
+          terms "techs", es_terms(techs(techs))
         end
       end
     end

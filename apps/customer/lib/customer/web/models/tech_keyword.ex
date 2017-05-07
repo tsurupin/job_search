@@ -24,16 +24,8 @@ defmodule Customer.Web.TechKeyword do
     |> unique_constraint(:name)
   end
 
-  def by_names(names) do
-    from t in __MODULE__,
-    where: t.name in ^names
-  end
 
-  def pluck(query \\ __MODULE__, column) do
-    from(t in query, select: map(t, [column]))
-  end
-
-  # for elastic search
+ ################ ElasticSearch ################
 
   def es_search_data(record) do
     [

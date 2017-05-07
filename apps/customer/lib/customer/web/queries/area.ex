@@ -2,12 +2,12 @@ defmodule Customer.Web.Query.Area do
   use Customer.Query, model: Customer.Web.Area
   alias Customer.Web.Area
 
-  def names do
-    names(Customer.Repo, Area)
+  def names(repo) do
+    repo.all(names)
   end
 
-  def names(repo, area) do
-    repo.all((from a in area, select: a.name))
+  defp names do
+    (from a in Area, select: a.name)
   end
 
 end

@@ -2,6 +2,7 @@ defmodule Customer.Web.Api.V1.JobController do
   use Customer.Web, :controller
   alias Customer.Ets
   alias Customer.Web.Query
+
   @search_candidates [["job-title", :job_title], ["areas", :areas], ["techs", :techs], ["detail", :detail]]
 
   def index(conn, params, current_user, _claims) do
@@ -13,18 +14,18 @@ defmodule Customer.Web.Api.V1.JobController do
        |> Es.Paginator.paginate(%{query: search_params, options: option_params})
        |> add_favorite_if_needed(current_user)
 
-    job_titles = fetch_from_ets("JobTitles", :names)
-    areas = fetch_from_ets("Areas", :names)
+    job_titles = fetch_from_ets("JobTitle", :names)
+    areas = fetch_from_ets("Area", :names)
 
     render(conn, "index.json", %{jobs: jobs, job_titles: job_titles, areas: areas})
   end
 
   def show(conn, %{"id" => id}, current_user, _claims) do
-    job = Jobs.get_with_associations(id)
+    job = Query.Job.get_with_associations(Repo, id)
 
     if job do
       job = add_favorite(job, current_user)
-      related_jobs = Jobs.by_company_id(job.company_id)
+      related_jobs = Query.Job.all_by_company_id(Repo, job.company_id)
       render(conn, "show.json", %{job: job, related_jobs: related_jobs})
     else
       conn
@@ -61,7 +62,7 @@ defmodule Customer.Web.Api.V1.JobController do
   end
 
   defp upsert_ets(key, action) do
-    value = apply(Module.concat(Customer.Web.Query, key), action, [])
+    value = apply(Module.concat(Query, key), action, [Repo])
     Ets.upsert(%{key: key, value: value})
   end
 

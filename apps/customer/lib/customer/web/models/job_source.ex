@@ -27,7 +27,6 @@ defmodule Customer.Web.JobSource do
   @optional_fields ~w(detail job_title)a
 
   def changeset(job_source \\ %__MODULE__{}, params \\ %{}) do
-    IO.inspect params
     cast(job_source, params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> unique_constraint(:url)

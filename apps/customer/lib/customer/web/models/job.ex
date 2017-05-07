@@ -1,6 +1,7 @@
 defmodule Customer.Web.Job do
   use Customer.Web, :model
   use Customer.Es
+  alias Customer.Web.Query
 
   schema "jobs" do
     field :url, :map
@@ -47,19 +48,6 @@ defmodule Customer.Web.Job do
     changeset(job, update_attributes(job, job_source))
   end
 
-  def get(id) do
-    from(j in __MODULE__, where: j.id == ^id, preload: [:area, :company, :tech_keywords, :job_title])
-  end
-
-  def by_company_id(company_id) do
-    from(j in __MODULE__, where: j.company_id == ^company_id, preload: [:area, :job_title])
-  end
-
-  def query_all(:index) do
-    from j in __MODULE__,
-    preload: [:area, :company, :tech_keywords, :job_title]
-  end
-
   defp update_attributes(%__MODULE__{area_id: area_id, company_id: company_id, job_title_id: job_title_id, url: url, title: title, detail: detail} = params, job_source) do
     Map.take(params, ~w(company_id area_id job_title_id)a)
     |> update_map_attribute(url, :url, job_source)
@@ -83,10 +71,11 @@ defmodule Customer.Web.Job do
     end
   end
 
+
   ################ ElasticSearch ################
 
   def es_search_data(model) do
-    model = Jobs.get_with_associations(model.id)
+    model = Query.Job.get_with_associations(Repo, model.id)
     [
       job_id: model.id,
       job_title: String.downcase(model.job_title.name),
