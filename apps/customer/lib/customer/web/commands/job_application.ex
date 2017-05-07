@@ -1,10 +1,9 @@
 defmodule Customer.Web.Command.JobApplication do
-	use Customer.Command, model: Customer.Web.JobApplication
-	alias Customer.Web.JobApplication
-	alias Customer.Web.Query
-	alias Customer.Repo
-	alias Ecto.Multi
-
+  use Customer.Command, model: Customer.Web.JobApplication
+  alias Customer.Web.JobApplication
+  alias Customer.Web.Query
+  alias Customer.Repo
+  alias Ecto.Multi
 
   def update_by(multi, %{comment: comment} = job_application_params, required_params) when job_application_params == %{comment: comment} do
     if job_application = Query.JobApplication.get_by_user_and_job_and_status(Repo, required_params) do

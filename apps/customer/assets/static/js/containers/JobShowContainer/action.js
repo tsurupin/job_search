@@ -7,8 +7,7 @@ import {
 } from './constants';
 import { FAVORITE_JOB_PATH } from 'constants';
 
-import axios from 'axios';
-import { createAuthorizeRequest } from 'utils';
+import { axios, createAuthorizeRequest } from 'utils';
 
 export function fetchJob(id) {
   let request;
@@ -114,7 +113,7 @@ function favoriteJobFailure(errorMessage) {
 }
 
 export function unfavoriteJob(jobId) {
-  const request = createAuthorizeRequest('delete', `${UNFAVORITE_JOB_PATH}/${jobId}`);
+  const request = createAuthorizeRequest('delete', `${FAVORITE_JOB_PATH}/${jobId}`);
   return dispatch => {
     dispatch(unfavoriteJobRequest());
     return request

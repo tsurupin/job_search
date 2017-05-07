@@ -3,10 +3,10 @@ defmodule Customer.Web.Api.FallbackController do
   alias Customer.Web.Api.ErrorView
 
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
-    errorMessage = Error.message(changeset)
+    error_message = Error.message(changeset)
     conn
     |> put_status(:unprocessable_entity)
-    |> render(ErrorView, "unprocessable_entity.json", %{errorMessage: errorMessage})
+    |> render(ErrorView, "unprocessable_entity.json", %{error_message: error_message})
   end
 
   def call(conn, {:error, :not_found}) do

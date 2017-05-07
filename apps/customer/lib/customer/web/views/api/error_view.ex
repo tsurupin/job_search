@@ -9,8 +9,8 @@ defmodule Customer.Web.Api.ErrorView do
      %{errorMessage: "Not Found"}
   end
 
-  def render("unprocessable_entity.json", %{errorMessage: errorMessage} = param) do
-    %{errorMessage: errorMessage}
+  def render("unprocessable_entity.json", %{error_message: error_message} = param) do
+    %{errorMessage: error_message}
   end
 
 end

@@ -41,7 +41,8 @@ defmodule Customer.Web.Services.JobSourceCreator do
     case Query.JobTitleAlias.get_or_find_approximate_job_title(Repo, job_title) do
       {:ok, job_title_id} -> Multi.run(multi, :job_title_id, fn _ -> {:ok, job_title_id} end)
       {:error, _} ->
-        Command.JobTitle.insert_job_title_and_alias(multi, job_title)
+        multi
+        |> Command.JobTitle.insert_job_title_and_alias(job_title)
         |> Multi.run(:job_title_id, fn %{job_title: job_title} -> {:ok, job_title.id} end)
     end
   end
@@ -67,7 +68,8 @@ defmodule Customer.Web.Services.JobSourceCreator do
 
   defp bulk_upsert_job_tech_keywords_if_needed(multi, %Job{detail: detail}) when is_nil(detail), do: multi
   defp bulk_upsert_job_tech_keywords_if_needed(multi, %Job{id: id, detail: detail}) do
-    Query.JobSourceTechKeyword.tech_keyword_ids_by(Repo, detail["job_source_id"])
+    Repo
+    |> Query.JobSourceTechKeyword.tech_keyword_ids_by(detail["job_source_id"])
     |> Command.JobTechKeyword.bulk_delete_and_upsert(id)
   end
 

@@ -2,6 +2,7 @@ import client from 'axios';
 import { ROOT_URL } from 'constants';
 
 export const axios = client.create({
+  baseURL: ROOT_URL,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
@@ -32,4 +33,8 @@ export function createAuthorizeRequest(method, path, params = {}) {
 function config() {
   return { headers: { 'Authorization' : `Bearer ${localStorage.getItem('token')}` } }
 }
+
+// Make axios path for job-= favorites absolute
+// DELETE /jobs/api/v1/me/favorites/jobs/1
+// DELETE /api/v1~
 

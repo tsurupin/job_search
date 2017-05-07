@@ -11,8 +11,7 @@ import {
 } from './constants';
 import { FAVORITE_JOB_PATH } from 'constants';
 
-import axios from 'axios';
-import { createAuthorizeRequest } from 'utils';
+import { axios, createAuthorizeRequest } from 'utils';
 
 export function fetchJobs(path = '') {
   let request;

@@ -2,6 +2,7 @@ defmodule Customer.Web.Api.V1.JobController do
   use Customer.Web, :controller
   alias Customer.Ets
   alias Customer.Web.Query
+  action_fallback Customer.Web.Api.FallbackController
 
   @search_candidates [["job-title", :job_title], ["areas", :areas], ["techs", :techs], ["detail", :detail]]
 
@@ -28,9 +29,7 @@ defmodule Customer.Web.Api.V1.JobController do
       related_jobs = Query.Job.all_by_company_id(Repo, job.company_id)
       render(conn, "show.json", %{job: job, related_jobs: related_jobs})
     else
-      conn
-      |> put_status(:not_found)
-      |> render("show.json", %{error: "Not Found"})
+      {:error, :not_found}
     end
   end
 
@@ -78,11 +77,11 @@ defmodule Customer.Web.Api.V1.JobController do
   defp add_favorite(job, user) when is_nil(user), do: job
 
   defp add_favorite(%Job{} = job, user) do
-    %Job{ job | favorited: Query.FavoriteJob.exists?(Repo, %{user_id: user.id, job_id: job.id})}
+    %Job{job | favorited: Query.FavoriteJob.exists?(Repo, %{user_id: user.id, job_id: job.id})}
   end
 
   defp add_favorite(job, user) when is_map(job) do
-    Enum.into(job, %{ favorited: Query.FavoriteJob.exists?(Repo, %{user_id: user.id, job_id: job.job_id})})
+    Enum.into(job, %{favorited: Query.FavoriteJob.exists?(Repo, %{user_id: user.id, job_id: job.job_id})})
   end
 
 

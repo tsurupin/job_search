@@ -47,7 +47,7 @@ class JobShowContainer extends Component {
     this.props.actions.fetchJob(this.props.id);
   }
 
-  handleSwitchFavoriteStatus(jobId, favorited) {
+  handleSwitchFavoriteStatus(_index, jobId, favorited) {
     if (favorited) {
       this.props.actions.favoriteJob(jobId, favorited)
     } else {
@@ -64,7 +64,10 @@ class JobShowContainer extends Component {
   }
 
   renderFavoriteButton() {
+    console.log("------------")
+    console.log(this.props.job)
     const {id, favorited } = this.props.job;
+    console.log(id)
     if (!favorited) { return }
     return (
       <FavoriteButtonWrapper>

@@ -22,13 +22,13 @@ export default function(state = INITIAL_STATE, action) {
         return {...state, errorMessage: action.payload.errorMessage, loading: false};
 
     case FAVORITE_JOB.REQUEST, UNFAVORITE_JOB.REQUEST:
-      return {...state, job: {...job, submitting: true }};
+      return {...state, job: {...state.job, submitting: true }};
 
     case FAVORITE_JOB.SUCCESS:
-      return {...state, job: {...job, favorited: true }};
+      return {...state, job: {...state.job, favorited: true }};
 
     case UNFAVORITE_JOB.SUCCESS:
-      return {...state, job: {...job, favorited: false }};
+      return {...state, job: {...state.job, favorited: false }};
 
     case FAVORITE_JOB.FAILURE, UNFAVORITE_JOB.FAIURE:
       return {...state, errorMessage: action.payload.errorMessage };
