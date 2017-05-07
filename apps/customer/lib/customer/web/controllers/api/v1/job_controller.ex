@@ -26,7 +26,10 @@ defmodule Customer.Web.Api.V1.JobController do
 
     if job do
       job = add_favorite(job, current_user)
-      related_jobs = Query.Job.all_by_company_id(Repo, job.company_id)
+      related_jobs =
+        Repo
+        |> Query.Job.all_by_company_id(job.company_id)
+        |> Enum.reject(&(&1.id == job.id))
       render(conn, "show.json", %{job: job, related_jobs: related_jobs})
     else
       {:error, :not_found}

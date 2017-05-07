@@ -12,7 +12,6 @@ defmodule Customer.Web.Query.Job do
     |> repo.all
   end
 
-  @job_associations [:area, :company, :tech_keywords, :job_title]
   defp with_association(id) do
     from j in Job, where: j.id == ^id, preload: [:area, :company, :tech_keywords, :job_title]
   end
