@@ -1,6 +1,6 @@
 defmodule Customer.Web.Api.V1.JobController do
   use Customer.Web, :controller
-  alias Customer.Ets
+  alias Customer.Web.Services.EtsCaller
   alias Customer.Web.Query
   action_fallback Customer.Web.Api.FallbackController
 
@@ -15,8 +15,8 @@ defmodule Customer.Web.Api.V1.JobController do
        |> Es.Paginator.paginate(%{query: search_params, options: option_params})
        |> add_favorite_if_needed(current_user)
 
-    job_titles = fetch_from_ets("JobTitle", :names)
-    areas = fetch_from_ets("Area", :names)
+    job_titles = EtsCaller.perform("JobTitle", :names)
+    areas = EtsCaller.perform("Area", :names)
 
     render(conn, "index.json", %{jobs: jobs, job_titles: job_titles, areas: areas})
   end
@@ -48,21 +48,6 @@ defmodule Customer.Web.Api.V1.JobController do
   defp option_params(params) do
      new_params = %{page: params["page"] || 1, sort: params["sort"]}
      Map.put_new(new_params, :offset, params["offset"] || 0)
-  end
-
-  defp fetch_from_ets(key, action) do
-    case Ets.fetch(key) do
-      {:ok, value} ->
-        value
-      {:error, _reason} ->
-        upsert_ets(key, action)
-        fetch_from_ets(key, action)
-    end
-  end
-
-  defp upsert_ets(key, action) do
-    value = apply(Module.concat(Query, key), action, [Repo])
-    Ets.upsert(%{key: key, value: value})
   end
 
   defp add_favorite_if_needed(jobs, user) when is_nil(user), do: jobs
