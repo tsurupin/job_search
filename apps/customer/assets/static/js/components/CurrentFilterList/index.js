@@ -3,7 +3,7 @@ import { CurrentFilterItem } from 'components';
 import Wrapper from './styles';
 
 const propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape.isRequired).isRequired,
+  items: PropTypes.arrayOf(PropTypes.shape).isRequired,
   handleReset: PropTypes.func.isRequired,
   handleResetTechKeyword: PropTypes.func.isRequired
 };

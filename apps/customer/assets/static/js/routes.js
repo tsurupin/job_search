@@ -16,7 +16,7 @@ export default(
   <Provider store={store}>
     <Router
       onUpdate={ () => {
-        document.getElementById('content').focus();
+        document.getElementById('app').focus();
         window.scrollTo(0,0);
       }}
       history={browserHistory}

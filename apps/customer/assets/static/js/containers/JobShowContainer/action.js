@@ -118,7 +118,7 @@ export function unfavoriteJob(jobId) {
     dispatch(unfavoriteJobRequest());
     return request
       .then(() => dispatch(unfavoriteJobSuccess()))
-      .error((error) => dispatch(unfavoriteJobFailure(error.data)))
+      .catch((error) => dispatch(unfavoriteJobFailure(error.data)))
   }
 }
 

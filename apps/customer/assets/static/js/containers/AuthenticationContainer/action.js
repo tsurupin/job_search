@@ -28,7 +28,6 @@ export function logout() {
     return request
     .then(() => {
       dispatch(logoutSuccess());
-      browserHistory.push('/');
     })
     .catch((error) => dispatch(logoutFailure("Failed to logout")))
   }
@@ -36,12 +35,17 @@ export function logout() {
 
 function logoutSuccess() {
   localStorage.removeItem('token');
+  location.href = location.origin;
+
   return {
     type: LOGOUT.SUCCESS
   }
 }
 
 function logoutFailure(errorMessage) {
+  localStorage.removeItem('token');
+  location.href = location.origin;
+
   return {
     type: LOGOUT.FAILURE,
     payload: { errorMessage }

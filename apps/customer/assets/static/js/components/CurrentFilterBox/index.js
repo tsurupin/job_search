@@ -4,7 +4,7 @@ import { Wrapper, Icon } from './styles';
 import GoSearch from 'react-icons/lib/go/search';
 
 const propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape.isRequired).isRequired,
+  items: PropTypes.arrayOf(PropTypes.shape).isRequired,
   handleReset: PropTypes.func.isRequired,
   handleResetTechKeyword: PropTypes.func.isRequired
 };
