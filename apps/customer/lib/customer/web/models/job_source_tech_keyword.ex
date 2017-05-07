@@ -28,16 +28,4 @@ defmodule Customer.Web.JobSourceTechKeyword do
     changeset(job_source_tech_keyword, params)
   end
 
-  def by_tech_keyword_ids(job_source_id) do
-    from(j in __MODULE__,
-      where: j.job_source_id == ^job_source_id,
-      select: j.tech_keyword_id
-    )
-  end
-
-  def by_source_id_except_tech_keyword_ids(tech_keyword_ids, source_id) do
-    from j in __MODULE__,
-    where: not j.tech_keyword_id in ^tech_keyword_ids and j.job_source_id == ^source_id
-  end
-
 end
