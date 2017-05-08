@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-//const HtmlWebpackPlugin = require('html-webpack-plugin');
 //const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const stopUglifyJSWarnings = new webpack.optimize.UglifyJsPlugin({
@@ -10,12 +9,6 @@ const stopUglifyJSWarnings = new webpack.optimize.UglifyJsPlugin({
 });
 
 const ROOT_PATH = path.resolve(__dirname);
-
-// const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-//   template: __dirname + '/web/static/index.html',
-//   filename: 'index.html',
-//   inject: 'body'
-// });
 
 const PATHS = {
   app: path.join(__dirname, './static/js/index.js'),
@@ -30,9 +23,9 @@ process.env.BABEL_ENV = LAUNCH_COMMAND;
 
 const productionPlugin = new webpack.DefinePlugin({
   'process.env': {
-    NODE_ENV: JSON.stringify('production'),
-    GOOGLE_REDIRECT_URI: process.env.GOOGLE_REDIRECT_URI,
-    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID
+    NODE_ENV: JSON.stringify('production')
+    // GOOGLE_REDIRECT_URI: process.env.GOOGLE_REDIRECT_URI,
+    // GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID
 
   }
 });
@@ -49,11 +42,6 @@ const base = {
       rules: [
         { test: /\.js$/, exclude: /node_modules/, use: 'babel-loader' },
         {
-          // Do not transform vendor's CSS with CSS-modules
-          // The point is that they remain in global scope.
-          // Since we require these CSS files in our JS or CSS files,
-          // they will be a part of our compilation either way.
-          // So, no need for ExtractTextPlugin here.
           test: /\.css$/,
           use: [ 'style-loader', 'css-loader' ]
         }, {
@@ -104,7 +92,7 @@ const base = {
   };
 
   const developmentConfig = {
-    devtool: 'cheap-module-inline-source-map',
+    devtool: 'cheap-module-eval-source-map',
     plugins: []
   };
 

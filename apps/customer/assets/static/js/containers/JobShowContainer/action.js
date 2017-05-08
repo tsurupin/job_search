@@ -5,9 +5,10 @@ import {
   FAVORITE_JOB,
   UNFAVORITE_JOB
 } from './constants';
-import { FAVORITE_JOB_PATH } from 'constants';
+import { FAVORITE_JOB_PATH,  } from 'constants';
 
-import { axios, createAuthorizeRequest } from 'utils';
+import axios from 'axios';
+import { createAuthorizeRequest, convertErrorToMessage } from 'utils';
 
 export function fetchJob(id) {
   let request;
@@ -20,13 +21,14 @@ export function fetchJob(id) {
   return dispatch => {
     dispatch(fetchJobRequest());
 
-    return request.then(response => {
-      dispatch(fetchJobSuccess(response.data))
-    })
-    .catch(error => {
-      console.log(error);
-      dispatch(fetchJobFailure(error.data))
-    })
+    return request
+      .then(response => {
+        dispatch(fetchJobSuccess(response.data))
+      })
+      .catch((error) => {
+        const errorMessage = convertErrorToMessage(error);
+        dispatch(fetchJobFailure(errorMessage))
+      })
   };
 }
 
@@ -43,11 +45,10 @@ function fetchJobSuccess( job ) {
   }
 }
 
-function fetchJobFailure(errorMessage ) {
-  console.log(errorMessage);
+function fetchJobFailure(errorMessage) {
   return {
     type: FETCH_JOB.FAILURE,
-    paylaod: { errorMessage }
+    payload: { errorMessage }
   }
 }
 export function fetchFavoriteJob(id) {
@@ -57,7 +58,11 @@ export function fetchFavoriteJob(id) {
 
     return request
       .then(() => dispatch(fetchFavoriteJobSuccess()))
-      .catch(error => dispatch(fetchFavoriteJobFailure(error.data)))
+      .catch(error => {
+        const errorMessage = convertErrorToMessage(error);
+
+        dispatch(fetchFavoriteJobFailure(errorMessage))
+      })
   }
 }
 
@@ -73,9 +78,10 @@ function fetchFavoriteJobSuccess() {
   }
 }
 
-function fetchFavoriteJobFailure() {
+function fetchFavoriteJobFailure(errorMessage) {
   return {
-    type: FETCH_FAVORITE_JOB.FAILURE
+    type: FETCH_FAVORITE_JOB.FAILURE,
+    payload: {errorMessage}
   }
 }
 
@@ -87,8 +93,9 @@ export function favoriteJob(jobId) {
     return request
       .then(() => dispatch(favoriteJobSuccess()))
       .catch((error) => {
-      console.log(error);
-      dispatch(favoriteJobFailure(error.data))
+        const errorMessage = convertErrorToMessage(error);
+
+        dispatch(favoriteJobFailure(errorMessage))
       })
   }
 }
@@ -113,12 +120,16 @@ function favoriteJobFailure(errorMessage) {
 }
 
 export function unfavoriteJob(jobId) {
-  const request = createAuthorizeRequest('delete', `${FAVORITE_JOB_PATH}/${jobId}`);
+  const request = createAuthorizeRequest('delete', `${UNFAVORITE_JOB_PATH}/${jobId}`);
   return dispatch => {
     dispatch(unfavoriteJobRequest());
     return request
       .then(() => dispatch(unfavoriteJobSuccess()))
-      .catch((error) => dispatch(unfavoriteJobFailure(error.data)))
+      .error((error) => {
+        const errorMessage = convertErrorToMessage(error);
+
+        dispatch(unfavoriteJobFailure(errorMessage));
+      })
   }
 }
 

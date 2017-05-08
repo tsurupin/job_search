@@ -9,7 +9,7 @@ defmodule Scraper.Site.Sequoia.Show do
   '''
 
   def perform(url) do
-    @body # body(url)
+    body(url)
     |> Floki.parse
     |> params(url)
     |> upsert
@@ -27,7 +27,9 @@ defmodule Scraper.Site.Sequoia.Show do
     body
   end
 
-  defp upsert(params), do: JobSourceCreator.perform(params)
+  defp upsert(params) do
+    JobSourceCreator.perform(params)
+  end
 
   defp params(xml, url) do
     detail = build_detail(xml)
@@ -78,6 +80,8 @@ defmodule Scraper.Site.Sequoia.Show do
       |> Floki.find("._job-description")
       |> Floki.find(".-grey")
       |> Floki.text
+      |> String.replace("\n", "<br>")
+      |> String.replace("\r", "")
   end
 
 end

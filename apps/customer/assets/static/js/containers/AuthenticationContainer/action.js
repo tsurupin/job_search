@@ -29,7 +29,10 @@ export function logout() {
     .then(() => {
       dispatch(logoutSuccess());
     })
-    .catch((error) => dispatch(logoutFailure("Failed to logout")))
+    .catch((error) => {
+      console.log(error);
+      dispatch(logoutFailure("Failed to logout"))
+    })
   }
 }
 

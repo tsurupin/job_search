@@ -46,6 +46,8 @@ defmodule Scraper.Site.YCombinator.Show do
     |> Enum.at(2)
     |> Floki.find("td")
     |> Floki.text
+    |> String.replace("\n", "<br>")
+    |> String.replace("\r", "")
   end
 
 end

@@ -34,6 +34,10 @@ function config() {
   return { headers: { 'Authorization' : `Bearer ${localStorage.getItem('token')}` } }
 }
 
+export function convertErrorToMessage(error) {
+  return error.response.data ? error.response.data.errorMessage : error.response.statusText;
+}
+
 // Make axios path for job-= favorites absolute
 // DELETE /jobs/api/v1/me/favorites/jobs/1
 // DELETE /api/v1~

@@ -19,18 +19,6 @@ defmodule Customer.Web.Router do
     plug Guardian.Plug.EnsureAuthenticated
   end
 
-  scope "/", Customer.Web do
-    pipe_through :browser # Use the default browser stack
-
-    get "/", PageController, :index
-
-    scope "/auth" do
-      get "/:provider", AuthController, :request
-      get "/:provider/callback", AuthController, :callback
-    end
-
-  end
-
   scope "/api", Customer.Web.Api do
 
     scope "/v1", V1 do
@@ -48,4 +36,19 @@ defmodule Customer.Web.Router do
       resources "me/favorites/jobs", FavoriteJobController, except: [:new, :edit]
     end
   end
+
+  scope "/", Customer.Web do
+    pipe_through :browser # Use the default browser stack
+
+    get "/", PageController, :index
+
+
+    scope "/auth" do
+      get "/:provider", AuthController, :request
+      get "/:provider/callback", AuthController, :callback
+    end
+
+    get "/*path", PageController, :index
+  end
+
 end

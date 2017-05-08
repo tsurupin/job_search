@@ -86,12 +86,9 @@ class JobShowContainer extends Component {
   }
 
   render() {
-
-
     const { loading, errorMessage, job} = this.props;
     const { jobTitle, company, detail, area, url } = job;
-    console.log(job);
-    console.log(url);
+
     if(loading) { return(<div></div>) }
 
     const iconStyle = {

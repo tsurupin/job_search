@@ -11,7 +11,7 @@ import {
 } from './constants';
 import { FAVORITE_JOB_PATH } from 'constants';
 
-import { axios, createAuthorizeRequest } from 'utils';
+import { axios, createAuthorizeRequest, convertErrorToMessage } from 'utils';
 
 export function fetchJobs(path = '') {
   let request;
@@ -26,12 +26,11 @@ export function fetchJobs(path = '') {
 
     return request
     .then((response) => {
-      console.log(response.data);
       dispatch(fetchJobsSuccess(response.data))
     })
     .catch((error) => {
-      console.log(error);
-      dispatch(fetchJobsFailure(error.data))
+      const errorMessage = convertErrorToMessage(error);
+      dispatch(fetchJobsFailure(errorMessage))
     })
   };
 }
@@ -50,7 +49,6 @@ function fetchJobsSuccess({ jobs, page, hasNext, nextPage, jobTitles, areas }) {
 }
 
 function fetchJobsFailure(errorMessage) {
-  console.log(errorMessage);
   return {
     type: FETCH_JOBS.FAILURE,
     payload: { errorMessage }
@@ -66,7 +64,9 @@ export function fetchTechKeywords(value) {
         dispatch(fetchTechKeywordsSuccess(response.data))
       })
       .catch((error) => {
-        dispatch(fetchTechKeywordsFailure(error.data))
+        const errorMessage = convertErrorToMessage(error);
+
+        dispatch(fetchTechKeywordsFailure(errorMessage))
       })
   }
 }
@@ -97,7 +97,8 @@ export function favoriteJob(sortRank, jobId) {
         .then(() => dispatch(favoriteJobSuccess(sortRank)))
         .catch((error) => {
         console.log(error);
-        dispatch(favoriteJobFailure(sortRank, error.data))
+          const errorMessage = convertErrorToMessage(error);
+          dispatch(favoriteJobFailure(sortRank, errorMessage))
         })
   }
 }
@@ -129,7 +130,10 @@ export function unfavoriteJob(sortRank, jobId) {
         dispatch(unfavoriteJobRequest(sortRank));
         return request
             .then(() => dispatch(unfavoriteJobSuccess(sortRank)))
-            .catch((error) => dispatch(unfavoriteJobFailure(sortRank, error.data)))
+            .catch((error) => {
+              const errorMessage = convertErrorToMessage(error);
+              dispatch(unfavoriteJobFailure(sortRank, errorMessage))
+            })
     }
 }
 

@@ -45,6 +45,8 @@ defmodule Scraper.Site.Accel.Show do
     |> Floki.parse
     |> Floki.find(".detailtext")
     |> Floki.text
+    |> String.replace("\n", "<br>")
+    |> String.replace("\r", "")
   end
 
   defp upsert(params), do: JobSourceCreator.perform(params)

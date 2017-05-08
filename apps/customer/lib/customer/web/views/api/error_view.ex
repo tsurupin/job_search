@@ -6,7 +6,7 @@ defmodule Customer.Web.Api.ErrorView do
   end
 
   def render("not_found.json",  _assigns) do
-     %{errorMessage: "Not Found"}
+    %{errorMessage: "Not Found"}
   end
 
   def render("unprocessable_entity.json", %{error_message: error_message} = param) do
