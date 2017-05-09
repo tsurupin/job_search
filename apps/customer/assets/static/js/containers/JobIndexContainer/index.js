@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as JobIndexActionCreators from './action';
 import { JobList, JobFilterBox } from 'components';
 import { TECH_KEYWORD } from 'constants';
+import Infinite from 'react-infinite';
 import Wrapper from './styles'
 const propTypes = {
   jobTitles: PropTypes.array.isRequired,
@@ -81,6 +82,7 @@ class JobIndexContainer extends Component {
     this.handleAutoSuggest = this.handleAutoSuggest.bind(this);
     this.handleSwitchFavoriteStatus = this.handleSwitchFavoriteStatus.bind(this);
     this.handleResetTechKeywords = this.handleResetTechKeywords.bind(this);
+    //this.handleLoad = this.handleLoad.bind(this);
   }
 
   componentWillMount() {
@@ -153,13 +155,27 @@ class JobIndexContainer extends Component {
 
   }
 
+  // handleLoad() {
+  //   if (this.canLoad) {
+  //     const params = { page: this.props.page + 1 };
+  //
+  //     if (this.props.params.hasOwnProperty('location')) {
+  //       params.tagId = this.props.params.location.query['tag-id'];
+  //     }
+  //     this.props.fetchPosts(params);
+  //   }
+  // }
+
+
   handleAutoSuggest(value) {
     this.props.actions.fetchTechKeywords(value);
   }
 
   renderJobs(jobs) {
     if (jobs.length === 0) { return }
-    return <JobList jobs={jobs} handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus} />
+    return (
+      <JobList jobs={jobs} handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus} />
+    )
   }
 
   render() {

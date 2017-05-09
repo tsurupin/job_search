@@ -4,7 +4,7 @@ defmodule Customer.Web.Api.V1.JobController do
   alias Customer.Web.Query
   action_fallback Customer.Web.Api.FallbackController
 
-  @search_candidates [["job-title", :job_title], ["areas", :areas], ["techs", :techs], ["detail", :detail]]
+  @search_candidates [["job-title", :job_title], ["area", :area], ["techs", :techs], ["detail", :detail]]
 
   def index(conn, params, current_user, _claims) do
     search_params = search_params(params)

@@ -35,7 +35,7 @@ function config() {
 }
 
 export function convertErrorToMessage(error) {
-  return error.response.data ? error.response.data.errorMessage : error.response.statusText;
+  return error.response ? error.response.data.errorMessage : "something wrong";
 }
 
 // Make axios path for job-= favorites absolute
