@@ -5,7 +5,8 @@ import * as JobIndexActionCreators from './action';
 import { JobList, JobFilterBox } from 'components';
 import { TECH_KEYWORD } from 'constants';
 import Infinite from 'react-infinite';
-import Wrapper from './styles'
+import Wrapper from './styles';
+
 const propTypes = {
   jobTitles: PropTypes.array.isRequired,
   jobTitle: PropTypes.string.isRequired,
@@ -82,7 +83,7 @@ class JobIndexContainer extends Component {
     this.handleAutoSuggest = this.handleAutoSuggest.bind(this);
     this.handleSwitchFavoriteStatus = this.handleSwitchFavoriteStatus.bind(this);
     this.handleResetTechKeywords = this.handleResetTechKeywords.bind(this);
-    //this.handleLoad = this.handleLoad.bind(this);
+    this.handleLoad = this.handleLoad.bind(this);
   }
 
   componentWillMount() {
@@ -91,26 +92,26 @@ class JobIndexContainer extends Component {
 
   componentWillReceiveProps(newProps) {
     if (this.needUpdate(newProps)) {
+      console.log("will receive");
       this.props.actions.fetchJobs(this.getSearchPath(newProps));
     }
   }
 
   needUpdate(newProps) {
     let updatedProps = {};
-    const { jobTitle, area, techKeywords, detail } = this.props;
+    const { jobTitle, area, techKeywords, detail, page } = this.props;
 
     if (jobTitle !== newProps.jobTitle) updatedProps['jobTitle'] = newProps.jobTitle;
     if (area !== newProps.area) updatedProps['area'] = newProps.area;
     if (techKeywords !== newProps.techKeywords) updatedProps['techKeywords'] = newProps.techKeywords;
     if (detail !== newProps.detail) updatedProps['detail'] = newProps.detail;
-
+    if (page !== newProps.page) updatedProps['page'] = newProps.page;
     return Object.keys(updatedProps).length > 0
   }
 
   getSearchPath(props) {
     let path = '?';
-    const { page } = props;
-    const { jobTitle, area, techKeywords, detail } = props;
+    const { jobTitle, area, techKeywords, detail, page } = props;
     path += `page=${page}&`;
 
     if (jobTitle) path += `job-title=${jobTitle}&`;
@@ -155,16 +156,13 @@ class JobIndexContainer extends Component {
 
   }
 
-  // handleLoad() {
-  //   if (this.canLoad) {
-  //     const params = { page: this.props.page + 1 };
-  //
-  //     if (this.props.params.hasOwnProperty('location')) {
-  //       params.tagId = this.props.params.location.query['tag-id'];
-  //     }
-  //     this.props.fetchPosts(params);
-  //   }
-  // }
+  handleLoad() {
+    if (this.props.hasNext) {
+
+
+      this.props.actions.selectItem('page', this.props.nextPage);
+    }
+  }
 
 
   handleAutoSuggest(value) {
@@ -172,9 +170,19 @@ class JobIndexContainer extends Component {
   }
 
   renderJobs(jobs) {
+    console.log(jobs)
     if (jobs.length === 0) { return }
     return (
-      <JobList jobs={jobs} handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus} />
+      <Infinite
+        infiniteLoadBeginEdgeOffset={1000}
+        onInfiniteLoad={this.handleLoad}
+        containerHeight={1500}
+        elementHeight={198}
+        preloadBatchSize={Infinite.containerHeightScaleFactor(5)}
+        useWindowAsScrollContainer
+      >
+        <JobList jobs={jobs} handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus} />
+      </Infinite>
     )
   }
 

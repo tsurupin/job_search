@@ -1,5 +1,6 @@
 import {
   FETCH_JOBS,
+  FETCH_INFINITE_JOBS,
   JOBS_PATH,
   FETCH_TECH_KEYWORDS,
   TECH_KEYWORDS_PATH,
@@ -13,19 +14,24 @@ import { FAVORITE_JOB_PATH } from 'constants';
 
 import { axios, createAuthorizeRequest, convertErrorToMessage } from 'utils';
 
-export function fetchJobs(path = '') {
+function indexJobRequest(path) {
   let request;
   if (localStorage.getItem("token")) {
     request = createAuthorizeRequest("get",`${JOBS_PATH}/${path}`);
   } else {
     request = axios.get(`${JOBS_PATH}/${path}`);
   }
+  return request;
+}
+
+export function fetchJobs(path = '') {
 
   return dispatch => {
     dispatch(fetchJobsRequest());
 
-    return request
+    return indexJobRequest(path)
     .then((response) => {
+      console.log(response.data)
       dispatch(fetchJobsSuccess(response.data))
     })
     .catch((error) => {
@@ -54,6 +60,38 @@ function fetchJobsFailure(errorMessage) {
     payload: { errorMessage }
   }
 }
+
+export function fetchInfiniteJobs(path = '') {
+
+  return dispatch => {
+    dispatch(fetchJobsRequest());
+
+    return indexJobRequest(path)
+      .then((response) => {
+        console.log(response.data)
+        dispatch(fetchInfiniteJobsSuccess(response.data))
+      })
+      .catch((error) => {
+        const errorMessage = convertErrorToMessage(error);
+        dispatch(fetchInfiniteJobsFailure(errorMessage))
+      })
+  };
+}
+
+function fetchInfiniteJobsSuccess({ jobs, page, hasNext, nextPage, jobTitles, areas }) {
+  return {
+    type: FETCH_INFINITE_JOBS.SUCCESS,
+    payload: { jobs, page, hasNext, nextPage, jobTitles, areas }
+  }
+}
+
+function fetchInfiniteJobsFailure(errorMessage) {
+  return {
+    type: FETCH_INFINITE_JOBS.FAILURE,
+    payload: { errorMessage }
+  }
+}
+
 
 export function fetchTechKeywords(value) {
   const request = axios.get(`${TECH_KEYWORDS_PATH}?word=${value}`);
@@ -169,8 +207,9 @@ export function resetItem(key) {
 }
 
 export function selectItem(key, value) {
+  const page = key !== 'page' ? 1 : value;
   return {
     type: SELECT_ITEM,
-    payload: { key, value }
+    payload: { key, value, page }
   }
 }

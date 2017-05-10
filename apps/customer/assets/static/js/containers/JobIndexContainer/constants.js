@@ -1,6 +1,7 @@
 import { createRequestTypes } from 'constants';
 
 export const FETCH_JOBS = createRequestTypes('jobs');
+export const FETCH_INFINITE_JOBS = createRequestTypes('infinite_jobs');
 export const JOBS_PATH = '/jobs';
 export const FAVORITE_JOB_INDEX = createRequestTypes('favorite_job_index');
 export const UNFAVORITE_JOB_INDEX = createRequestTypes('unfavorite_job_index');
