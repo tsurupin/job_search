@@ -23,7 +23,8 @@ const INITIAL_STATE = {
   areas: [],
   page: 1,
   nextPage: 1,
-  hasNext: true
+  hasNext: true,
+  total: 0
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -33,15 +34,16 @@ export default function(state = INITIAL_STATE, action) {
     }
 
     case FETCH_JOBS.SUCCESS: {
-      const { jobTitles, areas, page, nextPage, hasNext } = action.payload;
+
+      const { jobTitles, areas, page, nextPage, hasNext, total } = action.payload;
       let jobs = page === 1 ? [...action.payload.jobs] : [...state.jobs, ...action.payload.jobs];
-      return { ...state, jobs, jobTitles, areas, page, nextPage, hasNext, loading: false };
+      return { ...state, jobs, jobTitles, areas, page, nextPage, hasNext, total, loading: false };
     }
 
     case FETCH_INFINITE_JOBS.SUCCESS: {
-      const { jobTitles, areas, page, nextPage, hasNext } = action.payload;
+      const { jobTitles, areas, page, nextPage, hasNext, total } = action.payload;
       const jobs = [...state.jobs, ...action.payload.jobs];
-      return { ...state, jobs, jobTitles, areas, page, nextPage, hasNext, loading: false };
+      return { ...state, jobs, jobTitles, areas, page, nextPage, hasNext, total, loading: false };
     }
 
     case FETCH_JOBS.FAILURE, FETCH_INFINITE_JOBS.FAILURE, FETCH_TECH_KEYWORDS.FAILURE: {

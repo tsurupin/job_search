@@ -47,10 +47,10 @@ function fetchJobsRequest() {
   }
 }
 
-function fetchJobsSuccess({ jobs, page, hasNext, nextPage, jobTitles, areas }) {
+function fetchJobsSuccess({ jobs, page, hasNext, nextPage, jobTitles, areas, total }) {
   return {
     type: FETCH_JOBS.SUCCESS,
-    payload: { jobs, page, hasNext, nextPage, jobTitles, areas }
+    payload: { jobs, page, hasNext, nextPage, jobTitles, areas, total }
   }
 }
 
@@ -68,7 +68,6 @@ export function fetchInfiniteJobs(path = '') {
 
     return indexJobRequest(path)
       .then((response) => {
-        console.log(response.data)
         dispatch(fetchInfiniteJobsSuccess(response.data))
       })
       .catch((error) => {
@@ -78,10 +77,10 @@ export function fetchInfiniteJobs(path = '') {
   };
 }
 
-function fetchInfiniteJobsSuccess({ jobs, page, hasNext, nextPage, jobTitles, areas }) {
+function fetchInfiniteJobsSuccess({ jobs, page, hasNext, nextPage, jobTitles, areas, total }) {
   return {
     type: FETCH_INFINITE_JOBS.SUCCESS,
-    payload: { jobs, page, hasNext, nextPage, jobTitles, areas }
+    payload: { jobs, page, hasNext, nextPage, jobTitles, areas, total }
   }
 }
 

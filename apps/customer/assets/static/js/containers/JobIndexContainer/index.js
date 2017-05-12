@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import * as JobIndexActionCreators from './action';
 import { JobList, JobFilterBox } from 'components';
 import { TECH_KEYWORD } from 'constants';
-import Infinite from 'react-infinite';
 import Wrapper from './styles';
 
 const propTypes = {
@@ -19,6 +18,7 @@ const propTypes = {
   page: PropTypes.number.isRequired,
   nextPage: PropTypes.number.isRequired,
   hasNext: PropTypes.bool.isRequired,
+  total: PropTypes.number.isRequired,
   errorMessage: PropTypes.string.isRequired,
   actions: PropTypes.shape({
     selectItem: PropTypes.func.isRequired,
@@ -44,7 +44,8 @@ function mapStateToProps({ jobIndex }) {
     suggestedTechKeywords,
     page,
     nextPage,
-    hasNext
+    hasNext,
+    total
   } = jobIndex;
 
   return {
@@ -60,7 +61,8 @@ function mapStateToProps({ jobIndex }) {
     suggestedTechKeywords,
     page,
     nextPage,
-    hasNext
+    hasNext,
+    total
   }
 }
 
@@ -93,6 +95,7 @@ class JobIndexContainer extends Component {
   componentWillReceiveProps(newProps) {
     if (this.needUpdate(newProps)) {
       console.log("will receive");
+      // remove initla load
       this.props.actions.fetchJobs(this.getSearchPath(newProps));
     }
   }
@@ -170,19 +173,11 @@ class JobIndexContainer extends Component {
   }
 
   renderJobs(jobs) {
-    console.log(jobs)
     if (jobs.length === 0) { return }
+    console.log(this.props.total)
     return (
-      <Infinite
-        infiniteLoadBeginEdgeOffset={1000}
-        onInfiniteLoad={this.handleLoad}
-        containerHeight={1500}
-        elementHeight={198}
-        preloadBatchSize={Infinite.containerHeightScaleFactor(5)}
-        useWindowAsScrollContainer
-      >
-        <JobList jobs={jobs} handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus} />
-      </Infinite>
+      <JobList jobs={jobs} total={this.props.total} handleLoad={this.handleLoad} handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus} />
+
     )
   }
 

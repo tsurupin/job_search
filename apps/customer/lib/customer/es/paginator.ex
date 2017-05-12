@@ -14,7 +14,7 @@ defmodule Customer.Es.Paginator do
     next_page: 0,
     has_prev: false,
     has_next: false,
-    total_entries: 0,
+    total: 0,
     total_pages: 0,
   ]
 
@@ -33,7 +33,8 @@ defmodule Customer.Es.Paginator do
       entries: entries(results[:hits][:hits]),
       page_size: options[:page_size],
       page: page,
-      total_pages: pages
+      total_pages: pages,
+      total: results[:hits][:total]
     }
     |> add_pagination_info
   end
@@ -55,7 +56,8 @@ defmodule Customer.Es.Paginator do
       prev_page: map.page - 1,
       next_page: map.page + 1,
       has_prev: map.page > 1,
-      has_next: map.page < map.total_pages
+      has_next: map.page < map.total_pages,
+      total: map.total
     }
   end
 

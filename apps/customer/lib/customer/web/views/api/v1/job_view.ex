@@ -3,12 +3,13 @@ defmodule Customer.Web.Api.V1.JobView do
 
   @default_attributes [:id, :name]
 
-  def render("index.json", %{jobs: %{entries: jobs, has_next: has_next, next_page: next_page, page: page}, job_titles: job_title_names, areas: area_names} = params) do
+  def render("index.json", %{jobs: %{entries: jobs, has_next: has_next, next_page: next_page, page: page, total: total}, job_titles: job_title_names, areas: area_names} = params) do
    %{
        jobs: Enum.map(jobs, &(parse(&1))),
        hasNext: has_next,
        nextPage: next_page,
        page: page,
+       total: total,
        jobTitles: job_title_names,
        areas: area_names
     }
