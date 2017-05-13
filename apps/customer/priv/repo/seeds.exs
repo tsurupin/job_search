@@ -11,7 +11,8 @@
 # and so on) as they will fail if something goes wrong.
 Application.load(:tzdata)
 :ok = Application.ensure_started(:tzdata)
-alias Customer.Web.{TechKeyword, Area, State}
+
+alias Customer.Web.{TechKeyword, State}
 alias Customer.Repo
 
 infra = ~w(Docker Ansible Chef AWS Amazonwebservice Pupet)
@@ -40,11 +41,13 @@ states = ["Alabama,AL", "Alaska,AK", "Arizona,AZ", "Arkansas,AR", "California,CA
           "Vermont,VT", "Virginia,VA", "Washington,WA", "West Virginia,WV",
           "Wisconsin,WI", "Wyoming,WY"
           ]
-states_with_abbreviation = Enum.map(states, &(String.split(&1, ",")))
+states_with_abbreviations = Enum.map(states, &(String.split(&1, ",")))
 
-Enum.each(states_with_abbreviation, fn(state) ->
+Enum.each(states_with_abbreviations, fn(state) ->
   State.changeset(%State{}, %{name: Enum.at(state, 0), abbreviation: Enum.at(state, 1)})
-  |> Repo.insert
+  |> Repo.insert!
+end)
+
 
 Enum.each(tech_keywords, fn(keyword) ->
   Enum.each(keyword.names, fn(name) ->
