@@ -94,8 +94,6 @@ class JobIndexContainer extends Component {
 
   componentWillReceiveProps(newProps) {
     if (this.needUpdate(newProps)) {
-      console.log("will receive");
-      // remove initla load
       this.props.actions.fetchJobs(this.getSearchPath(newProps));
     }
   }
@@ -161,8 +159,6 @@ class JobIndexContainer extends Component {
 
   handleLoad() {
     if (this.props.hasNext) {
-
-
       this.props.actions.selectItem('page', this.props.nextPage);
     }
   }
@@ -174,7 +170,6 @@ class JobIndexContainer extends Component {
 
   renderJobs(jobs) {
     if (jobs.length === 0) { return }
-    console.log(this.props.total)
     return (
       <JobList jobs={jobs} total={this.props.total} handleLoad={this.handleLoad} handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus} />
 

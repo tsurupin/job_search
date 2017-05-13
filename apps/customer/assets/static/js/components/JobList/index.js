@@ -9,17 +9,15 @@ const propTypes = {
 };
 
 const JobList = ({jobs, total, handleSwitchFavoriteStatus, handleLoad}) =>{
-  console.log(total)
   return (
     <Wrapper>
       <SubHeading>{`${total} startups`}</SubHeading>
       <Infinite
-        infiniteLoadBeginEdgeOffset={10}
+        infiniteLoadBeginEdgeOffset={500}
         onInfiniteLoad={handleLoad}
-        containerHeight={1500}
-        elementHeight={150}
+        containerHeight={2000}
         preloadBatchSize={Infinite.containerHeightScaleFactor(2)}
-        useWindowAsScrollContainer
+        elementHeight={200}
       >
       {renderJobRows(jobs, handleSwitchFavoriteStatus)}
       </Infinite>
