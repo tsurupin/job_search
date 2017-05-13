@@ -5,15 +5,25 @@ defmodule Scraper.Site.Sequoia.Index do
   @indexURL "https://www.sequoiacap.com/jobs/?filters=19+13+15+12+sanfrancisco+peninsula+southbay+eastbay"
   @rootURL "https://www.sequoiacap.com"
 
-  def perform(url \\ @indexURL) do
-    url
-    |> scrape_links
-    |> Enum.each(&(parse_detail(&1)))
+  @retryLimit 3
+  def perform(url \\ @indexURL, retry \\ 0) do
+    case (scrape_links(url)) do
+      {:error, :timeout} ->
+        if retry > @retryLimit do
+          IO.inspect "failed to scrape"
+        else
+          perform(url, retry + 1)
+        end
+      links -> Enum.each(links, &(parse_detail(&1)))
+
+    end
   end
 
   defp scrape_links(url) do
     Hound.start_session
-    navigate_to "#{url}"
+    navigate_to "#{url}", 2
+    :timer.sleep(:timer.seconds(2))
+
     links =
       page_source()
       |> Floki.parse
@@ -25,7 +35,7 @@ defmodule Scraper.Site.Sequoia.Index do
   end
 
   defp parse_detail(path) do
-    Task.start_link(fn -> Show.perform(detail_url(path)) end)
+    Task.start(fn -> Show.perform(detail_url(path)) end)
   end
 
   defp detail_url(path) do
