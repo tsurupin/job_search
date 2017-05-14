@@ -2,9 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as JobShowActionCreators from './action';
-import { FavoriteButton, CompanyWrapper, CompanyItem } from 'components';
-import MdLocationCity from 'react-icons/lib/md/location-city';
-import MdLocationOn from 'react-icons/lib/md/location-on';
+import { FavoriteButton, CompanyInfo } from 'components';
+
 import {
   Wrapper,
   Heading,
@@ -13,7 +12,7 @@ import {
   FavoriteButtonWrapper,
   TitleLink
 } from './styles';
-import colors from 'styles/colors';
+
 import { TagList, Title, ErrorMessage, RelatedJobList } from 'components';
 
 function mapStateToProps({jobShow}) {
@@ -89,27 +88,13 @@ class JobShowContainer extends Component {
 
     if(loading) { return(<div></div>) }
 
-    const iconStyle = {
-      color: colors.leadSentenceColor,
-      marginRight: 5
-    };
-
     if(errorMessage) return <ErrorMessage>{errorMessage}</ErrorMessage>;
 
     return(
       <Wrapper>
         <Heading>
           <TitleLink target="_blank" href={url}>{title}</TitleLink>
-          <CompanyWrapper>
-            <CompanyItem>
-              <MdLocationCity style={iconStyle} />
-              <span>{company.name}</span>
-            </CompanyItem>
-            <CompanyItem>
-              <MdLocationOn style={iconStyle}  />
-              <span>{area}</span>
-            </CompanyItem>
-          </CompanyWrapper>
+          <CompanyInfo name={company.name} area={area} />
           {this.renderTechKeywords()}
           {this.renderFavoriteButton()}
         </Heading>

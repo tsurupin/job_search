@@ -12,21 +12,6 @@ export const Heading = styled.div`
   border-bottom: 1px solid ${colors.listBorderColor};
 `;
 
-export const CompanyWrapper = styled.div`
-  display: flex;
-  margin-top: 5px;
-  ${fonts('font-medium')} 
-  line-height: 1.4;
-  color: ${colors.leadSentenceColor};
-  word-wrap: break-word;
-  padding-bottom: 15px;
-`;
-
-export const CompanyItem = styled.div`
-  margin-right: 10px;
-`;
-
-
 export const TitleLink = styled.a`
   ${fonts('font-title')}
   line-height: 1.12;

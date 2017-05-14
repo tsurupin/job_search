@@ -25,5 +25,4 @@ export Title from './Title';
 export ErrorMessage from './ErrorMessage';
 export SubText from './SubText';
 export Textarea from './Textarea';
-export CompanyWrapper from './CompanyWrapper';
-export CompanyItem from './CompanyItem';
+export CompanyInfo from './CompanyInfo';
