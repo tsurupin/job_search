@@ -2,14 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as JobShowActionCreators from './action';
-import { FavoriteButton } from 'components';
+import { FavoriteButton, CompanyWrapper, CompanyItem } from 'components';
 import MdLocationCity from 'react-icons/lib/md/location-city';
 import MdLocationOn from 'react-icons/lib/md/location-on';
 import {
   Wrapper,
   Heading,
-  CompanyWrapper,
-  CompanyItem,
   Content,
   Description,
   FavoriteButtonWrapper,

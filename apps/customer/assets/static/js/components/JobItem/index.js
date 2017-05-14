@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import { FavoriteButton, TagList, Title, SubText } from 'components';
+import { FavoriteButton, TagList, Title, SubText, CompanyWrapper, CompanyItem } from 'components';
 import { Wrapper, DateTime, JobWrapper, JobInfo, FavoriteButtonWrapper } from './styles';
+import MdLocationCity from 'react-icons/lib/md/location-city';
+import MdLocationOn from 'react-icons/lib/md/location-on';
+import colors from 'styles/colors';
 
 const propTypes = {
   id: PropTypes.number.isRequired,
@@ -13,14 +16,28 @@ const propTypes = {
   handleSwitchFavoriteStatus: PropTypes.func.isRequired
 };
 
-const JobItem = ({id, title, area, updatedAt, techs, index, favorited, submitting, handleSwitchFavoriteStatus}) =>{
+const iconStyle = {
+  color: colors.leadSentenceColor,
+  marginRight: 5
+};
+
+const JobItem = ({id, title, area, companyName, updatedAt, techs, index, favorited, submitting, handleSwitchFavoriteStatus}) =>{
   return (
     <Wrapper>
       <JobWrapper>
         <JobInfo>
           <Link to={`/jobs/${id}`} >
             <Title>{title}</Title>
-            <SubText>{area}</SubText>
+            <CompanyWrapper>
+              <CompanyItem>
+                <MdLocationCity style={iconStyle} />
+                <span>{companyName}</span>
+              </CompanyItem>
+              <CompanyItem>
+                <MdLocationOn style={iconStyle}  />
+                <span>{area}</span>
+              </CompanyItem>
+            </CompanyWrapper>
           </Link>
           <TagList tags={techs} />
         </JobInfo>
