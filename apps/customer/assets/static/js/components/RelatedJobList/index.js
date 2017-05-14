@@ -10,7 +10,7 @@ const RelatedJobList = ({jobs}) => {
       {jobs.map(job => {
         return (
           <RelatedJobLink key={job.id} to={`/jobs/${job.id}`}>
-            <Title>{job.jobTitle}</Title>
+            <Title>{job.title}</Title>
             <SubText>{job.area}</SubText>
           </RelatedJobLink>
         );
@@ -24,7 +24,7 @@ const propTypes = {
   jobs: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      jobTitle: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
       area: PropTypes.string.isRequired,
     }).isRequired
   ).isRequired

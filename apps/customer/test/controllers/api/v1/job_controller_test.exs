@@ -28,7 +28,8 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
          "areas" => Enum.map(j.areas, &(&1.name)),
          "hasNext" => false,
          "nextPage" => 2,
-         "page" => 1
+         "page" => 1,
+         "total" => 2
         }
 
         assert body == result
@@ -49,7 +50,8 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
          "areas" => Enum.map(j.areas, &(&1.name)),
          "hasNext" => false,
          "nextPage" => 2,
-         "page" => 1
+         "page" => 1,
+         "total" => 2
        }
 
        assert body == result
@@ -66,7 +68,8 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
              "areas" => Enum.map(j.areas, &(&1.name)),
              "hasNext" => false,
              "nextPage" => 2,
-             "page" => 1
+             "page" => 1,
+             "total" => 1
            }
          assert body == result
       end
@@ -126,6 +129,7 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
         "id" => id,
         "area" => area,
         "jobTitle" => jobTitle,
+        "title" => title,
         "techKeywords" => techKeywords,
         "company" => company,
         "url" => url,
@@ -134,6 +138,7 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
       assert id == j.job.id
       assert area == j.area.name
       assert jobTitle == j.job_title.name
+      assert title == j.job.title["value"]
       assert techKeywords == Enum.map(j.tech_keywords, &(%{"id" => &1.id, "name" => &1.name}))
       assert company == %{"id" => j.company.id, "name" => j.company.name}
       assert detail == j.job.detail["value"]
@@ -152,11 +157,12 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
     end
   end
 
-  defp build_job_attributes([job_id: id, job_title: job_title, detail: detail, company_name: _company_name, area: area, techs: techs, updated_at: updated_at]) do
+  defp build_job_attributes([job_id: id, job_title: job_title, title: title, detail: detail, company_name: _company_name, area: area, techs: techs, updated_at: updated_at]) do
     %{
       "id" => id,
       "area" => area,
       "jobTitle" => job_title,
+      "title" => title,
       "detail" => detail,
       "techs" => techs,
       "updatedAt" => updated_at

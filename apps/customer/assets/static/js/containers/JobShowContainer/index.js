@@ -87,7 +87,7 @@ class JobShowContainer extends Component {
 
   render() {
     const { loading, errorMessage, job} = this.props;
-    const { jobTitle, company, detail, area, url } = job;
+    const { title, company, detail, area, url } = job;
 
     if(loading) { return(<div></div>) }
 
@@ -101,7 +101,7 @@ class JobShowContainer extends Component {
     return(
       <Wrapper>
         <Heading>
-          <TitleLink target="_blank" href={url}>{jobTitle}</TitleLink>
+          <TitleLink target="_blank" href={url}>{title}</TitleLink>
           <CompanyWrapper>
             <CompanyItem>
               <MdLocationCity style={iconStyle} />

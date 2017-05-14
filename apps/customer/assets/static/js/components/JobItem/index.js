@@ -5,7 +5,7 @@ import { Wrapper, DateTime, JobWrapper, JobInfo, FavoriteButtonWrapper } from '.
 
 const propTypes = {
   id: PropTypes.number.isRequired,
-  jobTitle: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   area: PropTypes.string.isRequired,
   updatedAt: PropTypes.string.isRequired,
   techs: PropTypes.array.isRequired,
@@ -13,13 +13,13 @@ const propTypes = {
   handleSwitchFavoriteStatus: PropTypes.func.isRequired
 };
 
-const JobItem = ({id, jobTitle, area, updatedAt, techs, index, favorited, submitting, handleSwitchFavoriteStatus}) =>{
+const JobItem = ({id, title, area, updatedAt, techs, index, favorited, submitting, handleSwitchFavoriteStatus}) =>{
   return (
     <Wrapper>
       <JobWrapper>
         <JobInfo>
           <Link to={`/jobs/${id}`} >
-            <Title>{jobTitle}</Title>
+            <Title>{title}</Title>
             <SubText>{area}</SubText>
           </Link>
           <TagList tags={techs} />

@@ -15,10 +15,11 @@ defmodule Customer.Web.Api.V1.JobView do
     }
   end
 
-  def render("show.json", %{job: %Job{id: id, job_title: job_title, area: area, tech_keywords: tech_keywords, company: company, detail: detail, favorited: favorited, url: url}, related_jobs: related_jobs }) do
+  def render("show.json", %{job: %Job{id: id, job_title: job_title, title: title, area: area, tech_keywords: tech_keywords, company: company, detail: detail, favorited: favorited, url: url}, related_jobs: related_jobs }) do
     %{
         id: id,
         jobTitle: job_title.name,
+        title: title["value"],
         area: area.name,
         techKeywords: fetch(tech_keywords),
         company: fetch(company),
@@ -35,10 +36,11 @@ defmodule Customer.Web.Api.V1.JobView do
     }
   end
 
-  defp parse(%{job_id: id, job_title: job_title, area: area, updated_at: updated_at, techs: techs, detail: detail, favorited: favorited} = params) when is_boolean(favorited) do
+  defp parse(%{job_id: id, job_title: job_title, title: title, area: area, updated_at: updated_at, techs: techs, detail: detail, favorited: favorited} = params) when is_boolean(favorited) do
     %{
         id: id,
         jobTitle: job_title,
+        title: title,
         area: area,
         updatedAt: updated_at,
         techs: techs,
@@ -47,11 +49,12 @@ defmodule Customer.Web.Api.V1.JobView do
     }
   end
 
-  defp parse(%{job_id: id, job_title: job_title, area: area, updated_at: updated_at,techs: techs, detail: detail} = params) do
+  defp parse(%{job_id: id, job_title: job_title, title: title, area: area, updated_at: updated_at,techs: techs, detail: detail} = params) do
     %{
         id: id,
         jobTitle: job_title,
         area: area,
+        title: title,
         updatedAt: updated_at,
         techs: techs,
         detail: detail
@@ -65,11 +68,11 @@ defmodule Customer.Web.Api.V1.JobView do
     parse_related_jobs(remaining, jobs ++ [parse_related_job(current)])
   end
 
-  defp parse_related_job(job) do
+  defp parse_related_job(%Job{id: id, title: title, area: area} = job) do
     %{
-      id: job.id,
-      jobTitle: job.job_title.name,
-      area: job.area.name
+      id: id,
+      title: title["value"],
+      area: area.name
     }
   end
 
