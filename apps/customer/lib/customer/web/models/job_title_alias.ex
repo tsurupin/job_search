@@ -3,7 +3,7 @@ defmodule Customer.Web.JobTitleAlias do
 
   schema "job_title_aliases" do
     field :name, :string
-    timestamps
+    timestamps()
 
     belongs_to :job_title, JobTitle
   end

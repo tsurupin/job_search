@@ -25,7 +25,8 @@ defmodule Customer.Web.Query.JobTitleAlias do
 
   defp transform_to_string(word) do
     word
-    |> String.replace(~r/[\s,\.-_]/, "", global: true)
+    |> String.replace(~r/((,|\(|\.|_).*|\s-.*)/,"")
+    |> String.trim
     |> String.downcase
   end
 
