@@ -10,7 +10,7 @@ defmodule Customer.Web.Api.V1.JobView do
        nextPage: next_page,
        page: page,
        total: total,
-       jobTitles: job_title_names,
+       jobTitles: capitalize(job_title_names),
        areas: area_names
     }
   end
@@ -36,27 +36,29 @@ defmodule Customer.Web.Api.V1.JobView do
     }
   end
 
-  defp parse(%{job_id: id, job_title: job_title, title: title, area: area, updated_at: updated_at, techs: techs, detail: detail, favorited: favorited} = params) when is_boolean(favorited) do
+  defp parse(%{job_id: id, job_title: job_title, company_name: company_name, title: title, area: area, updated_at: updated_at, techs: techs, detail: detail, favorited: favorited} = params) when is_boolean(favorited) do
     %{
         id: id,
         jobTitle: job_title,
         title: title,
-        area: area,
+        companyName: company_name,
+        area: String.capitalize(area),
         updatedAt: updated_at,
-        techs: techs,
+        techs: capitalize(techs),
         detail: detail,
         favorited: favorited
     }
   end
 
-  defp parse(%{job_id: id, job_title: job_title, title: title, area: area, updated_at: updated_at,techs: techs, detail: detail} = params) do
+  defp parse(%{job_id: id, job_title: job_title, company_name: company_name, title: title, area: area, updated_at: updated_at,techs: techs, detail: detail} = params) do
     %{
         id: id,
         jobTitle: job_title,
-        area: area,
         title: title,
+        companyName: company_name,
+        area: String.capitalize(area),
         updatedAt: updated_at,
-        techs: techs,
+        techs: capitalize(techs),
         detail: detail
     }
   end
@@ -92,5 +94,10 @@ defmodule Customer.Web.Api.V1.JobView do
   defp add_favorite_if_existed(map, favorited) do
     Map.put_new(map, :favorited, favorited)
   end
+
+  defp capitalize(words) when is_list(words) do
+    words |> Enum.map(&(String.capitalize(&1)))
+  end
+
 
 end

@@ -24,7 +24,7 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
             build_job_attributes(job)
             |> add_favorite_if_needed(j.user)
           end),
-         "jobTitles" =>  Enum.map(j.job_titles, &(&1.name)),
+         "jobTitles" =>  Enum.map(j.job_titles, &(String.capitalize(&1.name))),
          "areas" => Enum.map(j.areas, &(&1.name)),
          "hasNext" => false,
          "nextPage" => 2,
@@ -46,7 +46,7 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
       result =
       %{
          "jobs" => Enum.map(j.jobs, &(build_job_attributes(&1))),
-         "jobTitles" =>  Enum.map(j.job_titles, &(&1.name)),
+         "jobTitles" =>  Enum.map(j.job_titles, &(String.capitalize(&1.name))),
          "areas" => Enum.map(j.areas, &(&1.name)),
          "hasNext" => false,
          "nextPage" => 2,
@@ -64,7 +64,7 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
         result =
           %{
              "jobs" => [build_job_attributes(Enum.at(j.jobs, 1))],
-             "jobTitles" =>  Enum.map(j.job_titles, &(&1.name)),
+             "jobTitles" =>  Enum.map(j.job_titles, &(String.capitalize(&1.name))),
              "areas" => Enum.map(j.areas, &(&1.name)),
              "hasNext" => false,
              "nextPage" => 2,
@@ -157,14 +157,15 @@ defmodule Customer.Web.Api.V1.JobControllerTest do
     end
   end
 
-  defp build_job_attributes([job_id: id, job_title: job_title, title: title, detail: detail, company_name: _company_name, area: area, techs: techs, updated_at: updated_at]) do
+  defp build_job_attributes([job_id: id, job_title: job_title, title: title, detail: detail, company_name: company_name, area: area, techs: techs, updated_at: updated_at]) do
     %{
       "id" => id,
-      "area" => area,
+      "area" => String.capitalize(area),
+      "companyName" => company_name,
       "jobTitle" => job_title,
       "title" => title,
       "detail" => detail,
-      "techs" => techs,
+      "techs" => Enum.map(techs, &(String.capitalize(&1))),
       "updatedAt" => updated_at
     }
   end
