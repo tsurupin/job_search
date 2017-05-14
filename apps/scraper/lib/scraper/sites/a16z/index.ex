@@ -5,7 +5,7 @@ defmodule Scraper.Site.A16z.Index do
 
   def perform(url \\ @scrapeURL, page \\ 1)
 
-  @maxPage 5
+  @maxPage 15
   def perform(url, page) when page > @maxPage do
     IO.inspect "reaches to limit"
   end

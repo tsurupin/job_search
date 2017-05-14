@@ -58,23 +58,26 @@ Enum.each(tech_keywords, fn(keyword) ->
 end)
 
 job_title_and_aliases = %{
-  "software engineer" => ["rails engineer", "software development engineer", "production engineer", "windows engineer", ".net developer", "core software engineer"],
-  "senior software engineer" => ["sr. software engineer", "senior java software engineer", "sr embedded software engineer", "senior software development engineer"],
-  "full stack engineer" =>["full stack software engineer", "full stack developer", "full-stack engineer", "growth engineer"],
-  "frontend engineer" => ["full-stack software engineer", "web ui engineer", "senior frontend engineer", "senior front end engineer", "senioer ui engineer", "sr. ui engineer", "front-end js", "rf design engineer"],
-  "principal engineer" => ["principal software development engineer"],
-  "director of engineering" => ["senior manager"],
-  "lead software engineer" => ["software engineering lead", "lead performance engineer"],
-  "software engineering manager" => ["development manager", "engineering manager", "infrastructure and security manager", "development manager"],
-  "site reliability engineer" => ["devops", "insfrastructure engineer", "senior devops engineer", "techops engineer", "systems engineer", "senior site reliability engineer", "network reliability engineer", "senioer devops", "senior infrastructure software engineer", "senior cloud integration engineer"],
-  "backend engineer" => ["backend web developer", "senior backend engineer", "backend software engineer", "senior network engineer"],
-  "mobile engineer" => ["senior ios developer", "lead ios engineer", "senior android engineer", "android engineer", "ios engineer", "senior ios developer", "senior mobile engineer"],
-  "qa engineer" => ["sr. software qa engineer", "software quality assurance engineer", "system test engineer", "software development engineer in test", "sr. software qa engineer", "quality engineer", "release engineer", "build and release engineer"],
+  "software engineer" => ["rails engineer", "applications developer", "rotational software engineer", "business technology developer", "product integration engineer", "api engineer", "content developer", "software engineer-", "temporary python developer", "temporary python engineer", "sdk", "open source engineer", "software development engineer", "production engineer", "windows engineer", "windows developer", ".net developer", "core software engineer", "java engineer", "optimizations engineer", "embedded linux software engineer", "instagram", "sdk engineer", "computational geometry software engineer", "mid-level java software engineer", "staff identity engineer", "application engineer", "knowledge engineer", "senior salesforce developer", "ruby developer", "closure engineer", "creative developer", "ruby on rails developer", "ruby on rails engineer", "post sound engineer", "technical solutions engineer", "enginnering", "web software engineer", "bitcoin protocol engineer", "platform engineer", "application platform engineer", "c++ engineer", "unity generalist engineer", "blockchain engineer", "research software engineer", "computational biology engineer", "game engineer", "karnel software engineer", "camera software engineer", "automation engineer", "internationalization engineer", "research engineer"],
+  "senior software engineer" => ["sr. software engineer", "senior algorithm", "sr software engineer", "senior platform engineer", "senior java software engineer", "sr embedded software engineer", "senior software development engineer","senior software developer", "senior", "senior algorithm engineer", "sf", "senior data visualization engineer", "senior software engineer-finance engineering", "advanced software development engineer", "advanced software engineer", "senior javascript engineer", "senior performance and scale engineer", "senior platform architect", "senior node.js engineer", "senior web developer", "sr web developer backend", "senior camera software engineer", "senior virtual effects software engineer", "senior nanodegree service lead"],
+  "full stack engineer" =>["full-stack software engineer", "full-stack frontend engineer", "senior full stack developer", "senior full stack engineer", "full stack software engineer", "engineering generalist", "software engineering generalist", "full stack developer", "full-stack engineer", "growth engineer", "full stack web engineer", "generalist engineers", "full stack web instructor and curriculum engineer"],
+  "frontend engineer" => [ "web ui engineer", "senior frontend engineer", "senior front end engineer", "senioer ui engineer", "sr. ui engineer", "front end engineer", "front-end js", "rf design engineer", "ui architect", "javascript developer"],
+  "principal engineer" => ["principal software development engineer", "chief architect", "pincipalsoftware architect", "software architect container core platform", "principal software engineer", "software architect", "staff engineer", "staff software engineer"],
+  "director of engineering" => ["senior manager", "director", "director of software engineering"],
+  "lead software engineer" => ["technical lead", "software developer team lead", "software engineering lead", "lead performance engineer", "web developer lead", "lead software developer", "lead", "team leader", "tech lead", "backend engineering lead", "lead mobile engineer", "sustaining team lead", "staff backend engineer", "staff software development engineer"],
+  "software engineering manager" => ["development manager", "engineering manager", "infrastructure and security manager", "software frameworks manager", "lead unity engineer", "brokerage engineering manager", "manager", "manager of data science"],
+  "site reliability engineer" => ["devops", "senior cloud engineer", "software engineer cloud computing", "insfrastructure engineer", "senior devops engineer", "techops engineer", "systems engineer", "senior site reliability engineer", "network reliability engineer", "senioer devops", "senior infrastructure software engineer", "senior cloud integration engineer", "jira integration engineer", "senior cloud platform software engineer", "cloud software engineer", "private cloud technical engineer", "software integration engineer", "cloud platform engineer"],
+  "backend engineer" => ["backend web developer", "backend-services engineer", "backend python engineer", "senior backend engineer", "senior backend software engineer", "senior back end developer", "backend software engineer","senior network engineer", "senior python backend engineer", "backend", "server applications software engineer", "java backend engineer", "server-side software engineer", "back-end engineer", "java server developer", "senior java server engineer"],
+  "mobile engineer" => ["principal ios engineer", "mobile application engineer", "android lead", "principal android engineer", "lead ios engineer", "senior android engineer", "senior android software engineer", "android engineer", "ios engineer", "senior ios developer", "ios developer", "senior ios engineer", "senior mobile engineer", "senioer mobile developer", "junior android engineer", "android developer", "mobile software developer", "android software frameworks engineer", "android software engineer", "ios media", "senior ios software engineer", "mobile build engineer", "senior android development engineer", "iod instructor and curriculum engineer", "react native"],
+  "qa engineer" => ["sr. software qa engineer", "software quality assurance engineer", "system test engineer", "software development engineer in test", "quality engineer", "release engineer", "build and release engineer", "release manager", "build"],
   "product manager" => ["senior product manager", "principal product manager", "product operations manager", "sr. product manager", "project manager"],
-  "analyst" => ["energy analyst", "product operations analyst", "business analyst", "product analyst"],
-  "data scientist" => ["statistics data scientist", "senioer data scientist", "professional services analyst", "data science lead"],
-  "data engineer" => ["big data architect", "big data operations engineer"],
-  "security engineer" => ["principal security engineer", "security software engineer", "lead security engineer"]
+  "analyst" => ["energy analyst", "product operations analyst", "business analyst", "product analyst","principal actuarial analyst", "senior data analyst", "data analyst", "senior analyst", "senior platform researcher"],
+  "data scientist" => ["statistics data scientist", "senioer data scientist", "professional services analyst", "data science lead", "marketing data scientist", "network data scientist", "senior data science engineer", "applied research scientist", "operations research scientist"],
+  "data engineer" => ["big data architect", "big data operations engineer", "senior data engineer", "lead etl developer", "hadoop spark engineer", "data and analytics software engineer", "senior hadoop engineer", "hadoop engineer"],
+  "machine learning engineer" => ["machine learning engineer", "senior machine learning engineer", "computer vision engineer", "machine learning data scientist", "senior computer vision scientist", "computer vision research engineer"],
+  "vp of engineering" => ["vp"],
+  "security engineer" => ["principal security engineer", "security software engineer", "lead security engineer"],
+  "technical writer" => ["technical wditor", "senior technical writer", "developer advocate"]
 }
 
 Enum.each(Map.keys(job_title_and_aliases), fn(title) ->
@@ -87,6 +90,7 @@ Enum.each(job_title_and_aliases, fn{title, aliases} ->
   job_title = Repo.get_by(JobTitle, name: title)
   Enum.each(aliases, fn(alias) ->
     JobTitleAlias.changeset(%JobTitleAlias{}, %{job_title_id: job_title.id, name: alias})
+    |> Repo.insert!
   end)
 end
 )

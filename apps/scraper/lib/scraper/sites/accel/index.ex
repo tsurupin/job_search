@@ -2,7 +2,7 @@ defmodule Scraper.Site.Accel.Index do
   alias Scraper.Site.Accel.Show
 
   @scrapeURL "http://careers.accel.com/careers_home.php?Company=%25&Industry=%25&Function=12&Location=%25"
-  @maxPage 5
+  @maxPage 15
 
   def perform(url \\ @scrapeURL, page \\ 1)
   def perform(url, page) when page > @maxPage do
