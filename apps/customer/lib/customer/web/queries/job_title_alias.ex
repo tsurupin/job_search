@@ -28,14 +28,14 @@ defmodule Customer.Web.Query.JobTitleAlias do
      end
   end
 
-  defp transform_to_string(word) do
+  def transform_to_string(word) do
     word
-    |> String.replace(~r/((,|\(|\.|_|:|\/).*|\s+.(-|–).*|-\s+.*)/,"")
+    |> String.replace(~r/((,|\(|\.|_|:|\/).*|\s+.(-|–).*| – .*|-\s+.*)/,"")
     |> String.trim
     |> String.downcase
   end
 
-  @approximate_word_threshold 0.8
+  @approximate_word_threshold 0.95
   defp approximate_word?(word1, word2) do
     String.jaro_distance(word1, word2) >= @approximate_word_threshold
   end
