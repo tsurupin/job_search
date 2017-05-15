@@ -9,6 +9,11 @@ import {
   UNFAVORITE_JOB_INDEX
 } from './constants';
 
+import {
+  REMOVE_FAVORITE_JOB,
+  UNFAVORITE_JOB
+} from 'constants';
+
 const INITIAL_STATE = {
   jobs: [],
   loading: false,
@@ -73,20 +78,28 @@ export default function(state = INITIAL_STATE, action) {
 
     case FAVORITE_JOB_INDEX.REQUEST:
     case UNFAVORITE_JOB_INDEX.REQUEST: {
-      return {...state, jobs: update_favorite_job(state.jobs, action.payload.sortRank, true)};
+      return {...state, jobs: updateFavoriteJob(state.jobs, action.payload.sortRank, true)};
     }
 
     case FAVORITE_JOB_INDEX.SUCCESS: {
-      return {...state, jobs: update_favorite_job(state.jobs, action.payload.sortRank, false, true)};
+      return {...state, jobs: updateFavoriteJob(state.jobs, action.payload.sortRank, false, true)};
     }
 
     case UNFAVORITE_JOB_INDEX.SUCCESS: {
-      return {...state, jobs: update_favorite_job(state.jobs, action.payload.sortRank, false, false)};
+      return {...state, jobs: updateFavoriteJob(state.jobs, action.payload.sortRank, false, false)};
     }
 
     case FAVORITE_JOB_INDEX.FAILURE:
     case UNFAVORITE_JOB_INDEX.FAIURE: {
-      return {...state, jobs: update_favorite_job(state.jobs, action.payload.sortRank, false)};
+      return {...state, jobs: updateFavoriteJob(state.jobs, action.payload.sortRank, false)};
+    }
+
+    case REMOVE_FAVORITE_JOB.SUCCESS:
+    case UNFAVORITE_JOB.SUCCESS: {
+      const { jobId } = action.payload;
+      const sortRank = findSortRank(state.jobs, jobId);
+      if (sortRank === -1) { return state }
+      return {...state, jobs: updateFavoriteJob(state.jobs, sortRank, false, false)};
     }
 
     default: {
@@ -95,9 +108,15 @@ export default function(state = INITIAL_STATE, action) {
   }
 }
 
-function update_favorite_job(jobs, sortRank, submitting, favorited = null) {
+function updateFavoriteJob(jobs, sortRank, submitting, favorited = null) {
   let job = { ...jobs[sortRank], submitting };
   if (favorited !== null) { job = {...job, favorited } }
 
   return [ ...jobs.slice(0, sortRank), job, ...jobs.slice(sortRank+1) ]
+}
+
+function findSortRank(jobs, jobId) {
+  return jobs.findIndex((job, _index, _arr) => {
+    return job.id === jobId
+  })
 }

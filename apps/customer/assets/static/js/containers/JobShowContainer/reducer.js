@@ -1,8 +1,9 @@
 import {
   FETCH_JOB,
-  FAVORITE_JOB,
-  UNFAVORITE_JOB
+  FAVORITE_JOB
 } from './constants';
+
+import { UNFAVORITE_JOB } from 'constants';
 
 const INITIAL_STATE = {
   loading: true,

@@ -1,7 +1,9 @@
 import {
   FETCH_FAVORITE_JOBS,
-  REMOVE_FAVORITE_JOB
+  UPDATE_FAVORITE_JOB
 } from './constants';
+
+import { REMOVE_FAVORITE_JOB } from 'constants';
 
 const INITIAL_STATE = {
   favoriteJobs: [],
@@ -20,9 +22,8 @@ export default function(state = INITIAL_STATE, action) {
 
     case FETCH_FAVORITE_JOBS.FAILURE:
     case REMOVE_FAVORITE_JOB.FAILURE:
-      console.log("aaaaaaa")
+    case UPDATE_FAVORITE_JOB.FAILURE:
       const { errorMessage } = action.payload;
-
       return { ...state, errorMessage, loading: false };
 
     case REMOVE_FAVORITE_JOB.SUCCESS:

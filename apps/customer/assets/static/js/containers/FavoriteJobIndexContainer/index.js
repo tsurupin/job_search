@@ -5,7 +5,17 @@ import * as FavoriteJobsActionCreators from './action';
 import { FavoriteJobList, LoadingMessage, Title } from 'components';
 
 const propTypes = {
-  favoriteJobs: PropTypes.array.isRequired,
+  favoriteJobs: PropTypes.arrayOf(
+    PropTypes.shape({
+      interest: PropTypes.number.isRequired,
+      jobId: PropTypes.number.isRequired,
+      jobTitle: PropTypes.string.isRequired,
+      area: PropTypes.string.isRequired,
+      status: PropTypes.number,
+      company: PropTypes.string.isRequired,
+      remarks: PropTypes.string
+    })
+  ).isRequired,
   loading: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string
 };
@@ -40,11 +50,11 @@ class FavoriteJobIndexContainer extends Component {
   }
 
   componentWillMount() {
-    this.props.actions.fetchFavoriteJobs()
+    this.props.actions.fetchFavoriteJobs();
   }
 
   handleUpdate(jobId, params) {
-    this.props.actions.updateFavoriteJob(jobId, params)
+    this.props.actions.updateFavoriteJob(jobId, params);
   }
 
   handleRemove(jobId, sortRank) {

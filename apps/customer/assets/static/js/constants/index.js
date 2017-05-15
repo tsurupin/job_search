@@ -6,6 +6,8 @@ export function createRequestTypes(base) {
   return requestType;
 }
 
+export const REMOVE_FAVORITE_JOB = createRequestTypes('remove_favorite_job');
+export const UNFAVORITE_JOB = createRequestTypes('unfavorite_job');
 export const TECH_KEYWORD = 'techKeyword';
 export const FAVORITE_JOB_PATH = '/me/favorites/jobs';
 export const ROOT_URL = '/api/v1';

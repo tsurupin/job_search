@@ -1,6 +1,5 @@
 import styles from 'styled-components';
 import colors from 'styles/colors';
-import fonts from 'styles/fonts';
 
 export const Wrapper = styles.li`
   margin-top: 20px;

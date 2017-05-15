@@ -53,7 +53,7 @@ class FavoriteJobFormItem extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.handleUpdate(this.props.jobId, this.getUpdatedAttributes())
+    this.props.handleUpdate(this.props.jobId, this.getUpdatedAttributes());
   }
 
   handleRemove() {

@@ -2,10 +2,9 @@ import {
   FETCH_JOB,
   JOBS_PATH,
   FETCH_FAVORITE_JOB,
-  FAVORITE_JOB,
-  UNFAVORITE_JOB
+  FAVORITE_JOB
 } from './constants';
-import { FAVORITE_JOB_PATH,  } from 'constants';
+import { FAVORITE_JOB_PATH, UNFAVORITE_JOB } from 'constants';
 
 import axios from 'axios';
 import { createAuthorizeRequest, convertErrorToMessage } from 'utils';
@@ -120,12 +119,12 @@ function favoriteJobFailure(errorMessage) {
 }
 
 export function unfavoriteJob(jobId) {
-  const request = createAuthorizeRequest('delete', `${UNFAVORITE_JOB_PATH}/${jobId}`);
+  const request = createAuthorizeRequest('delete', `${FAVORITE_JOB_PATH}/${jobId}`);
   return dispatch => {
     dispatch(unfavoriteJobRequest());
     return request
-      .then(() => dispatch(unfavoriteJobSuccess()))
-      .error((error) => {
+      .then(() => dispatch(unfavoriteJobSuccess(jobId)))
+      .catch((error) => {
         const errorMessage = convertErrorToMessage(error);
 
         dispatch(unfavoriteJobFailure(errorMessage));
@@ -140,9 +139,10 @@ function unfavoriteJobRequest() {
   }
 }
 
-function unfavoriteJobSuccess() {
+function unfavoriteJobSuccess(jobId) {
   return {
-    type: UNFAVORITE_JOB.SUCCESS
+    type: UNFAVORITE_JOB.SUCCESS,
+    payload: { jobId }
   }
 }
 

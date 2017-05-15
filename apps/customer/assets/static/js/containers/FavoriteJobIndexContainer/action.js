@@ -1,8 +1,9 @@
 import {
   FETCH_FAVORITE_JOBS,
-  REMOVE_FAVORITE_JOB
+  UPDATE_FAVORITE_JOB,
 } from './constants';
-import { FAVORITE_JOB_PATH } from 'constants';
+
+import { FAVORITE_JOB_PATH, REMOVE_FAVORITE_JOB } from 'constants';
 
 import { createAuthorizeRequest, convertErrorToMessage } from 'utils';
 
@@ -42,13 +43,30 @@ function fetchFavoriteJobsFailure(errorMessage) {
 }
 
 export function updateFavoriteJob(jobId, params) {
+  console.log(params)
   const request = createAuthorizeRequest('put', `${FAVORITE_JOB_PATH}/${jobId}`, params);
-  return request
-    .then(() => console.log("success"))
-    .catch(error => {
-      console.error(error.response)
+  return dispatch => {
+    return request
+      .then(() => dispatch(updateFavoriteJobSuccess()))
+      .catch(error => {
+        dispatch(updateFavoriteJobFailure(error.response.statusText))
+      })
+  }
+}
 
-    })
+function updateFavoriteJobSuccess() {
+  console.log("success");
+  return {
+    type: UPDATE_FAVORITE_JOB.SUCCESS
+  }
+}
+
+function updateFavoriteJobFailure(errorMessage) {
+  console.log(errorMessage);
+  return {
+    type: UPDATE_FAVORITE_JOB.FAILURE,
+    payload: { errorMessage }
+  }
 }
 
 
@@ -56,7 +74,7 @@ export function removeFavoriteJob(jobId, sortRank) {
   const request = createAuthorizeRequest('delete', `${FAVORITE_JOB_PATH}/${jobId}`);
   return dispatch => {
     return request
-      .then(() => dispatch(removeFavoriteJobSuccess(sortRank)))
+      .then(() => dispatch(removeFavoriteJobSuccess(jobId, sortRank)))
       .catch((error) => {
         console.log(error);
         const errorMessage = convertErrorToMessage(error);
@@ -65,10 +83,10 @@ export function removeFavoriteJob(jobId, sortRank) {
   }
 }
 
-function removeFavoriteJobSuccess(sortRank) {
+function removeFavoriteJobSuccess(jobId, sortRank) {
   return {
     type: REMOVE_FAVORITE_JOB.SUCCESS,
-    payload: { sortRank }
+    payload: { jobId, sortRank }
   }
 }
 
