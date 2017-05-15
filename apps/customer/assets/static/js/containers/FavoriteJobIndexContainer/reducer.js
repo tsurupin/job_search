@@ -18,8 +18,11 @@ export default function(state = INITIAL_STATE, action) {
       const { favoriteJobs } = action.payload;
       return { ...state, favoriteJobs, loading: false };
 
-    case FETCH_FAVORITE_JOBS.FAILURE, REMOVE_FAVORITE_JOB.FAILURE:
+    case FETCH_FAVORITE_JOBS.FAILURE:
+    case REMOVE_FAVORITE_JOB.FAILURE:
+      console.log("aaaaaaa")
       const { errorMessage } = action.payload;
+
       return { ...state, errorMessage, loading: false };
 
     case REMOVE_FAVORITE_JOB.SUCCESS:

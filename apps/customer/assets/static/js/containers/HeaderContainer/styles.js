@@ -20,6 +20,7 @@ export const FavoriteJobLink  = styled(Link)`
   color: #8F8F8F;
   margin-top: 7px;
   margin-right: 20px;
+  cursor: pointer;
 `;
 
 export const HeaderLinkList = styled.div`
@@ -30,6 +31,7 @@ export const HeaderLinkList = styled.div`
 
 export const Button = styled.button`
   color: #8F8F8F;
+  cursor: pointer;
 `;
 
 export const BrandLink = styled(Link)`

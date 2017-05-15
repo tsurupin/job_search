@@ -1,3 +1,4 @@
+# TODO: Save favorite search conditions
 defmodule Customer.Web.FavoriteSearch do
   use Customer.Web, :model
 

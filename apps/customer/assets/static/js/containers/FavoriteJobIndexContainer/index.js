@@ -52,7 +52,7 @@ class FavoriteJobIndexContainer extends Component {
   }
 
   renderFavoriteJobs(favoriteJobs) {
-    if (favoriteJobs.length === 0) { return <p>You didn't favorite any jobs.</p> }
+    if (favoriteJobs.length === 0) { return <p>You don't have favorite jobs yet!</p> }
     return (
       <FavoriteJobList
         favoriteJobs={favoriteJobs}

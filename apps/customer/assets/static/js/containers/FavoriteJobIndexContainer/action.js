@@ -14,8 +14,8 @@ export function fetchFavoriteJobs() {
     return request
       .then(response => dispatch(fetchFavoriteJobsSuccess(response.data)))
       .catch(error => {
-        const errorMessage = convertErrorToMessage(error);
-        dispatch(fetchFavoriteJobsFailure(errorMessage))
+        if (error.response.status === 401) { localStorage.removeItem('token'); }
+        dispatch(fetchFavoriteJobsFailure(error.response.statusText))
       })
   }
 }
@@ -36,7 +36,7 @@ function fetchFavoriteJobsSuccess({favoriteJobs}) {
 function fetchFavoriteJobsFailure(errorMessage) {
   return {
     type: FETCH_FAVORITE_JOBS.FAILURE,
-    payload:{ errorMessage }
+    payload: { errorMessage }
   }
 
 }
@@ -46,7 +46,7 @@ export function updateFavoriteJob(jobId, params) {
   return request
     .then(() => console.log("success"))
     .catch(error => {
-      console.error(error)
+      console.error(error.response)
 
     })
 }

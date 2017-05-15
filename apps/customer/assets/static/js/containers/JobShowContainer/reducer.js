@@ -21,7 +21,8 @@ export default function(state = INITIAL_STATE, action) {
     case FETCH_JOB.FAILURE:
         return {...state, errorMessage: action.payload.errorMessage, loading: false};
 
-    case FAVORITE_JOB.REQUEST, UNFAVORITE_JOB.REQUEST:
+    case FAVORITE_JOB.REQUEST:
+    case UNFAVORITE_JOB.REQUEST:
       return {...state, job: {...state.job, submitting: true }};
 
     case FAVORITE_JOB.SUCCESS:
@@ -30,7 +31,8 @@ export default function(state = INITIAL_STATE, action) {
     case UNFAVORITE_JOB.SUCCESS:
       return {...state, job: {...state.job, favorited: false }};
 
-    case FAVORITE_JOB.FAILURE, UNFAVORITE_JOB.FAIURE:
+    case FAVORITE_JOB.FAILURE:
+    case UNFAVORITE_JOB.FAIURE:
       return {...state, errorMessage: action.payload.errorMessage };
 
     default:

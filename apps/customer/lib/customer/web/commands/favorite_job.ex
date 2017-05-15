@@ -23,7 +23,7 @@ defmodule Customer.Web.Command.FavoriteJob do
   @favorite_job_attributes [:interest, :remarks, :status]
 
   def update_by(%{job_id: job_id, user_id: user_id} = required_params, params) do
-    case Query.FavoriteJob.with_user_and_job_id(Repo, required_params) do
+    case Query.FavoriteJob.get_by_user_and_job_id(Repo, required_params) do
       {:error, :not_found} -> {:error, :not_found}
       {:ok, favorite_job} ->
         Multi.new

@@ -81,7 +81,7 @@ defmodule Customer.Web.Job do
       job_title: String.downcase(model.job_title.name),
       title: Map.get(model.title, "value"),
       detail: String.downcase(Map.get(model.detail, "value")),
-      company_name: String.downcase(model.company.name),
+      company_name: model.company.name,
       area: String.downcase(model.area.name),
       techs: Enum.map(model.tech_keywords, &(String.downcase(&1.name))),
       updated_at: Timex.format!(model.updated_at, "%Y-%m-%d", :strftime)

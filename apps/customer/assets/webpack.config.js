@@ -24,9 +24,6 @@ process.env.BABEL_ENV = LAUNCH_COMMAND;
 const productionPlugin = new webpack.DefinePlugin({
   'process.env': {
     NODE_ENV: JSON.stringify('production')
-    // GOOGLE_REDIRECT_URI: process.env.GOOGLE_REDIRECT_URI,
-    // GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID
-
   }
 });
 

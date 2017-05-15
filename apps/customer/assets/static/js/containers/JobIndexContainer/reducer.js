@@ -46,7 +46,9 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, jobs, jobTitles, areas, page, nextPage, hasNext, total, loading: false };
     }
 
-    case FETCH_JOBS.FAILURE, FETCH_INFINITE_JOBS.FAILURE, FETCH_TECH_KEYWORDS.FAILURE: {
+    case FETCH_JOBS.FAILURE:
+    case FETCH_INFINITE_JOBS.FAILURE:
+    case FETCH_TECH_KEYWORDS.FAILURE: {
       const { errorMessage } = action.payload;
       return { ...state, errorMessage, loading: false };
     }
@@ -69,7 +71,8 @@ export default function(state = INITIAL_STATE, action) {
       return {...state, suggestedTechKeywords: []};
     }
 
-    case FAVORITE_JOB_INDEX.REQUEST, UNFAVORITE_JOB_INDEX.REQUEST: {
+    case FAVORITE_JOB_INDEX.REQUEST:
+    case UNFAVORITE_JOB_INDEX.REQUEST: {
       return {...state, jobs: update_favorite_job(state.jobs, action.payload.sortRank, true)};
     }
 
@@ -81,7 +84,8 @@ export default function(state = INITIAL_STATE, action) {
       return {...state, jobs: update_favorite_job(state.jobs, action.payload.sortRank, false, false)};
     }
 
-    case FAVORITE_JOB_INDEX.FAILURE, UNFAVORITE_JOB_INDEX.FAIURE: {
+    case FAVORITE_JOB_INDEX.FAILURE:
+    case UNFAVORITE_JOB_INDEX.FAIURE: {
       return {...state, jobs: update_favorite_job(state.jobs, action.payload.sortRank, false)};
     }
 

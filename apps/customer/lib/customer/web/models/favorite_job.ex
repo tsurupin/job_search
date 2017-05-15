@@ -2,7 +2,7 @@ defmodule Customer.Web.FavoriteJob do
   use Customer.Web, :model
 
   schema "favorite_jobs" do
-    field :interest, :integer, default: 3
+    field :interest, :integer, default: 1
     field :remarks, :string
     field :status, :integer
     timestamps()

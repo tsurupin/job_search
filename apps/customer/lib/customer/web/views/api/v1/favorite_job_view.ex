@@ -13,7 +13,7 @@ defmodule Customer.Web.Api.V1.FavoriteJobView do
     %{
       interest: interest,
       jobId: job_id,
-      jobTitle: job.job_title.name,
+      jobTitle: job.title["value"],
       area: job.area.name,
       status: status,
       company: job.company.name,

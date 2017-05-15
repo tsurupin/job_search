@@ -8,9 +8,8 @@ defmodule Customer.Web.FavoriteJobControllerTest do
   describe "index" do
     test "get favoite jobs", %{user: user, jwt: jwt} do
       area = insert(:area)
-      job_title = insert(:job_title)
       company = insert(:company)
-      job = insert(:job, area: area, job_title: job_title, company: company)
+      job = insert(:job, area: area, company: company)
       favorite_job = insert(:favorite_job, user: user, job: job)
 
       conn = build_conn()
@@ -22,7 +21,7 @@ defmodule Customer.Web.FavoriteJobControllerTest do
         %{
           "interest" => favorite_job.interest,
           "jobId" => job.id,
-          "jobTitle" => job_title.name,
+          "jobTitle" => job.title["value"],
           "status" => favorite_job.status,
           "area" => area.name,
           "company" => company.name,
