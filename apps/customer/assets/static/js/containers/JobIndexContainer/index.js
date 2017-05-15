@@ -24,6 +24,8 @@ const propTypes = {
     selectItem: PropTypes.func.isRequired,
     resetItem: PropTypes.func.isRequired,
     fetchTechKeywords: PropTypes.func.isRequired,
+    fetchJobs: PropTypes.func.isRequired,
+    fetchInfiniteJobs: PropTypes.func.isRequired,
     resetTechKeywords: PropTypes.func.isRequired
   }).isRequired
 };
@@ -89,11 +91,15 @@ class JobIndexContainer extends Component {
   }
 
   componentWillMount() {
-    this.props.actions.fetchJobs(this.getSearchPath(this.props));
+    if (this.props.nextPage === 1) {
+      this.props.actions.fetchJobs(this.getSearchPath(this.props));
+    }
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.needUpdate(newProps)) {
+    if (this.props.page < newProps.page) {
+      this.props.actions.fetchInfiniteJobs(this.getSearchPath(newProps));
+    } else if (this.needUpdate(newProps)) {
       this.props.actions.fetchJobs(this.getSearchPath(newProps));
     }
   }
@@ -106,7 +112,7 @@ class JobIndexContainer extends Component {
     if (area !== newProps.area) updatedProps['area'] = newProps.area;
     if (techKeywords !== newProps.techKeywords) updatedProps['techKeywords'] = newProps.techKeywords;
     if (detail !== newProps.detail) updatedProps['detail'] = newProps.detail;
-    if (page !== newProps.page) updatedProps['page'] = newProps.page;
+    if (page < newProps.page) updatedProps['page'] = newProps.page;
     return Object.keys(updatedProps).length > 0
   }
 
@@ -158,8 +164,9 @@ class JobIndexContainer extends Component {
   }
 
   handleLoad() {
-    if (this.props.hasNext) {
-      this.props.actions.selectItem('page', this.props.nextPage);
+    const { hasNext, nextPage } = this.props;
+    if (hasNext) {
+      this.props.actions.selectItem('page', nextPage);
     }
   }
 

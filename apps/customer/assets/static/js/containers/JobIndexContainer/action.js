@@ -31,7 +31,6 @@ export function fetchJobs(path = '') {
 
     return indexJobRequest(path)
     .then((response) => {
-      console.log(response.data)
       dispatch(fetchJobsSuccess(response.data))
     })
     .catch((error) => {
@@ -133,7 +132,6 @@ export function favoriteJob(sortRank, jobId) {
     return request
         .then(() => dispatch(favoriteJobSuccess(sortRank)))
         .catch((error) => {
-        console.log(error);
           const errorMessage = convertErrorToMessage(error);
           dispatch(favoriteJobFailure(sortRank, errorMessage))
         })
