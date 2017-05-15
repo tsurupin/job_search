@@ -18,10 +18,10 @@ defmodule Customer.Web.Query.AuthorizationTest do
     end
   end
 
-  describe "with_uid_and_provider" do
+  describe "get_by_uid_and_provider" do
     test "return authorization" do
       auth = insert(:authorization)
-      result = Query.Authorization.with_uid_and_provider(%{uid: auth.uid, provider: auth.provider})
+      result = Query.Authorization.get_by_uid_and_provider(%{uid: auth.uid, provider: auth.provider})
       expected_auth = Repo.one(Ecto.assoc(auth, :user))
       assert result = expected_auth
     end

@@ -13,7 +13,7 @@ defmodule Customer.Web.Command.FavoriteJob do
   end
 
   def unfavorite(%{job_id: job_id, user_id: user_id} = params) do
-    case Query.FavoriteJob.with_user_and_job_id(Repo, params) do
+    case Query.FavoriteJob.get_by_user_and_job_id(Repo, params) do
       {:ok, favorite_job} -> {:ok, Multi.delete(Multi.new, :favorite_job, favorite_job)}
       {:error, :not_found} -> {:error, :not_found}
     end

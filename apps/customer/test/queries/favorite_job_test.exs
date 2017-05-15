@@ -18,19 +18,19 @@ defmodule Customer.Web.Query.FavoriteJobTest do
     end
   end
 
-  describe "with_user_and_job_id" do
+  describe "get_by_user_and_job_id" do
     test "return favorite_job id found" do
       user = insert(:user)
       job = insert(:job)
       favorite_job = insert(:favorite_job, user: user, job: job)
       params = %{user_id: user.id, job_id: job.id}
-      assert {:ok, returned_favorite_job} = Query.FavoriteJob.with_user_and_job_id(Repo, params)
+      assert {:ok, returned_favorite_job} = Query.FavoriteJob.get_by_user_and_job_id(Repo, params)
       assert favorite_job.id == returned_favorite_job.id
     end
 
     test "return error if not found" do
       params = %{user_id: 1, job_id: 1}
-      assert Query.FavoriteJob.with_user_and_job_id(Repo, params) == {:error, :not_found}
+      assert Query.FavoriteJob.get_by_user_and_job_id(Repo, params) == {:error, :not_found}
     end
   end
 

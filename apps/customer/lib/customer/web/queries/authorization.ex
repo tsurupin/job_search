@@ -4,23 +4,23 @@ defmodule Customer.Web.Query.Authorization do
   alias Customer.Web.Authorization
 
   def current_auth(user_id) do
-    with_user_id(user_id, Authorization)
+    by_user_id(user_id, Authorization)
     |> last
     |> Repo.one
   end
 
-  def with_uid_and_provider(%{uid: uid, provider: provider} = params) do
-    with_uid_and_provider(uid, provider, Authorization)
+  def get_by_uid_and_provider(%{uid: uid, provider: provider} = params) do
+    by_uid_and_provider(uid, provider, Authorization)
     |> with_user
     |> Repo.one
   end
 
-  def with_uid_and_provider(uid, provider, query) do
+  def by_uid_and_provider(uid, provider, query) do
     from a in query,
     where: a.uid == ^uid and a.provider == ^provider
   end
 
-  def with_user_id(user_id, query) do
+  def by_user_id(user_id, query) do
     from a in query,
     where: a.user_id == ^user_id
   end

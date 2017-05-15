@@ -11,7 +11,7 @@ defmodule Customer.Web.Api.V1.FavoriteJobController do
   end
 
   def show(conn, %{"id" => job_id}, current_user, _claims) do
-    with {:ok, favorite_job} <- Query.FavoriteJob.with_user_and_job_id(Repo, %{user_id: current_user.id, job_id: job_id}) do
+    with {:ok, favorite_job} <- Query.FavoriteJob.get_by_user_and_job_id(Repo, %{user_id: current_user.id, job_id: job_id}) do
       render(conn, "show.json", %{favorite_job_id: favorite_job.id})
     end
   end

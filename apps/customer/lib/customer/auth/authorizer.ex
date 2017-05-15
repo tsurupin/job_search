@@ -54,7 +54,7 @@ defmodule Customer.Auth.Authorizer do
   end
 
   defp validate_auth(%{provider: provider, uid: auth_uid} = auth) when provider in [:google] do
-    case Query.Authorization.with_uid_and_provider(%{uid: auth_uid, provider: to_string(provider)}) do
+    case Query.Authorization.get_by_uid_and_provider(%{uid: auth_uid, provider: to_string(provider)}) do
       nil -> {:error, :not_found}
       authorization -> authorization
     end
