@@ -30,8 +30,8 @@ const propTypes = {
   handleUpdate: PropTypes.func.isRequired
 };
 
-const statusOptions = {"interesting": 0, "applying": 1};
-const interestOptions = {"interesting": 1, "very interesting": 2, "my dream": 3};
+const statusOptions = {"Interesting": 0, "Applying": 1, "Phone Interview": 2, "Onsite": 3, "Offered": 4, "Declined": 5 };
+const interestOptions = {"Fairy Interesting": 1, "Quite Interesting": 2, "Interesting": 3, "Rather Interesting": 4, "Very Interesting": 5};
 
 class FavoriteJobFormItem extends Component {
   constructor(props) {
