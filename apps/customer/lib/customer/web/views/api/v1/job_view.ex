@@ -16,6 +16,7 @@ defmodule Customer.Web.Api.V1.JobView do
   end
 
   def render("show.json", %{job: %Job{id: id, job_title: job_title, title: title, area: area, tech_keywords: tech_keywords, company: company, detail: detail, favorited: favorited, url: url}, related_jobs: related_jobs }) do
+
     %{
         id: id,
         jobTitle: job_title.name,

@@ -6,8 +6,7 @@ import {
 } from './constants';
 import { FAVORITE_JOB_PATH, UNFAVORITE_JOB } from 'constants';
 
-import axios from 'axios';
-import { createAuthorizeRequest, convertErrorToMessage } from 'utils';
+import { axios, createAuthorizeRequest, convertErrorToMessage } from 'utils';
 
 export function fetchJob(id) {
   let request;
@@ -21,7 +20,9 @@ export function fetchJob(id) {
     dispatch(fetchJobRequest());
 
     return request
-      .then(response => {
+      .then((response) => {
+      console.log(response)
+        console.log(response.data)
         dispatch(fetchJobSuccess(response.data))
       })
       .catch((error) => {

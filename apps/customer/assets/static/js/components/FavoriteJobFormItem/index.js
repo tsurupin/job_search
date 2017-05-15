@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { SelectField, Textarea } from 'components';
 import MdLocationCity from 'react-icons/lib/md/location-city';

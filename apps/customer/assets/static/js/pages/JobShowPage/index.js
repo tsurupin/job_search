@@ -1,12 +1,9 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import styles from './styles.css';
 import {
   JobShowContainer
 } from 'containers';
 
-const propTypes = {
-
-};
 
 class JobShowPage extends Component {
 
@@ -24,5 +21,4 @@ class JobShowPage extends Component {
 
 }
 
-JobShowPage.propTypes = propTypes;
 export default JobShowPage;

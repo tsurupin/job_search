@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { FavoriteJobFormItem } from 'components';
 import { Wrapper, Header, HeaderRow, ContentWrapper } from './styles';
 const propTypes = {

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { JobItem, SubHeading } from 'components';
 import { Wrapper, List} from './styles';
 import Infinite from 'react-infinite';

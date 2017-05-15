@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { CurrentFilterList, CurrentFilterItem } from 'components';
 import { Wrapper, Icon } from './styles';
 import GoSearch from 'react-icons/lib/go/search';

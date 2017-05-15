@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { TECH_KEYWORD } from 'constants';
 import { Wrapper, Icon } from './styles';
 import FaClose from 'react-icons/lib/fa/close';

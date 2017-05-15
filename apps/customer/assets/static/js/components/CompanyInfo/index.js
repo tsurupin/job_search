@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Wrapper, Item } from './styles';
 import MdLocationCity from 'react-icons/lib/md/location-city';
 import MdLocationOn from 'react-icons/lib/md/location-on';
