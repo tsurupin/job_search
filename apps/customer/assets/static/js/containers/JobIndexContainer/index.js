@@ -27,8 +27,8 @@ const propTypes = {
     fetchTechKeywords: PropTypes.func.isRequired,
     fetchJobs: PropTypes.func.isRequired,
     fetchInfiniteJobs: PropTypes.func.isRequired,
-    resetTechKeywords: PropTypes.func.isRequired
-  }).isRequired
+    resetTechKeywords: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const TECH_KEYWORDS = 'techKeywords';
@@ -48,7 +48,7 @@ function mapStateToProps({ jobIndex }) {
     page,
     nextPage,
     hasNext,
-    total
+    total,
   } = jobIndex;
 
   return {
@@ -65,17 +65,17 @@ function mapStateToProps({ jobIndex }) {
     page,
     nextPage,
     hasNext,
-    total
-  }
+    total,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
       JobIndexActionCreators,
-      dispatch
-    )
-  }
+      dispatch,
+    ),
+  };
 }
 
 class JobIndexContainer extends Component {
@@ -106,15 +106,15 @@ class JobIndexContainer extends Component {
   }
 
   needUpdate(newProps) {
-    let updatedProps = {};
+    const updatedProps = {};
     const { jobTitle, area, techKeywords, detail, page } = this.props;
 
-    if (jobTitle !== newProps.jobTitle) updatedProps['jobTitle'] = newProps.jobTitle;
-    if (area !== newProps.area) updatedProps['area'] = newProps.area;
-    if (techKeywords !== newProps.techKeywords) updatedProps['techKeywords'] = newProps.techKeywords;
-    if (detail !== newProps.detail) updatedProps['detail'] = newProps.detail;
-    if (page < newProps.page) updatedProps['page'] = newProps.page;
-    return Object.keys(updatedProps).length > 0
+    if (jobTitle !== newProps.jobTitle) updatedProps.jobTitle = newProps.jobTitle;
+    if (area !== newProps.area) updatedProps.area = newProps.area;
+    if (techKeywords !== newProps.techKeywords) updatedProps.techKeywords = newProps.techKeywords;
+    if (detail !== newProps.detail) updatedProps.detail = newProps.detail;
+    if (page < newProps.page) updatedProps.page = newProps.page;
+    return Object.keys(updatedProps).length > 0;
   }
 
   getSearchPath(props) {
@@ -124,10 +124,10 @@ class JobIndexContainer extends Component {
 
     if (jobTitle) path += `job-title=${jobTitle}&`;
     if (area) path += `area=${area}&`;
-    if (techKeywords.length > 0) path += `techs=${techKeywords.join(",")}&`;
+    if (techKeywords.length > 0) path += `techs=${techKeywords.join(',')}&`;
     if (detail) path += `detail=${detail}`;
 
-    if (path[path.length-1] === '&') return path.slice(0, path.length-1);
+    if (path[path.length - 1] === '&') return path.slice(0, path.length - 1);
 
     return path;
   }
@@ -138,9 +138,9 @@ class JobIndexContainer extends Component {
 
   handleSwitchFavoriteStatus(sortRank, jobId, favorited) {
     if (favorited) {
-      this.props.actions.favoriteJob(sortRank, jobId, favorited)
+      this.props.actions.favoriteJob(sortRank, jobId, favorited);
     } else {
-      this.props.actions.unfavoriteJob(sortRank, jobId, favorited)
+      this.props.actions.unfavoriteJob(sortRank, jobId, favorited);
     }
   }
 
@@ -161,7 +161,6 @@ class JobIndexContainer extends Component {
     } else {
       this.props.actions.selectItem(key, value);
     }
-
   }
 
   handleLoad() {
@@ -177,11 +176,11 @@ class JobIndexContainer extends Component {
   }
 
   renderJobs(jobs) {
-    if (jobs.length === 0) { return }
+    if (jobs.length === 0) { return; }
     return (
       <JobList jobs={jobs} total={this.props.total} handleLoad={this.handleLoad} handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus} />
 
-    )
+    );
   }
 
   render() {
@@ -193,7 +192,7 @@ class JobIndexContainer extends Component {
       area,
       suggestedTechKeywords,
       techKeywords,
-      detail
+      detail,
     } = this.props;
 
     return (
@@ -214,7 +213,7 @@ class JobIndexContainer extends Component {
         />
         {this.renderJobs(jobs)}
       </Wrapper>
-    )
+    );
   }
 }
 

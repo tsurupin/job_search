@@ -1,24 +1,20 @@
 import React from 'react';
 import { Wrapper, Item } from './styles';
 
-const SuggestedItemList = ({name, suggestedItems, handleSelect}) => {
-  return (
-    <Wrapper>
-      {suggestedItems.map((suggestedItem) => {
-        return(
-          <Item key={suggestedItem} >
-            <div onMouseDown={() => {
-              console.log("select");
-              handleSelect(name, suggestedItem)
-            }} >
-              {suggestedItem}
-            </div>
-          </Item>
-        )
-      })
+const SuggestedItemList = ({ name, suggestedItems, handleSelect }) => (
+  <Wrapper>
+    {suggestedItems.map(suggestedItem => (
+      <Item key={suggestedItem} >
+        <div onMouseDown={() => {
+          handleSelect(name, suggestedItem);
+        }}
+        >
+          {suggestedItem}
+        </div>
+      </Item>
+        ))
       }
-    </Wrapper>
-  )
-};
+  </Wrapper>
+  );
 
 export default SuggestedItemList;

@@ -14,31 +14,31 @@ const propTypes = {
       area: PropTypes.string.isRequired,
       status: PropTypes.number,
       company: PropTypes.string.isRequired,
-      remarks: PropTypes.string
-    })
+      remarks: PropTypes.string,
+    }),
   ).isRequired,
   loading: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
 };
 
-import { Wrapper} from './styles';
+import { Wrapper } from './styles';
 
 function mapStateToProps({ favoriteJobIndex }) {
   const { favoriteJobs, loading, errorMessage } = favoriteJobIndex;
   return {
     favoriteJobs,
     loading,
-    errorMessage
-  }
+    errorMessage,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
       FavoriteJobsActionCreators,
-      dispatch
-    )
-  }
+      dispatch,
+    ),
+  };
 }
 
 class FavoriteJobIndexContainer extends Component {
@@ -63,7 +63,7 @@ class FavoriteJobIndexContainer extends Component {
   }
 
   renderFavoriteJobs(favoriteJobs) {
-    if (favoriteJobs.length === 0) { return <p>You don't have favorite jobs yet!</p> }
+    if (favoriteJobs.length === 0) { return <p>You don't have favorite jobs yet!</p>; }
     return (
       <FavoriteJobList
         favoriteJobs={favoriteJobs}
@@ -80,7 +80,7 @@ class FavoriteJobIndexContainer extends Component {
         <Title>Favorite Jobs</Title>
         {this.renderFavoriteJobs(this.props.favoriteJobs)}
       </Wrapper>
-    )
+    );
   }
 
 }

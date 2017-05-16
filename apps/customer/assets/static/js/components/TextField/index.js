@@ -10,11 +10,11 @@ const propTypes = {
   placeholder: PropTypes.string.isRequired,
   tabIndex: PropTypes.number.isRequired,
   autoComplete: PropTypes.string.isRequired,
-  handleSelect: PropTypes.func.isRequired
+  handleSelect: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
-  needLabel: true
+  needLabel: true,
 };
 
 
@@ -42,8 +42,8 @@ class TextField extends Component {
   }
 
   renderLabel() {
-    if(!this.props.needLabel) return;
-    return (<label htmlFor={this.getLabelId()} className="label">{this.props.name}</label>)
+    if (!this.props.needLabel) return;
+    return (<label htmlFor={this.getLabelId()} className="label">{this.props.name}</label>);
   }
 
 
@@ -52,26 +52,26 @@ class TextField extends Component {
       name,
       placeholder,
       tabIndex,
-      autoComplete
+      autoComplete,
     } = this.props;
     const { currentValue } = this.state;
 
-    return(
+    return (
       <Wrapper>
         {this.renderLabel()}
         <Input
           id={this.getLabelId()}
-          type='text'
+          type="text"
           name={name}
           value={currentValue}
           placeholder={placeholder}
           tabIndex={tabIndex}
           autoComplete={autoComplete}
-          onChange={e => this.setState({currentValue: e.target.value})}
+          onChange={e => this.setState({ currentValue: e.target.value })}
           onKeyPress={this.handleSelect}
         />
       </Wrapper>
-    )
+    );
   }
 }
 

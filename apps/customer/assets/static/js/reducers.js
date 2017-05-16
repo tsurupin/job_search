@@ -8,7 +8,7 @@ const routeReducer = combineReducers({
   authentication,
   jobIndex,
   jobShow,
-  favoriteJobIndex
+  favoriteJobIndex,
 });
 
 export default routeReducer;

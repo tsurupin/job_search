@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import  { Footer } from 'components';
+import { Footer } from 'components';
 import { HeaderContainer } from 'containers';
 import Wrapper from './styles';
 
@@ -30,7 +30,7 @@ class App extends Component {
   }
 }
 const propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 

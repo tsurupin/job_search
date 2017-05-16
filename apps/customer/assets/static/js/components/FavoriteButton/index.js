@@ -8,32 +8,29 @@ const propTypes = {
   submitting: PropTypes.bool.isRequired,
   index: PropTypes.number.isRequired,
   size: PropTypes.string.isRequired,
-  handleSwitchFavoriteStatus: PropTypes.func.isRequired
+  handleSwitchFavoriteStatus: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
   index: 0,
   size: 'middle',
-  submitting: false
+  submitting: false,
 };
 
-const FavoriteJobButton = ({jobId, favorited, submitting, index, size, handleSwitchFavoriteStatus}) => {
-
-    return(
-        <Wrapper
-            type="button"
-            onClick={() => handleSwitchFavoriteStatus(index, jobId, !favorited)}
-            primary={size === 'large'}
-            disabled={submitting}
-        >
-          {renderText(favorited)}
-        </Wrapper>
-    )
-};
+const FavoriteJobButton = ({ jobId, favorited, submitting, index, size, handleSwitchFavoriteStatus }) => (
+  <Wrapper
+    type="button"
+    onClick={() => handleSwitchFavoriteStatus(index, jobId, !favorited)}
+    primary={size === 'large'}
+    disabled={submitting}
+  >
+    {renderText(favorited)}
+  </Wrapper>
+    );
 
 function renderText(favorited) {
-    if(favorited) { return "UnFavorite"}
-    return "Favorite"
+  if (favorited) { return 'UnFavorite'; }
+  return 'Favorite';
 }
 
 FavoriteJobButton.propTypes = propTypes;

@@ -1,5 +1,5 @@
-export default function(type) {
-  switch(type) {
+export default function (type) {
+  switch (type) {
     case 'root':
       return `
         max-width: 740px;
@@ -8,5 +8,4 @@ export default function(type) {
         padding: 3rem;
       `;
   }
-
 }

@@ -8,28 +8,26 @@ import colors from 'styles/colors';
 
 const propTypes = {
   name: PropTypes.string.isRequired,
-  area: PropTypes.string.isRequired
+  area: PropTypes.string.isRequired,
 };
 
 const iconStyle = {
   color: colors.leadSentenceColor,
-  marginRight: 5
+  marginRight: 5,
 };
 
-const CompanyInfo = ({name ,area})  => {
-  return (
-    <Wrapper>
-      <Item>
-        <MdLocationCity style={iconStyle} />
-        <span>{name}</span>
-      </Item>
-      <Item>
-        <MdLocationOn style={iconStyle}  />
-        <span>{area}</span>
-      </Item>
-    </Wrapper>
-  )
-}
+const CompanyInfo = ({ name, area }) => (
+  <Wrapper>
+    <Item>
+      <MdLocationCity style={iconStyle} />
+      <span>{name}</span>
+    </Item>
+    <Item>
+      <MdLocationOn style={iconStyle} />
+      <span>{area}</span>
+    </Item>
+  </Wrapper>
+  );
 
 
 CompanyInfo.propTypes = propTypes;

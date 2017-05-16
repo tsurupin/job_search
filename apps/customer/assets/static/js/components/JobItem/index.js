@@ -11,30 +11,28 @@ const propTypes = {
   updatedAt: PropTypes.string.isRequired,
   techs: PropTypes.array.isRequired,
   favorited: PropTypes.bool,
-  handleSwitchFavoriteStatus: PropTypes.func.isRequired
+  handleSwitchFavoriteStatus: PropTypes.func.isRequired,
 };
 
 
-const JobItem = ({id, title, area, companyName, updatedAt, techs, index, favorited, submitting, handleSwitchFavoriteStatus}) =>{
-  return (
-    <Wrapper>
-      <JobWrapper>
-        <JobInfo>
-          <Link to={`/jobs/${id}`} >
-            <Title>{title}</Title>
-            <CompanyInfo name={companyName} area={area} />
-          </Link>
-          <TagList tags={techs} />
-        </JobInfo>
-        {renderFavoriteButton(id, favorited, submitting, index, handleSwitchFavoriteStatus)}
-      </JobWrapper>
-      <DateTime>{updatedAt}</DateTime>
-    </Wrapper>
-  )
-};
+const JobItem = ({ id, title, area, companyName, updatedAt, techs, index, favorited, submitting, handleSwitchFavoriteStatus }) => (
+  <Wrapper>
+    <JobWrapper>
+      <JobInfo>
+        <Link to={`/jobs/${id}`} >
+          <Title>{title}</Title>
+          <CompanyInfo name={companyName} area={area} />
+        </Link>
+        <TagList tags={techs} />
+      </JobInfo>
+      {renderFavoriteButton(id, favorited, submitting, index, handleSwitchFavoriteStatus)}
+    </JobWrapper>
+    <DateTime>{updatedAt}</DateTime>
+  </Wrapper>
+  );
 
 function renderFavoriteButton(id, favorited, submitting = false, index, fnc) {
-  if (favorited === undefined) { return }
+  if (favorited === undefined) { return; }
   return (
     <FavoriteButtonWrapper>
       <FavoriteButton

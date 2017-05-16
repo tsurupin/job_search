@@ -8,7 +8,7 @@ const propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   handleReset: PropTypes.func.isRequired,
-  handleResetTechKeyword: PropTypes.func.isRequired
+  handleResetTechKeyword: PropTypes.func.isRequired,
 };
 
 class CurrentFilterItem extends Component {
@@ -22,7 +22,7 @@ class CurrentFilterItem extends Component {
       name,
       value,
       handleReset,
-      handleResetTechKeyword
+      handleResetTechKeyword,
     } = this.props;
     if (name === TECH_KEYWORD) return handleResetTechKeyword(name, value);
     handleReset(name);
@@ -35,7 +35,7 @@ class CurrentFilterItem extends Component {
         <span>{value}</span>
         <Icon onClick={this.handleReset} ><FaClose /></Icon>
       </Wrapper>
-    )
+    );
   }
 
 }

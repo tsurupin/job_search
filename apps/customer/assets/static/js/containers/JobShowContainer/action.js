@@ -2,7 +2,7 @@ import {
   FETCH_JOB,
   JOBS_PATH,
   FETCH_FAVORITE_JOB,
-  FAVORITE_JOB
+  FAVORITE_JOB,
 } from './constants';
 import { FAVORITE_JOB_PATH, UNFAVORITE_JOB } from 'constants';
 
@@ -10,118 +10,116 @@ import { axios, createAuthorizeRequest, convertErrorToMessage } from 'utils';
 
 export function fetchJob(id) {
   let request;
-  if (localStorage.getItem("token")) {
-    request = createAuthorizeRequest("get",`${JOBS_PATH}/${id}`);
+  if (localStorage.getItem('token')) {
+    request = createAuthorizeRequest('get', `${JOBS_PATH}/${id}`);
   } else {
     request = axios.get(`${JOBS_PATH}/${id}`);
   }
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch(fetchJobRequest());
 
     return request
       .then((response) => {
-      console.log(response)
-        console.log(response.data)
-        dispatch(fetchJobSuccess(response.data))
+        dispatch(fetchJobSuccess(response.data));
       })
       .catch((error) => {
         const errorMessage = convertErrorToMessage(error);
-        dispatch(fetchJobFailure(errorMessage))
-      })
+        dispatch(fetchJobFailure(errorMessage));
+      });
   };
 }
 
 function fetchJobRequest() {
   return {
-    type: FETCH_JOB.REQUEST
-  }
+    type: FETCH_JOB.REQUEST,
+  };
 }
 
-function fetchJobSuccess( job ) {
+function fetchJobSuccess(job) {
   return {
     type: FETCH_JOB.SUCCESS,
-    payload: { job }
-  }
+    payload: { job },
+  };
 }
 
 function fetchJobFailure(errorMessage) {
   return {
     type: FETCH_JOB.FAILURE,
-    payload: { errorMessage }
-  }
+    payload: { errorMessage },
+  };
 }
 export function fetchFavoriteJob(id) {
-  const request = createAuthorizeRequest('get',`${FAVORITE_JOB_PATH}/${id}` );
-  return dispatch => {
+  const request = createAuthorizeRequest('get', `${FAVORITE_JOB_PATH}/${id}`);
+  return (dispatch) => {
     dispatch(fetchFavoriteJobRequest());
 
     return request
       .then(() => dispatch(fetchFavoriteJobSuccess()))
-      .catch(error => {
+      .catch((error) => {
         const errorMessage = convertErrorToMessage(error);
 
-        dispatch(fetchFavoriteJobFailure(errorMessage))
-      })
-  }
+        dispatch(fetchFavoriteJobFailure(errorMessage));
+      });
+  };
 }
 
 function fetchFavoriteJobRequest() {
   return {
-    type: FETCH_FAVORITE_JOB.REQUEST
-  }
+    type: FETCH_FAVORITE_JOB.REQUEST,
+  };
 }
 
 function fetchFavoriteJobSuccess() {
   return {
-    type: FETCH_FAVORITE_JOB.SUCCESS
-  }
+    type: FETCH_FAVORITE_JOB.SUCCESS,
+  };
 }
 
 function fetchFavoriteJobFailure(errorMessage) {
   return {
     type: FETCH_FAVORITE_JOB.FAILURE,
-    payload: {errorMessage}
-  }
+    payload: { errorMessage },
+  };
 }
 
 
 export function favoriteJob(jobId) {
   const request = createAuthorizeRequest('post', `${FAVORITE_JOB_PATH}?id=${jobId}`);
-  return dispatch => {
+  return (dispatch) => {
     dispatch(favoriteJobRequest());
     return request
       .then(() => dispatch(favoriteJobSuccess()))
       .catch((error) => {
         const errorMessage = convertErrorToMessage(error);
 
-        dispatch(favoriteJobFailure(errorMessage))
-      })
-  }
+        dispatch(favoriteJobFailure(errorMessage));
+      });
+  };
 }
 
 function favoriteJobRequest() {
   return {
-    type: FAVORITE_JOB.REQUEST
-  }
+    type: FAVORITE_JOB.REQUEST,
+  };
 }
 
 function favoriteJobSuccess() {
   return {
-    type: FAVORITE_JOB.SUCCESS
-  }
+    type: FAVORITE_JOB.SUCCESS,
+  };
 }
 
 function favoriteJobFailure(errorMessage) {
   return {
     type: FAVORITE_JOB.FAILURE,
-    payload: { errorMessage }
-  }
+    payload: { errorMessage },
+  };
 }
 
 export function unfavoriteJob(jobId) {
   const request = createAuthorizeRequest('delete', `${FAVORITE_JOB_PATH}/${jobId}`);
-  return dispatch => {
+  return (dispatch) => {
     dispatch(unfavoriteJobRequest());
     return request
       .then(() => dispatch(unfavoriteJobSuccess(jobId)))
@@ -129,27 +127,27 @@ export function unfavoriteJob(jobId) {
         const errorMessage = convertErrorToMessage(error);
 
         dispatch(unfavoriteJobFailure(errorMessage));
-      })
-  }
+      });
+  };
 }
 
 
 function unfavoriteJobRequest() {
   return {
-    type: UNFAVORITE_JOB.REQUEST
-  }
+    type: UNFAVORITE_JOB.REQUEST,
+  };
 }
 
 function unfavoriteJobSuccess(jobId) {
   return {
     type: UNFAVORITE_JOB.SUCCESS,
-    payload: { jobId }
-  }
+    payload: { jobId },
+  };
 }
 
 function unfavoriteJobFailure(errorMessage) {
   return {
     type: UNFAVORITE_JOB.FAILURE,
-    payload: { errorMessage }
-  }
+    payload: { errorMessage },
+  };
 }

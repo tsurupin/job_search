@@ -11,7 +11,7 @@ export const Wrapper = styled.footer`
 
 
 export const FooterLink = styled.a`
-  ${ margins('margin-left-xx-small')}
+  ${margins('margin-left-xx-small')}
   width: 20px;
   height: 20px;
   vertical-align: middle;
@@ -19,7 +19,7 @@ export const FooterLink = styled.a`
 `;
 
 export const Text = styled.div`
-  composes: ${fonts(`font-small`)};
+  composes: ${fonts('font-small')};
   display: block;
   text-align: center;
   opacity: 0.3;

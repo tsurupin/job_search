@@ -1,5 +1,5 @@
-export default function(type) {
-  switch(type) {
+export default function (type) {
+  switch (type) {
     case 'font-xx-small':
       return `
          font-size: 10px;
@@ -49,6 +49,6 @@ export default function(type) {
       return `
         font-size: 32px;
         font-size: 3.2rem;
-      `
+      `;
   }
-};
+}

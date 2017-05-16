@@ -15,7 +15,7 @@ import {
   Info,
   Form,
   Row,
-  UpdateButton
+  UpdateButton,
 } from './styles';
 import GoStar from 'react-icons/lib/go/star';
 
@@ -28,11 +28,11 @@ const propTypes = {
   remarks: PropTypes.string,
   index: PropTypes.number.isRequired,
   handleRemove: PropTypes.func.isRequired,
-  handleUpdate: PropTypes.func.isRequired
+  handleUpdate: PropTypes.func.isRequired,
 };
 
-const statusOptions = {"Interesting": 0, "Applying": 1, "Phone Interview": 2, "Onsite": 3, "Offered": 4, "Declined": 5 };
-const interestOptions = {"Fairy Interesting": 1, "Quite Interesting": 2, "Interesting": 3, "Rather Interesting": 4, "Very Interesting": 5};
+const statusOptions = { Interesting: 0, Applying: 1, 'Phone Interview': 2, Onsite: 3, Offered: 4, Declined: 5 };
+const interestOptions = { 'Fairy Interesting': 1, 'Quite Interesting': 2, Interesting: 3, 'Rather Interesting': 4, 'Very Interesting': 5 };
 
 class FavoriteJobFormItem extends Component {
   constructor(props) {
@@ -44,7 +44,7 @@ class FavoriteJobFormItem extends Component {
       interest,
       remarks,
       status: status || 0,
-      canSubmit: false
+      canSubmit: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,24 +62,24 @@ class FavoriteJobFormItem extends Component {
   }
 
   handleChange(key, value) {
-    let updatedAttribute = {};
+    const updatedAttribute = {};
     updatedAttribute[key] = value;
-    updatedAttribute['canSubmit'] = true;
+    updatedAttribute.canSubmit = true;
     this.setState(updatedAttribute);
   }
 
 
   getUpdatedAttributes() {
-    let attributes = {};
-    if (this.props.interest !== this.state.interest) { attributes["interest"] = this.state.interest }
-    if (this.props.status !== this.state.status) { attributes["status"] = this.state.status }
-    if (this.props.remarks !== this.state.remarks) { attributes["remarks"] = this.state.remarks }
+    const attributes = {};
+    if (this.props.interest !== this.state.interest) { attributes.interest = this.state.interest; }
+    if (this.props.status !== this.state.status) { attributes.status = this.state.status; }
+    if (this.props.remarks !== this.state.remarks) { attributes.remarks = this.state.remarks; }
 
     return attributes;
   }
 
   labelId(name) {
-    return `${name}_${this.props.jobId}`
+    return `${name}_${this.props.jobId}`;
   }
 
   render() {
@@ -89,12 +89,12 @@ class FavoriteJobFormItem extends Component {
           <Row size="3">
             <CompanyWrapper>
               <Icon onClick={this.handleRemove}>
-                <GoStar style={{width: '100%', height: '100%'}}/>
+                <GoStar style={{ width: '100%', height: '100%' }} />
               </Icon>
               <CompanyInfo>
                 <Title>{this.props.jobTitle}</Title>
-                <Info><MdLocationOn style={{marginRight: '3px'}}/>{this.props.company}</Info>
-                <Info><MdLocationCity style={{marginRight: '3px'}}/>{this.props.area}</Info>
+                <Info><MdLocationOn style={{ marginRight: '3px' }} />{this.props.company}</Info>
+                <Info><MdLocationCity style={{ marginRight: '3px' }} />{this.props.area}</Info>
               </CompanyInfo>
             </CompanyWrapper>
           </Row>
@@ -123,7 +123,7 @@ class FavoriteJobFormItem extends Component {
               name="remarks"
               defaultValue={this.props.remarks}
               rows={3}
-              onBlur={(e) => this.handleChange(e.target.name, e.target.value)}
+              onBlur={e => this.handleChange(e.target.name, e.target.value)}
             />
           </Row>
           <Row size="1">
@@ -132,12 +132,12 @@ class FavoriteJobFormItem extends Component {
               disabled={!this.state.canSubmit}
               tabIndex={4}
             >
-              <MdSave style={{width: '100%', height: '100%'}} />
+              <MdSave style={{ width: '100%', height: '100%' }} />
             </UpdateButton>
           </Row>
         </Form>
       </Wrapper>
-    )
+    );
   }
 }
 

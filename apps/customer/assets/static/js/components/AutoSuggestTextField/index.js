@@ -44,13 +44,11 @@ class AutoSuggestTextField extends Component {
   }
 
   renderSuggestedItemList() {
-
-
     const { suggestedItems, name } = this.props;
     if (suggestedItems.length === 0) return;
-    return(
+    return (
       <SuggestedItemList name={name} suggestedItems={suggestedItems} handleSelect={this.props.handleSelect} />
-    )
+    );
   }
 
 
@@ -58,16 +56,16 @@ class AutoSuggestTextField extends Component {
     const {
       name,
       tabIndex,
-      placeholder
+      placeholder,
     } = this.props;
     const { currentValue } = this.state;
 
-    return(
+    return (
       <Wrapper>
         <Label htmlFor={this.getLabelId()} >{name}</Label>
         <Input
           id={this.getLabelId()}
-          type='text'
+          type="text"
           name={name}
           placeholder={placeholder}
           tabIndex={tabIndex}
@@ -78,7 +76,7 @@ class AutoSuggestTextField extends Component {
         />
         {this.renderSuggestedItemList()}
       </Wrapper>
-    )
+    );
   }
 }
 

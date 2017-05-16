@@ -6,11 +6,11 @@ const large = '40px';
 const xLarge = '50px';
 const xxLarge = '100px';
 
-export default function(type) {
+export default function (type) {
   switch (type) {
     case 'margin-left-xx-small':
       return `
         margin-left: ${xxSmall};
-      `
+      `;
   }
-};
+}

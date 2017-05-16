@@ -3,9 +3,9 @@ import fonts from 'styles/fonts';
 import colors from 'styles/colors';
 
 export const Wrapper = styled.button`
-  ${props => props.primary ? fonts('font-medium') : fonts('font-x-small') }
-  height: ${props => props.primary ? '40px' : '37px' };
-  line-height: ${props => props.primary ? '38px' : '35px' };
+  ${props => props.primary ? fonts('font-medium') : fonts('font-x-small')}
+  height: ${props => props.primary ? '40px' : '37px'};
+  line-height: ${props => props.primary ? '38px' : '35px'};
   display: inline-block;
   padding: 0 16px;
   color: ${colors.primaryColor};
