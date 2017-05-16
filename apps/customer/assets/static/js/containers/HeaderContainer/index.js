@@ -19,7 +19,7 @@ import GoStar from 'react-icons/lib/go/star';
 
 const propTypes = {
   actions: PropTypes.shape({
-    logout: PropTypes.fund.isRequired
+    logout: PropTypes.func.isRequired
   }).isRequired
 };
 

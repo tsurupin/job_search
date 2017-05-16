@@ -4,6 +4,7 @@ import Helmet from 'react-helmet';
 import { Footer } from 'components';
 import { HeaderContainer } from 'containers';
 import Wrapper from './styles';
+import config from '../../config';
 
 class App extends Component {
   constructor(props) {
@@ -14,8 +15,8 @@ class App extends Component {
     return (
       <div>
         <Helmet
-          titleTemplate="%s - Startup Job"
-          defaultTitle="Index"
+          titleTemplate={`%s | ${config.siteName}`}
+          title={config.siteName}
           meta={[
             { name: 'description', content: 'place to find startup jobs' },
           ]}

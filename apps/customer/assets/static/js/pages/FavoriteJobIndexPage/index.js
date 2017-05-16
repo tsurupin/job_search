@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 import {
   FavoriteJobIndexContainer,
 } from 'containers';
@@ -12,9 +12,10 @@ class FavoriteJobIndexPage extends Component {
 
   render() {
     return (
-      <article>
+      <div>
+        <Helmet title="Favorite" />
         <FavoriteJobIndexContainer />
-      </article>
+      </div>
     );
   }
 }

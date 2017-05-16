@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 import styles from './styles.css';
 import {
   JobIndexContainer,
@@ -12,9 +12,10 @@ class JobIndexPage extends Component {
   }
   render() {
     return (
-      <div className={styles.container}>
+      <article className={styles.container}>
+        <Helmet title="Home" />
         <JobIndexContainer />
-      </div>
+      </article>
     );
   }
 
