@@ -4,10 +4,10 @@ import { ROOT_URL } from 'constants';
 export const axios = client.create({
   baseURL: ROOT_URL,
   headers: {
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'Content-Type': 'application/json',
-    'X-CSRF-Token': getCSRFToken()
-  }
+    'X-CSRF-Token': getCSRFToken(),
+  },
 });
 
 function getCSRFToken() {
@@ -16,7 +16,7 @@ function getCSRFToken() {
 }
 
 export function createAuthorizeRequest(method, path, params = {}) {
-  switch(method) {
+  switch (method) {
     case 'get':
       return axios.get(path, config());
     case 'post':
@@ -31,11 +31,11 @@ export function createAuthorizeRequest(method, path, params = {}) {
 }
 
 function config() {
-  return { headers: { 'Authorization' : `Bearer ${localStorage.getItem('token')}` } }
+  return { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
 }
 
 export function convertErrorToMessage(error) {
-  return error.response ? error.response.data.errorMessage : "something wrong";
+  return error.response ? error.response.data.errorMessage : 'something wrong';
 }
 
 // Make axios path for job-= favorites absolute

@@ -7,7 +7,7 @@ const propTypes = {
   name: PropTypes.string.isRequired,
   tabIndex: PropTypes.number.isRequired,
   options: PropTypes.object,
-  handleChange: PropTypes.func.isRequired
+  handleChange: PropTypes.func.isRequired,
 };
 
 
@@ -17,8 +17,8 @@ class SelectField extends Component {
   }
 
   getOptions() {
-    let options = [];
-    for (let [k, v] of Object.entries(this.props.options)) {
+    const options = [];
+    for (const [k, v] of Object.entries(this.props.options)) {
       options.push(<option key={k} value={v}>{k}</option>);
     }
     return options;
@@ -31,7 +31,7 @@ class SelectField extends Component {
         defaultValue={value}
         name={name}
         tabIndex={tabIndex}
-        onBlur={(event) => handleChange(name, event.target.value)}
+        onBlur={event => handleChange(name, event.target.value)}
       >
         {this.getOptions()}
       </Wrapper>

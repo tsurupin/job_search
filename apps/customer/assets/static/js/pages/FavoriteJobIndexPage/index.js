@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  FavoriteJobIndexContainer
+  FavoriteJobIndexContainer,
 } from 'containers';
 
 class FavoriteJobIndexPage extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
@@ -15,9 +15,8 @@ class FavoriteJobIndexPage extends Component {
       <article>
         <FavoriteJobIndexContainer />
       </article>
-    )
-
+    );
   }
 }
 
-export default FavoriteJobIndexPage
+export default FavoriteJobIndexPage;

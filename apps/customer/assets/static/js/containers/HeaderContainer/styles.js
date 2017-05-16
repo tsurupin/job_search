@@ -16,7 +16,7 @@ export const Wrapper = styled.nav`
  `;
 
 
-export const FavoriteJobLink  = styled(Link)`
+export const FavoriteJobLink = styled(Link)`
   color: #8F8F8F;
   margin-top: 7px;
   margin-right: 20px;

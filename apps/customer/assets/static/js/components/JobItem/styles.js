@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import fonts from 'styles/fonts';
 import colors from 'styles/colors';
 
@@ -29,5 +29,4 @@ export const JobInfo = styled.div`
 export const FavoriteButtonWrapper = styled.div`
   margin-top: 15px;
 `;
-
 

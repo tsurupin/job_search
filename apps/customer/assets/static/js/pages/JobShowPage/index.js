@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import styles from './styles.css';
 import {
-  JobShowContainer
+  JobShowContainer,
 } from 'containers';
 
 
 class JobShowPage extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
@@ -16,7 +16,7 @@ class JobShowPage extends Component {
       <div className={styles.container}>
         <JobShowContainer id={this.props.params.id} />
       </div>
-    )
+    );
   }
 
 }

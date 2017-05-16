@@ -10,5 +10,5 @@ export default {
   whiteColor: '#fff',
   labelColor: 'rgba(0, 0, 0, 0.498039)',
   linkColor: '#307EA9',
-  tagColor: '#009E5D'
+  tagColor: '#009E5D',
 };

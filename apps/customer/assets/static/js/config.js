@@ -1,4 +1,4 @@
 export default {
   authorName: 'TOMOAKI TSURUTA',
-  gitHubUrl: 'https://github.com/tsurupin'
-}
+  gitHubUrl: 'https://github.com/tsurupin',
+};

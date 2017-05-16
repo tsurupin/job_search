@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
   padding: 10px;
 `;
 
-export const Item  = styled.li`
+export const Item = styled.li`
   height: 30px;
   width: 30%;
   font-size: 12px;

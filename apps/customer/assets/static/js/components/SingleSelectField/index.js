@@ -7,26 +7,25 @@ const propTypes = {
   items: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
   currentValue: PropTypes.string.isRequired,
-  handleSelect: PropTypes.func.isRequired
+  handleSelect: PropTypes.func.isRequired,
 };
 
 class SingleSelectField extends Component {
   constructor(props) {
     super(props);
-
   }
 
   getPlaceholderOption() {
-    return <option key='disabled' value='' disabled>{this.props.placeholder}</option>
+    return <option key="disabled" value="" disabled>{this.props.placeholder}</option>;
   }
 
   getOptions() {
-    let options = [];
+    const options = [];
     const { items } = this.props;
     options.push(this.getPlaceholderOption());
-    {items.forEach(item => {
+    { items.forEach((item) => {
       options.push(<option key={item} value={item}>{item}</option>);
-    })}
+    }); }
     return options;
   }
 
@@ -37,7 +36,7 @@ class SingleSelectField extends Component {
   render() {
     const { name, currentValue, handleSelect } = this.props;
 
-    return(
+    return (
       <Wrapper>
         <Label htmlFor={this.getLabelId()} >{name}</Label>
         <Select
@@ -49,7 +48,7 @@ class SingleSelectField extends Component {
           {this.getOptions()}
         </Select>
       </Wrapper>
-    )
+    );
   }
 
 }

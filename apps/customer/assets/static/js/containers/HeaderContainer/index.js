@@ -9,7 +9,7 @@ import {
   FavoriteJobLink,
   BrandLink,
   HeaderLinkList,
-  Button
+  Button,
 } from './styles';
 import { A } from 'components';
 import GoSignIn from 'react-icons/lib/go/sign-in';
@@ -18,27 +18,29 @@ import GoStar from 'react-icons/lib/go/star';
 
 
 const propTypes = {
-
+  actions: PropTypes.shape({
+    logout: PropTypes.fund.isRequired
+  }).isRequired
 };
 
 const TITLE = 'STARTUP JOB';
 
 const AUTH_GOOGLE_PATH = '/auth/google?scope=email';
 
-function mapStateToProps({authentication}) {
+function mapStateToProps({ authentication }) {
   const { authenticated, errorMessage } = authentication;
   return {
     authenticated,
-    errorMessage
-  }
+    errorMessage,
+  };
 }
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
       AuthenticationActionCreators,
-      dispatch
-    )
-  }
+      dispatch,
+    ),
+  };
 }
 class HeaderContainer extends Component {
   constructor(props) {
@@ -60,25 +62,25 @@ class HeaderContainer extends Component {
   }
 
   renderButton() {
-    if (this.authenticated()) return <Button type='button' onClick={this.handleLogout}><GoSignOut/></Button>;
-    return <Button type='button' onClick={this.handleLogin} ><GoSignIn/></Button>
+    if (this.authenticated()) return <Button type="button" onClick={this.handleLogout}><GoSignOut /></Button>;
+    return <Button type="button" onClick={this.handleLogin} ><GoSignIn /></Button>;
   }
 
   renderFavoriteJobLink() {
-    if (!this.authenticated()){ return }
-    return <FavoriteJobLink to='/favorite-jobs'><GoStar/></FavoriteJobLink>;
+    if (!this.authenticated()) { return; }
+    return <FavoriteJobLink to="/favorite-jobs"><GoStar /></FavoriteJobLink>;
   }
 
   render() {
     return (
       <Wrapper>
-        <BrandLink to='/'>{TITLE}</BrandLink>
+        <BrandLink to="/">{TITLE}</BrandLink>
         <HeaderLinkList>
           {this.renderFavoriteJobLink()}
           {this.renderButton()}
         </HeaderLinkList>
       </Wrapper>
-    )
+    );
   }
 }
 

@@ -12,27 +12,27 @@ import {
   Content,
   Description,
   FavoriteButtonWrapper,
-  TitleLink
+  TitleLink,
 } from './styles';
 
 import { TagList, Title, ErrorMessage, RelatedJobList } from 'components';
 
-function mapStateToProps({jobShow}) {
+function mapStateToProps({ jobShow }) {
   const { job, loading, errorMessage } = jobShow;
   return {
     job,
     loading,
-    errorMessage
-  }
+    errorMessage,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
       JobShowActionCreators,
-      dispatch
-    )
-  }
+      dispatch,
+    ),
+  };
 }
 
 class JobShowContainer extends Component {
@@ -49,9 +49,9 @@ class JobShowContainer extends Component {
 
   handleSwitchFavoriteStatus(_index, jobId, favorited) {
     if (favorited) {
-      this.props.actions.favoriteJob(jobId, favorited)
+      this.props.actions.favoriteJob(jobId, favorited);
     } else {
-      this.props.actions.unfavoriteJob(jobId, favorited)
+      this.props.actions.unfavoriteJob(jobId, favorited);
     }
   }
 
@@ -64,12 +64,12 @@ class JobShowContainer extends Component {
   }
 
   renderFavoriteButton() {
-    const {id, favorited } = this.props.job;
-    if (!favorited) { return }
+    const { id, favorited } = this.props.job;
+    if (!favorited) { return; }
     return (
       <FavoriteButtonWrapper>
         <FavoriteButton
-          size='large'
+          size="large"
           jobId={id}
           favorited={favorited}
           handleSwitchFavoriteStatus={this.handleSwitchFavoriteStatus}
@@ -81,18 +81,18 @@ class JobShowContainer extends Component {
   renderRelatedJobs() {
     const { relatedJobs } = this.props.job;
     if (relatedJobs.length === 0) return;
-    return <RelatedJobList jobs={relatedJobs} />
+    return <RelatedJobList jobs={relatedJobs} />;
   }
 
   render() {
-    const { loading, errorMessage, job} = this.props;
+    const { loading, errorMessage, job } = this.props;
     const { title, company, detail, area, url } = job;
 
-    if(loading) { return(<div></div>) }
+    if (loading) { return (<div />); }
 
-    if(errorMessage) return <ErrorMessage>{errorMessage}</ErrorMessage>;
+    if (errorMessage) return <ErrorMessage>{errorMessage}</ErrorMessage>;
 
-    return(
+    return (
       <Wrapper>
         <Heading>
           <TitleLink target="_blank" href={url}>{title}</TitleLink>
@@ -101,12 +101,12 @@ class JobShowContainer extends Component {
           {this.renderFavoriteButton()}
         </Heading>
         <Content>
-          <Description dangerouslySetInnerHTML={{__html: detail}} />
+          <Description dangerouslySetInnerHTML={{ __html: detail }} />
           {this.renderRelatedJobs()}
         </Content>
       </Wrapper>
 
-    )
+    );
   }
 
 }
@@ -115,7 +115,7 @@ const propTypes = {
   id: PropTypes.string.isRequired,
   job: PropTypes.object,
   errorMessage: PropTypes.string,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
 };
 
 JobShowContainer.propTypes = propTypes;

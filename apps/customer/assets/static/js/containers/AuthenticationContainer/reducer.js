@@ -1,15 +1,15 @@
 import {
   LOGIN,
-  LOGOUT
+  LOGOUT,
 } from './constants';
 
 const INITIAL_STATE = {
   errorMessage: '',
-  authenticated: false
+  authenticated: false,
 };
 
-export default function(state = INITIAL_STATE, action) {
-  switch(action.type) {
+export default function (state = INITIAL_STATE, action) {
+  switch (action.type) {
 
     case LOGIN:
       return { ...state, authenticated: true };
@@ -21,6 +21,6 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, errorMessage: action.payload.errorMessage };
 
     default:
-        return state;
+      return state;
   }
 }

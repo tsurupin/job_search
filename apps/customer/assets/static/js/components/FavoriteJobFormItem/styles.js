@@ -16,12 +16,12 @@ export const Form = styles.form`
 
 export const Row = styles.div`
   width: ${props => props.size}0%;
-` ;
+`;
 
 
 export const UpdateButton = styles.button`
   color: ${props => props.disabled ? colors.leadSentenceColor : colors.primaryColor};
-  cursor: ${props => props.disabled ? 'default' : 'pointer' };
+  cursor: ${props => props.disabled ? 'default' : 'pointer'};
   width: 56px;
   padding: 10px;
   &:hover {

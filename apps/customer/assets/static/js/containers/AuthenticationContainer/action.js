@@ -1,7 +1,7 @@
 import {
   LOGIN,
   LOGOUT,
-  LOGOUT_PATH
+  LOGOUT_PATH,
 } from './constants';
 
 import { createAuthorizeRequest } from 'utils';
@@ -9,31 +9,27 @@ import { browserHistory } from 'react-router';
 
 export function fetchToken(token) {
   localStorage.setItem('token', token);
-  return dispatch => {
+  return (dispatch) => {
     dispatch(login());
     browserHistory.push('/');
-  }
-
+  };
 }
 
 function login() {
   return {
-    type: LOGIN
-  }
+    type: LOGIN,
+  };
 }
 
 export function logout() {
   const request = createAuthorizeRequest('delete', LOGOUT_PATH);
-  return dispatch => {
-    return request
+  return dispatch => request
     .then(() => {
       dispatch(logoutSuccess());
     })
     .catch((error) => {
-      console.log(error);
-      dispatch(logoutFailure("Failed to logout"))
-    })
-  }
+      dispatch(logoutFailure('Failed to logout'));
+    });
 }
 
 function logoutSuccess() {
@@ -41,8 +37,8 @@ function logoutSuccess() {
   location.href = location.origin;
 
   return {
-    type: LOGOUT.SUCCESS
-  }
+    type: LOGOUT.SUCCESS,
+  };
 }
 
 function logoutFailure(errorMessage) {
@@ -51,6 +47,6 @@ function logoutFailure(errorMessage) {
 
   return {
     type: LOGOUT.FAILURE,
-    payload: { errorMessage }
-  }
+    payload: { errorMessage },
+  };
 }
