@@ -1,9 +1,9 @@
-defmodule Scraper.Cron do
+defmodule Customer.Cron do
   use GenServer
   require Logger
 
-  # NOTE: everyweek
-  @period 7 * 24 * 60 * 60 * 1000
+  # NOTE: every day
+  @period 24 * 60 * 60 * 1000
 
   def start_link do
     GenServer.start_link(__MODULE__, %{})
@@ -15,8 +15,8 @@ defmodule Scraper.Cron do
   end
 
   def handle_info(:work, state) do
-    Logger.info("scraper executes #{DateTime.utc_now()}")
-    Scraper.Caller.perform()
+    Logger.info("esreindex executes #{DateTime.utc_now()}")
+    Customer.Builder.EsReindex.perform()
     set_schedule_work()
     {:noreply, state}
   end

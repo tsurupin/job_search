@@ -4,7 +4,6 @@ defmodule Customer.Ets do
    @ets_name :customer_ets
    @server_name {:global, @ets_name}
 
-   # TODO: Need to use global name for distribution
    def start_link() do
       GenServer.start_link(__MODULE__, {:ok, []}, name: @server_name)
    end

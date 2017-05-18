@@ -52,7 +52,7 @@
   "poison": {:hex, :poison, "2.2.0", "4763b69a8a77bd77d26f477d196428b741261a761257ff1cf92753a0d4d24a63", [:mix], []},
   "poolboy": {:hex, :poolboy, "1.5.1", "6b46163901cfd0a1b43d692657ed9d7e599853b3b21b95ae5ae0a777cf9b6ca8", [:rebar], []},
   "postgrex": {:hex, :postgrex, "0.13.2", "2b88168fc6a5456a27bfb54ccf0ba4025d274841a7a3af5e5deb1b755d95154e", [:mix], [{:connection, "~> 1.0", [hex: :connection, optional: false]}, {:db_connection, "~> 1.1", [hex: :db_connection, optional: false]}, {:decimal, "~> 1.0", [hex: :decimal, optional: false]}]},
-  "quantum": {:git, "https://github.com/c-rack/quantum-elixir", "9ea6b5a21cf9e584015d3b9ddb7d7daf9fb62b14", []},
+  "quantum": {:hex, :quantum, "1.9.1", "f0264945f243ed438ea3644a3e19f1e053b43b0aaed6b1da78b523d542c99a30", [:mix], [{:calendar, "~> 0.16", [hex: :calendar, optional: false]}, {:crontab, "~> 1.0.0", [hex: :crontab, optional: false]}]},
   "ranch": {:hex, :ranch, "1.3.2", "e4965a144dc9fbe70e5c077c65e73c57165416a901bd02ea899cfd95aa890986", [:rebar3], []},
   "scrivener": {:hex, :scrivener, "2.3.0", "16b1d744202d47233798205447b35592d96a209241c566304f84ddef63c718b2", [:mix], []},
   "scrivener_ecto": {:git, "https://github.com/drewolson/scrivener_ecto", "a7437aeb246ab48764e86c9b63e2bfa387d690c6", []},
