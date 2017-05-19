@@ -7,7 +7,7 @@ defmodule Customer.Mixfile do
      config_path: "../../config/config.exs",
      deps_path: "../../deps",
      lockfile: "../../mix.lock",
-     version: append_revision("0.1.0"),
+     version: append_revision("0.1.1"),
      elixir: "~> 1.4",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
