@@ -55,6 +55,7 @@ config :exsentry,
 #
 #     config :customer, Customer.Endpoint, server: true
 #
+config :tirexs, :uri, "http://localhost:9200"
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
