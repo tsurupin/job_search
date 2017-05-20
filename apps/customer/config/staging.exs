@@ -70,3 +70,5 @@ config :customer, Customer.Repo,
   hostname: System.get_env("DB_HOSTNAME"),
   port: System.get_env("DB_PORT") || 5432,
   pool_size: 20
+
+config :tirexs, :uri, "http://127.0.0.1:9200"

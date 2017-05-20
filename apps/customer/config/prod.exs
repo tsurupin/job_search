@@ -57,6 +57,7 @@ config :exsentry,
 #
 
 config :customer, :environment, :prod
+config :tirexs, :uri, "http://127.0.0.1:9200"
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"
