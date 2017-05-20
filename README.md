@@ -3,7 +3,7 @@
 # [Startup Job](http://demo.job-search.tsurupin.com/)
 
 
-**Startup Job** is a sample project about job search written in [Elixir](http://elixir-lang.org/) / [Phoenix](http://www.phoenixframework.org/)(Backend) and [React](https://facebook.github.io/react/)/[Redux](http://redux.js.org/)(Frontend).
+**Startup Job** is a sample project about job search written in [Elixir](http://elixir-lang.org/)/[Phoenix](http://www.phoenixframework.org/)(Backend) and [React](https://facebook.github.io/react/)/[Redux](http://redux.js.org/)(Frontend).
  
 This project is an umbrella project.
  - Customer app is for processing data and rendering contents. 
@@ -18,7 +18,7 @@ Demo
 
 Motivation
 -------
-I created this app to understand Elixir / OTP and get more familliar with React.
+I created this app to understand Elixir/OTP and get more familliar with React.
 
 Main Technology Stack
 -------
