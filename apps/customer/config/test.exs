@@ -12,7 +12,7 @@ config :wallaby, :max_wait_time, 250
 config :phoenix, :stacktrace_depth, 35
 
 config :honeybadger, :environment_name, :test
-
+config :customer, :environment, :test
 # Configure your database
 config :customer, Customer.Repo,
   adapter: Ecto.Adapters.Postgres,

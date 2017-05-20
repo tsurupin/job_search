@@ -45,5 +45,6 @@ config :customer, Customer.Repo,
   pool_size: 10
 
 config :honeybadger, environment_name: :dev
+config :customer, :environment, :dev
 
 config :tirexs, :uri, "http://localhost:9200"

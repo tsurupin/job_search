@@ -56,6 +56,7 @@ config :exsentry,
 #     config :customer, Customer.Endpoint, server: true
 #
 
+config :customer, :environment, :prod
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"
