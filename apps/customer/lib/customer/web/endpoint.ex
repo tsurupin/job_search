@@ -13,7 +13,7 @@ defmodule Customer.Web.Endpoint do
         only: ~w(css fonts images js favicon.ico robots.txt)
   else
     plug Plug.Static,
-            at: "/", from: :customer, gzip: true,
+            at: "/", from: :customer, gzip: false,
             only: ~w(css fonts images js favicon.ico robots.txt)
   end
 
