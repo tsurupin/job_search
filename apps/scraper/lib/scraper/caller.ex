@@ -2,7 +2,7 @@ defmodule Scraper.Caller do
   require Logger
 
   alias Scraper.Site.{A16z, Accel, FirstRound,YCombinator,Sequoia}
-  @sites ~w(A16z Accel Sequoia)
+  @sites ~w(A16z Accel)
 
   def perform do
     Logger.info("start calling!")
@@ -26,18 +26,10 @@ defmodule Scraper.Caller do
     Accel.Index.perform()
   end
 
+  # TODO: Need to make selenium work in background
   defp scrape("Sequoia") do
     Sequoia.Index.perform()
   end
-
-#  defp scrape("FirstRound") do
-#    FirstRound.perform()
-#  end
-#
-#  defp scrape("YCombinator") do
-#    YCombinator.Index.perform()
-#  end
-
 
 
 end

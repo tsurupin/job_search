@@ -7,7 +7,6 @@ defmodule Customer.Web.Service.JobSourceCreator do
   def perform(params) do
     IO.inspect "job source------------"
     IO.inspect params
-
     result = Multi.new
       |> Command.Area.get_or_insert_by(Map.get(params, :place))
       |> Command.Company.get_or_insert_by(company_attributes(params))
