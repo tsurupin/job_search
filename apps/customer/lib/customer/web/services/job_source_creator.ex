@@ -4,9 +4,6 @@ defmodule Customer.Web.Service.JobSourceCreator do
   alias Customer.Web.Command
   alias Customer.Web.Query
 
-  @company_attributes [:name, :url]
-  @job_source_attributes [:title, :url, :job_title, :detail, :source]
-
   def perform(params) do
     IO.inspect "job source------------"
     IO.inspect params
@@ -73,10 +70,12 @@ defmodule Customer.Web.Service.JobSourceCreator do
     |> Command.JobTechKeyword.bulk_delete_and_upsert(id)
   end
 
+  @company_attributes [:name, :url]
   defp company_attributes(params) do
     Map.take(params, @company_attributes)
   end
 
+  @job_source_attributes [:title, :url, :job_title, :detail, :source]
   defp job_source_attributes(params, company_id, area_id) do
     params
     |> Map.take(@job_source_attributes)

@@ -17,7 +17,7 @@ const PATHS = {
 
 const LAUNCH_COMMAND = process.env.npm_lifecycle_event;
 
-const isProduction = LAUNCH_COMMAND === 'production';
+const isProduction = LAUNCH_COMMAND === 'deploy';
 
 process.env.BABEL_ENV = LAUNCH_COMMAND;
 

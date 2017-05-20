@@ -6,7 +6,8 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "deploy": "webpack -p",
+    "deploy": "webpack",
+    "build": "webpack -p",
     "watch": "webpack --watch-stdin --progress --color",
     "eslint": "./node_modules/.bin/eslint static/js/**",
     "eslint:fix": "./node_modules/.bin/eslint --fix static/js/** "
