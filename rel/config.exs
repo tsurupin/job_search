@@ -40,7 +40,7 @@ end
 # will be used by default
 
 release :job_search do
-  set version: "0.1.1"
+  set version: "0.1.2"
   set applications: [
     :runtime_tools,
     customer: :permanent,
