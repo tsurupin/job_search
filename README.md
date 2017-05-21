@@ -4,7 +4,7 @@
 # [Startup Job](http://demo.job-search.tsurupin.com/)
 
 
-**Startup Job** is a sample project to search startup jobs scraped from various websited written in [Elixir](http://elixir-lang.org/)/[Phoenix](http://www.phoenixframework.org/)(Backend) and [React](https://facebook.github.io/react/)/[Redux](http://redux.js.org/)(Frontend).
+**Startup Job** is a sample project to search startup jobs scraped from various websites written in [Elixir](http://elixir-lang.org/)/[Phoenix](http://www.phoenixframework.org/)(Backend) and [React](https://facebook.github.io/react/)/[Redux](http://redux.js.org/)(Frontend).
  
 This project is an umbrella project.
  - Customer app is for processing data and rendering contents. 
