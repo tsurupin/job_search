@@ -75,14 +75,14 @@ Development
         % Scraper.Site.Sequoia.Show.perform("http://google/com", :test)
         % Customer.Builder.EsReindex.perform  
         
-5. Create a new OAuth account([URL](https://console.developers.google.com/apis/credentials)) (Optional. Google OAuth account is need to login and logout)
+5. Create a new OAuth account([URL](https://console.developers.google.com/apis/credentials)) (Optional. Google OAuth account is needed to login and logout)
 
         1. Click `Create credentials` and Choose OAuth client ID
         2. Select Web Application and Set Authorizedredirect URIs as `http://localhost:4000/auth/google/callback`
         3. Set Client ID, Client secret and Authorized redirect URI of your OAuth account in apps/customer/config/dev.exs
         
         
-6. Run Customer application.
+6. Run customer application.
 
         % cd ../customer
         % mix phx.server
