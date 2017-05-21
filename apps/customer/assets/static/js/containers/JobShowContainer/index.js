@@ -47,6 +47,12 @@ class JobShowContainer extends Component {
     this.props.actions.fetchJob(this.props.id);
   }
 
+  componentWillReceiveProps(newProps) {
+    if(newProps.id != this.props.id) {
+      this.props.actions.fetchJob(newProps.id);
+    }
+  }
+
   handleSwitchFavoriteStatus(_index, jobId, favorited) {
     if (favorited) {
       this.props.actions.favoriteJob(jobId, favorited);

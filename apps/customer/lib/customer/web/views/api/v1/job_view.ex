@@ -79,8 +79,6 @@ defmodule Customer.Web.Api.V1.JobView do
     }
   end
 
-
-
   defp fetch(records, columns \\ @default_attributes)
 
   defp fetch(records, columns) when is_list(records) do
