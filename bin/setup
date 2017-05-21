@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+mix deps.get
+cd apps/customer
+mix ecto.setup
+cd assets
+npm install

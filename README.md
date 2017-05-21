@@ -36,17 +36,22 @@ Development
 1. Get the code.
 
         % git clone git@github.com:tsurupin/job_search.git
-
+        
 2. Install Elasticsearch in local environment.
 
    [Mac OS](https://chartio.com/resources/tutorials/how-to-install-elasticsearch-on-mac-os-x/)
 
+3. Change username and password of PostgreSQL 
+
+       % vi apps/customer/config/dev.exs
+        
 3. Setup your environment.
 
         % bin/setup
 
 4. Start Foreman.
 
+        % cd apps/customer
         % mix phx.server
 
 5. Verify that the app is up and running.
