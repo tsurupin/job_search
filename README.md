@@ -1,3 +1,4 @@
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/tsurupin/job_search/blob/master/LICENSE)
 [![Deps Status](https://beta.hexfaktor.org/badge/all/github/tsurupin/job_search.svg)](https://beta.hexfaktor.org/github/tsurupin/job_search)
 
 # [Startup Job](http://demo.job-search.tsurupin.com/)
@@ -28,6 +29,16 @@ Main Technology Stack
 * Phoenix
 * Elasticsearch
 * [styled-components](https://styled-components.com/)
+
+
+Requirements
+-------
+- Elixir 1.4+
+- Phoenix 1.3+
+- Node 7.0+
+- PostgreSQL 9.4+
+- Elasticsearch
+
 
 Development
 --------
