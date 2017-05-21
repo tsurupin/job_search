@@ -2,16 +2,26 @@ defmodule Scraper.Site.Accel.Index do
   alias Scraper.Site.Accel.Show
 
   @scrapeURL "http://careers.accel.com/careers_home.php?Company=%25&Industry=%25&Function=12&Location=%25"
-  @maxPage 15
 
   def perform(url \\ @scrapeURL, page \\ 1)
-  def perform(url, page) when page > @maxPage do
-    IO.inspect "reach to the max page"
-  end
 
   def perform(url, page) do
-    scrape(url, page)
-    Task.start(fn -> perform(url, page + 1) end)
+   if page > max_page do
+     IO.inspect "reaches to limit"
+   else
+     scrape(url, page)
+     Task.start(fn -> perform(url, page + 1) end)
+   end
+  end
+
+  @maxPageInProduction 15
+  @maxPage 1
+  defp max_page do
+    if Application.get_env(:scraper, :environment) == :prod do
+      @maxPageInProduction
+    else
+      @maxPage
+    end
   end
 
   defp scrape(url, page) do

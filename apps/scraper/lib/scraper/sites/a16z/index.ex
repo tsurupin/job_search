@@ -5,14 +5,23 @@ defmodule Scraper.Site.A16z.Index do
 
   def perform(url \\ @scrapeURL, page \\ 1)
 
-  @maxPage 15
-  def perform(url, page) when page > @maxPage do
-    IO.inspect "reaches to limit"
+  def perform(url, page) do
+    if page > max_page do
+      IO.inspect "reaches to limit"
+    else
+      scrape(url, page)
+      Task.start(fn -> perform(url, page + 1) end)
+    end
   end
 
-  def perform(url, page) do
-    scrape(url, page)
-    Task.start(fn -> perform(url, page + 1) end)
+  @maxPageInProduction 15
+  @maxPage 1
+  defp max_page do
+    if Application.get_env(:scraper, :environment) == :prod do
+      @maxPageInProduction
+    else
+      @maxPage
+    end
   end
 
   defp scrape(url, page) do

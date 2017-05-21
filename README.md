@@ -33,7 +33,7 @@ Development
 --------
 
 ### Setup
-1. Get the code.
+1. Get the repo.
 
         % git clone git@github.com:tsurupin/job_search.git
         
@@ -47,16 +47,38 @@ Development
         
 3. Setup your environment.
 
-        % bin/setup
-
-4. Start Foreman.
-
         % cd apps/customer
+        % mix deps.get
+        % mix ecto.setup
+        % cd assets
+        % npm install 
+        
+        
+4. Scrape data 
+
+        % cd ../../scraper         
+        % mix deps.get 
+        % iex -S mix
+        % Scraper.Site.Accel.Show.perform("http://google/com", "Test", "Software engineer", "San Francisco, CA, US", :test)
+        % Scraper.Site.A16z.Show.perform("http://google/com", "Sample", "Senior software engineer", "Seattle, WA, US", :test)
+        % Scraper.Site.Sequoia.Show.perform("http://google/com", :test)
+        % Customer.Builder.EsReindex.perform  
+        
+5. Create a new OAuth account([URL](https://console.developers.google.com/apis/credentials)) (Optional. Google OAuth account is need to login and logout)
+
+        1. Click `Create credentials` and Choose OAuth client ID
+        2. Select Web Application and Set Authorizedredirect URIs as `http://localhost:4000/auth/google/callback`
+        3. Set Client ID, Client secret and Authorized redirect URI of your OAuth account in apps/customer/config/dev.exs
+        
+        
+6. Run Customer application.
+
+        % cd ../customer
         % mix phx.server
 
-5. Verify that the app is up and running.
+7. Verify that the app is up and running.
 
-        % open http://localhost:8080
+        % open http://localhost:4000
 
 Todo
 -------

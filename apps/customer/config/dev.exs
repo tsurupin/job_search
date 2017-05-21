@@ -44,6 +44,13 @@ config :customer, Customer.Repo,
   hostname: "localhost",
   pool_size: 10
 
+
+config :ueberauth, Ueberauth.Strategy.Google.OAuth,
+  client_id: "Set GOOGLE_CLIENT_ID here",
+  client_secret: "Set GOOGLE_CLIENT_SECRET here",
+  redirect_uri: "Set GOOGLE_REDIRECT_URL here"
+
+
 config :honeybadger, environment_name: :dev
 config :customer, :environment, :dev
 
