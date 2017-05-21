@@ -43,6 +43,32 @@ defmodule Customer.Es.Filter.Job do
     |> Keyword.get(:filter)
   end
 
+  def perform(%{job_title: job_title, techs: techs, detail: detail}) do
+    Tirexs.Query.Filter.filter do
+      bool do
+        must do
+          term "job_title", es_term(job_title)
+          terms "techs",    es_terms(techs(techs))
+          match "detail", es_term(detail)
+        end
+      end
+    end
+    |> Keyword.get(:filter)
+  end
+
+  def perform(%{job_title: job_title, area: area, detail: detail}) do
+    Tirexs.Query.Filter.filter do
+      bool do
+        must do
+          term "job_title", es_term(job_title)
+          term "area", es_term(area)
+          match "detail", es_term(detail)
+        end
+      end
+    end
+    |> Keyword.get(:filter)
+  end
+
   def perform(%{job_title: job_title, area: area}) do
     Tirexs.Query.Filter.filter do
       bool do
@@ -55,11 +81,35 @@ defmodule Customer.Es.Filter.Job do
     |> Keyword.get(:filter)
   end
 
+  def perform(%{job_title: job_title, techs: techs}) do
+    Tirexs.Query.Filter.filter do
+      bool do
+        must do
+          term "job_title", es_term(job_title)
+          terms "techs",    es_terms(techs(techs))
+        end
+      end
+    end
+    |> Keyword.get(:filter)
+  end
+
+  def perform(%{job_title: job_title, detail: detail}) do
+    Tirexs.Query.Filter.filter do
+      bool do
+        must do
+          term "job_title", es_term(job_title)
+          match "detail", es_term(detail)
+        end
+      end
+    end
+    |> Keyword.get(:filter)
+  end
+
   def perform(%{techs: techs, detail: detail}) do
     Tirexs.Query.Filter.filter do
       bool do
         must do
-          terms "techs",    es_terms(techs(techs))
+          terms "techs", es_terms(techs(techs))
           match "detail", es_term(detail)
         end
       end
@@ -72,7 +122,19 @@ defmodule Customer.Es.Filter.Job do
       bool do
         must do
           term "area", es_term(area)
-          terms "techs",    es_terms(techs(techs))
+          terms "techs", es_terms(techs(techs))
+        end
+      end
+    end
+    |> Keyword.get(:filter)
+  end
+
+  def perform(%{area: area, detail: detail}) do
+    Tirexs.Query.Filter.filter do
+      bool do
+        must do
+          term "area", es_term(area)
+          match "detail", es_term(detail)
         end
       end
     end
