@@ -1,11 +1,11 @@
-import styles from 'styled-components';
+import styled from 'styled-components';
 import colors from 'styles/colors';
 
-export const Wrapper = styles.section`
+export const Wrapper = styled.section`
   margin-top: 30px;
 `;
 
-export const Header = styles.li`
+export const Header = styled.li`
   display: flex;
   width: 100%;
   padding-bottom: 10px;
@@ -14,12 +14,12 @@ export const Header = styles.li`
   
 `;
 
-export const HeaderRow = styles.div`
+export const HeaderRow = styled.div`
   width: ${props => props.size}0%;
   color: #B3B3B3;
   font-weight: bold;
 `;
 
-export const ContentWrapper = styles.div`
+export const ContentWrapper = styled.div`
   
 `;

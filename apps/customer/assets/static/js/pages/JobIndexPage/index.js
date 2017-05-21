@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
-import styles from './styles.css';
+
 import {
   JobIndexContainer,
 } from 'containers';
@@ -12,7 +12,7 @@ class JobIndexPage extends Component {
   }
   render() {
     return (
-      <article className={styles.container}>
+      <article>
         <Helmet title="Home" />
         <JobIndexContainer />
       </article>

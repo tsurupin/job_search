@@ -11,7 +11,7 @@ import {
   Icon,
   CompanyWrapper,
   CompanyInfo,
-  Title,
+  TitleLink,
   Info,
   Form,
   Row,
@@ -83,6 +83,9 @@ class FavoriteJobFormItem extends Component {
   }
 
   render() {
+
+    const { company, area, jobTitle, jobId, remarks} = this.props;
+
     return (
       <Wrapper>
         <Form onSubmit={this.handleSubmit}>
@@ -92,9 +95,9 @@ class FavoriteJobFormItem extends Component {
                 <GoStar style={{ width: '100%', height: '100%' }} />
               </Icon>
               <CompanyInfo>
-                <Title>{this.props.jobTitle}</Title>
-                <Info><MdLocationOn style={{ marginRight: '3px' }} />{this.props.company}</Info>
-                <Info><MdLocationCity style={{ marginRight: '3px' }} />{this.props.area}</Info>
+                <TitleLink to={`/jobs/${jobId}`}>{jobTitle}</TitleLink>
+                <Info><MdLocationOn style={{ marginRight: '3px' }} />{company}</Info>
+                <Info><MdLocationCity style={{ marginRight: '3px' }} />{area}</Info>
               </CompanyInfo>
             </CompanyWrapper>
           </Row>
@@ -121,7 +124,7 @@ class FavoriteJobFormItem extends Component {
           <Row size="2">
             <Textarea
               name="remarks"
-              defaultValue={this.props.remarks}
+              defaultValue={remarks}
               rows={3}
               onBlur={e => this.handleChange(e.target.name, e.target.value)}
             />
