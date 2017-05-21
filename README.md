@@ -14,7 +14,7 @@ Demo
 -------
 [http://demo.job-search.tsurupin.com/](ttp://demo.job-search.tsurupin.com/)
 
-![](https://cloud.githubusercontent.com/assets/1782169/26280546/97c496fe-3d8d-11e7-9773-b60e92d9d080.gif)
+![](https://cloud.githubusercontent.com/assets/1782169/26284819/c05013f8-3df8-11e7-908b-3907c284aa92.gif)
 
 Motivation
 -------
