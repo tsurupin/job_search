@@ -16,15 +16,5 @@ defmodule Customer.Web.GuardianToken do
 
     timestamps
   end
-#
-#  def for_user(user) do
-#    case GuardianSerializer.for_token(user) do
-#      {:ok, aud} ->
-#        (from t in __MODULE__, where: t.sub == ^aud)
-#        |> Repo.all
-#      _ -> []
-#    end
-#  end
-
 
 end
